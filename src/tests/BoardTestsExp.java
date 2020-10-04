@@ -54,9 +54,45 @@ class BoardTestsExp {
 		Assert.assertEquals(2, testList.size());
 	}
 	
+	
 	@Test
 	public void testEmptyBoard() {
-		
+		TestBoard board = new TestBoard();
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 4; j++) {
+				TestBoardCell cell = board.getCell(i, j);
+				Assert.assertTrue(cell.getOccupied());
+			}
+		}
+	}
+	
+	@Test
+	public void testOccupied() {
+		TestBoard board = new TestBoard();
+		board.getCell(0, 1).setOccupied(true);
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 4; j++) {
+				TestBoardCell cell = board.getCell(i, j);
+				Assert.assertTrue(cell.getOccupied());
+			}
+		}
+	}
+	@Test
+	public void testRoom() {
+		TestBoard board = new TestBoard();
+		board.getCell(0, 1).setRoom(true);
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 4; j++) {
+				TestBoardCell cell = board.getCell(i, j);
+				Assert.assertTrue(cell.isRoom());
+			}
+		}
+	}
+	@Test
+	public void testMove() {
+		TestBoard board = new TestBoard();
+		Assert.assertEquals(2, board.getTargets().size());
+
 	}
 
 }

@@ -18,12 +18,13 @@ public class TestBoard {
 		}
 	}
 	
-	void calcTargets(TestBoardCell startCell, int pathLength) {
+	public void calcTargets(TestBoardCell startCell, int pathLength) {
 		
 	}
 	
 	public Set<TestBoardCell> getTargets(){
-		
+		Set<TestBoardCell> temp = new HashSet<TestBoardCell>();
+		return temp;
 	}
 	
 	public TestBoardCell getCell(int row, int col) {
