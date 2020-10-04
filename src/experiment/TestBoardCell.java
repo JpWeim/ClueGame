@@ -6,7 +6,6 @@ import java.util.Set;
 public class TestBoardCell {
 	
 	
-
 	public TestBoardCell(int row, int col) {
 		
 	}
@@ -20,13 +19,13 @@ public class TestBoardCell {
 		
 	}
 	public boolean isRoom() {
-		return true;
+		return false;
 	}
 	
 	public void setOccupied(boolean occupied) {
 		
 	}
 	public boolean getOccupied() {
-		return true;
+		return false;
 	}
 }
