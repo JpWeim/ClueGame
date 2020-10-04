@@ -1,5 +1,6 @@
 package experiment;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class TestBoardCell {
@@ -10,8 +11,10 @@ public class TestBoardCell {
 		
 	}
 	public Set<TestBoardCell> getAdjList(){
-		return null;
+		Set<TestBoardCell> temp = new HashSet<TestBoardCell>();
+		return temp;
 	}
+	
 	
 	public void setRoom(boolean room) {
 		

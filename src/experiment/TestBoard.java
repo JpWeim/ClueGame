@@ -17,6 +17,7 @@ public class TestBoard {
 	}
 	
 	public TestBoardCell getCell(int row, int col) {
-		return null;
+		TestBoardCell temp = new TestBoardCell(row, col);
+		return temp;
 	}
 }
