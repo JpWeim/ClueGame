@@ -14,8 +14,7 @@ public class TestBoardCell {
 		this.col = col;
 	}
 	
-	
-	
+
 	public int getRow() {
 		return row;
 	}
