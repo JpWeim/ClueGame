@@ -1,50 +1,26 @@
+/*
+ * @author John Walter
+ * @author Hunter Sitki
+ */
+
 package experiment;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class TestBoardCell {
-	
-	int row, col;
-	boolean occupied = false;
+	Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
 	boolean isRoom = false;
+	boolean isOcc = false;
 	
 	public TestBoardCell(int row, int col) {
-		this.row = row;
-		this.col = col;
+		//creates adjList here
 	}
 	
-
-	public int getRow() {
-		return row;
-	}
-
-
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-
-
-	public int getCol() {
-		return col;
-	}
-
-
-
-	public void setCol(int col) {
-		this.col = col;
-	}
-
-
-
 	public Set<TestBoardCell> getAdjList(){
-		Set<TestBoardCell> temp = new HashSet<TestBoardCell>();
-		return temp;
+		return adjList;
 	}
-	
-	public void setRoom(boolean room) {
+	public void setIsRoom(boolean room) {
 		this.isRoom = room;
 	}
 	
@@ -52,11 +28,12 @@ public class TestBoardCell {
 		return isRoom;
 	}
 	
-	public void setOccupied(boolean occupied) {
-		this.occupied = occupied;
+	public void setOccupied(boolean occ) {
+		this.isOcc = occ;
 	}
-	
 	public boolean getOccupied() {
-		return occupied;
+		return isOcc;
 	}
 }
+
+	
