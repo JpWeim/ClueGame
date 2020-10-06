@@ -10,30 +10,40 @@ import java.util.Set;
 
 public class TestBoardCell {
 	Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
-	boolean isRoom = false;
-	boolean isOcc = false;
-	
+	private boolean isRoom, isOccupied;
+	private int row, col;
+
 	public TestBoardCell(int row, int col) {
-		//creates adjList here
+		this.row = row;
+		this.col = col;
 	}
 	
+	public void addAdj(TestBoardCell cell) {
+		adjList.add(cell);
+	}
+
+	public void makeAdjList() {
+		// Checking adjacent cells, if valid, adding them to the adjacency list
+		
+	}
+
 	public Set<TestBoardCell> getAdjList(){
 		return adjList;
 	}
 	public void setIsRoom(boolean room) {
 		this.isRoom = room;
 	}
-	
+
 	public boolean isRoom() {
 		return isRoom;
 	}
-	
+
 	public void setOccupied(boolean occ) {
-		this.isOcc = occ;
+		this.isOccupied = occ;
 	}
 	public boolean getOccupied() {
-		return isOcc;
+		return isOccupied;
 	}
 }
 
-	
+
