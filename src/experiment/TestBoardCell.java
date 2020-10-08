@@ -22,11 +22,6 @@ public class TestBoardCell {
 		adjList.add(cell);
 	}
 
-	public void makeAdjList() {
-		// Checking adjacent cells, if valid, adding them to the adjacency list
-		
-	}
-
 	public Set<TestBoardCell> getAdjList(){
 		return adjList;
 	}

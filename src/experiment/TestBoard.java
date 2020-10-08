@@ -15,6 +15,12 @@ public class TestBoard {
 	final static int COLS = 4;
 	final static int ROWS = 4;
 
+	/*
+	 * Creates new board and fills it with cells
+	 * Then loops again through the cells and 
+	 * fills a set with the adjacent cells to the
+	 * cell at said index
+	 */
 	public TestBoard() {
 		grid = new TestBoardCell[ROWS][COLS];
 		for (int i = 0; i < ROWS; i++) {
@@ -42,13 +48,54 @@ public class TestBoard {
 		}
 
 	}
-	
+	/*
+	 * Sets up for recursive findAllTargets
+	 * Instantiates the sets and adds the starting cell
+	 * to visited so it does not loop back, then calls
+	 * findAllTargets
+	 */
 	public void calcTargets(TestBoardCell startCell, int pathLength) {
-		//calcTargets and assign to targets
+		visited = new HashSet<TestBoardCell>();
+		targets = new HashSet<TestBoardCell>();
+		visited.add(startCell);
+		findAllTargets(startCell, pathLength);
 	}
 	
+	/*
+	 * Iterates through every adjacent cell to the current cell
+	 * If the adjacent cell has already been visited, it is skipped
+	 * If the adjacent cell is occupied by someone else, it is skipped
+	 * If the adjacent cell is a room, it is added to targets and the 
+	 * method is not called again, therefore "taking up the rest of 
+	 * the movement.
+	 * If none of the above occur, checks to see if the pathLength is 1 and 
+	 * if so, adds the cell to the targets, else, recursively calls itself
+	 * with the pathLength -1. 
+	 * At the end, removed the visited cell for cleanup.
+	 */
+	private void findAllTargets(TestBoardCell startCell, int pathLength) {
+		for(TestBoardCell adjCell : startCell.getAdjList()) {
+			if(visited.contains(adjCell)) {
+			}
+			else if (adjCell.isRoom() == true) {
+				targets.add(adjCell);
+			}
+			else if (adjCell.getOccupied() == true) {
+			}
+			else {
+			visited.add(adjCell);
+			if(pathLength == 1) {
+				targets.add(adjCell);
+			} else {
+				findAllTargets(adjCell, pathLength-1);
+			}
+			visited.remove(adjCell);
+			}
+		}
+	}
+	
+	
 	public Set<TestBoardCell> getTargets(){
-		//calls calcTargets
 		return targets;
 	}
 	
