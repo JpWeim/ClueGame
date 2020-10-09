@@ -1,0 +1,5 @@
+The tests were mostly based on the FileInitTests306.
+
+To fit the tests to our board, different cells were chosen for each test and the loction
+of the cells were also varied, ranging form close to the origin to close to max row and 
+columns. In addition, multiple rooms were used for various tests. 
