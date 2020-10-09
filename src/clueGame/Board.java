@@ -33,9 +33,6 @@ public class Board {
 	
 	/*
 	 * Creates new board and fills it with cells
-	 * Then loops again through the cells and 
-	 * fills a set with the adjacent cells to the
-	 * cell at said index
 	 */
 	public void initialize() {
 		grid = new BoardCell[numRows][numColumns];
@@ -48,6 +45,9 @@ public class Board {
 
 	}
 
+	/*
+	 * Stubs for JUnit tests
+	 */
 	public void loadConfigFiles() {
 		
 	}
@@ -68,11 +68,11 @@ public class Board {
 	}
 
 	public int getNumRows() {
-		return 0;
+		return numRows;
 	}
 
 	public int getNumColumns() {
-		return 0;
+		return numColumns;
 	}
 
 	public Room getRoom(char c) {
