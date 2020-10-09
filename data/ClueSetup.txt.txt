@@ -1,0 +1,13 @@
+//Rooms and room cards
+Room, Market, M
+Room, Brown, B
+Room, Alderson, A
+Room, CLTM, C
+Room, Periodic Table, P
+Room, Elm, E
+Room, Trads, T
+Room, Hill, H
+Room, Green, G
+//other spaces
+Space, Unused, X
+Space, Path, W
