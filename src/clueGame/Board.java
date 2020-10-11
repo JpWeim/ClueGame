@@ -85,5 +85,21 @@ public class Board {
 		return room;
 	}
 
+	public Set<BoardCell> getAdjList(int i, int j) {
+		//Temp code to allow tests to run
+		targets = new HashSet<BoardCell>();
+		return targets;
+	}
+
+	public void calcTargets(BoardCell cell, int i) {
+		
+	}
+
+	public Set<BoardCell> getTargets() {
+		//Temp code to allow tests to run
+		targets = new HashSet<BoardCell>();
+		return targets;
+	}
+
 
 }
