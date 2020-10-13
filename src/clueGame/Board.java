@@ -15,29 +15,31 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import experiment.TestBoard;
+
 public class Board {
 	private BoardCell[][] grid;
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private static int numColumns = 24;
-	private static int numRows = 25;
+	private static int numColumns;
+	private static int numRows;
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
-	
-	
+
+
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
 	private Board() {
 		super();
 	}
-	
+
 	//this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
 	}
-	
+
 
 	/*
 	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
@@ -62,15 +64,15 @@ public class Board {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	//Not sure what this is for...
 	public void loadConfigFiles() {
-		
+
 	}
-	
-	
+
+
 	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
 		roomMap = new HashMap<Character, Room>();
 		File file = new File(setupConfigFile);
@@ -81,7 +83,7 @@ public class Board {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/*
@@ -93,22 +95,22 @@ public class Board {
 	 */
 	private void scanSetupIntoMap(Scanner sc) throws BadConfigFormatException {
 		while(sc.hasNextLine()) {
-		    String line = sc.nextLine();
-		    if(!line.startsWith("/")) {
-		    	if (line.startsWith("Room") || line.startsWith("Space")) {
-			         String[] roomInfo = line.split(", ");
-			         Room room = new Room();
-			         room.setName(roomInfo[1]);
-			         Character letter = roomInfo[2].charAt(0);
-			         roomMap.put(letter, room);
-		    	}
-		    	else {
-		    		throw new BadConfigFormatException("Error, invalid layout");
-		    	}
-		    }    
+			String line = sc.nextLine();
+			if(!line.startsWith("/")) {
+				if (line.startsWith("Room") || line.startsWith("Space")) {
+					String[] roomInfo = line.split(", ");
+					Room room = new Room();
+					room.setName(roomInfo[1]);
+					Character letter = roomInfo[2].charAt(0);
+					roomMap.put(letter, room);
+				}
+				else {
+					throw new BadConfigFormatException("Error, invalid layout");
+				}
+			}    
 		}
 	}
-	
+
 	/*
 	 * Scans through the file, converts every line into an array using
 	 * split acting on ", ", and adds the array to an array list.
@@ -121,25 +123,167 @@ public class Board {
 	 */
 	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
 		File file = new File(layoutConfigFile);
-		
+
 		Scanner sc = new Scanner(file);
-		
+
 		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			String[] split = line.split(",");
 			roomRows.add(split);
 		}
-		
+
 		int rowLength = roomRows.get(0).length;
 		rowLengthCheck(rowLength);
-		
-		
+
+
 		for (String[] x : roomRows) {
 			iconCheck(x);
 		}
-		
+
+		numColumns = rowLength;
+		numRows = roomRows.size();
+
 		grid = new BoardCell[numRows][numColumns];
 		cellSetup();
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				centerRoomAdj(i, j);
+				doorAdj(i, j);
+
+				//TODO Refactor this, comment refactored code
+				if (getCell(i,j).getInitial() == 'W' && !(getCell(i,j).isDoorway())) {
+					if(i-1 >= 0) {
+						if (getCell(i-1, j).getInitial() != 'X' && getCell(i-1,j).getInitial() == 'W') {
+							getCell(i,j).addAdj(getCell(i-1, j));
+						}
+					}
+					if(i+1 < Board.numRows) {
+						if (getCell(i+1, j).getInitial() != 'X' && getCell(i+1,j).getInitial() == 'W') {
+							getCell(i,j).addAdj(getCell(i+1, j));
+						}
+					}
+					if(j-1 >= 0) {
+						if (getCell(i, j-1).getInitial() != 'X' && getCell(i,j-1).getInitial() == 'W') {
+							getCell(i,j).addAdj(getCell(i, j-1));
+						}
+					}
+					if(j+1 < Board.numColumns) {
+						if (getCell(i, j+1).getInitial() != 'X' && getCell(i,j+1).getInitial() == 'W') {
+							getCell(i,j).addAdj(getCell(i, j+1));
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	private void doorAdj(int i, int j) {
+		if (getCell(i,j).isDoorway()) {
+			if (getCell(i,j).getDoorDirection() == DoorDirection.UP) {
+				getCell(i,j).addAdj(roomMap.get(getCell(i-1,j).getInitial()).getCenterCell());
+
+				if(getCell(i+1,j).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i+1,j));	
+				}
+
+				if(getCell(i,j+1).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i,j+1));	
+				}
+
+				if(getCell(i,j-1).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i,j-1));	
+				}
+			}
+
+			if (getCell(i,j).getDoorDirection() == DoorDirection.DOWN) {
+				getCell(i,j).addAdj(roomMap.get(getCell(i+1,j).getInitial()).getCenterCell());
+
+				if(getCell(i-1,j).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i-1,j));	
+				}
+
+				if(getCell(i,j+1).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i,j+1));	
+				}
+
+				if(getCell(i,j-1).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i,j-1));	
+				}
+			}
+
+			if (getCell(i,j).getDoorDirection() == DoorDirection.LEFT) {
+				getCell(i,j).addAdj(roomMap.get(getCell(i,j-1).getInitial()).getCenterCell());
+
+				if(getCell(i,j+1).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i,j+1));	
+				}
+
+				if(getCell(i+1,j).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i+1,j));	
+				}
+
+				if(getCell(i-1,j).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i-1,j));	
+				}
+			}
+
+			if (getCell(i,j).getDoorDirection() == DoorDirection.RIGHT) {
+				getCell(i,j).addAdj(roomMap.get(getCell(i,j+1).getInitial()).getCenterCell());
+
+				if(getCell(i+1,j).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i+1,j));	
+				}
+
+				if(getCell(i-1,j).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i-1,j));	
+				}
+
+				if(getCell(i,j-1).getInitial() =='W'){
+					getCell(i,j).addAdj(getCell(i,j-1));	
+				}
+			}
+		}
+	}
+
+	private void centerRoomAdj(int i, int j) {
+		if (getCell(i,j).isRoomCenter()) {
+			for(int k = 0; k < numRows; k++) {
+				for(int l = 0; l < numColumns; l++) {
+
+					if(getCell(k,l).getInitial() == getCell(i,j).getInitial() && getCell(k,l).hasSecretPassage()) {
+						getCell(i,j).addAdj(roomMap.get(getCell(k,l).getSecretPassage()).getCenterCell());
+					}
+
+					if (getCell(k,l).isDoorway()) {
+						if (getCell(k,l).getDoorDirection() == DoorDirection.UP) {
+							if(getCell(k-1,l).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+
+						if (getCell(k,l).getDoorDirection() == DoorDirection.DOWN) {
+							if(getCell(k+1,l).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+
+						if (getCell(k,l).getDoorDirection() == DoorDirection.RIGHT) {
+							if(getCell(k,l+1).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+
+						if (getCell(k,l).getDoorDirection() == DoorDirection.LEFT) {
+							if(getCell(k,l-1).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/*
@@ -151,7 +295,7 @@ public class Board {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				BoardCell cell = new BoardCell(i, j);
-				
+
 				String cellIcon = roomRows.get(i)[j];
 				cell.setInitial(cellIcon.charAt(0));
 				if (cellIcon.length() == 2) {
@@ -174,7 +318,7 @@ public class Board {
 					else if (cellIcon.contains("*")) {
 						cell.setRoomCenter(true);
 						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell); //Unsure if this is the correct code, works
-																			 //for tests, but may have to revisit
+						//for tests, but may have to revisit
 					}
 					else if (cellIcon.contains("#")) {
 						cell.setRoomLabel(true);
@@ -182,9 +326,14 @@ public class Board {
 					}
 					else {
 						cell.setSecretPassage(cellIcon.charAt(1));
+						cell.setHasSecretPassage(true);
 					}
 				}
-				
+				/*if (!(cellIcon.contains("W")) || !(cellIcon.contains("X"))) {
+					cell.setIsRoom(true);
+				}
+				*/
+
 				grid[i][j] = cell;
 			}
 		}
@@ -208,7 +357,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	/*
 	 * Sets variables to file names, needed to add "data/"
 	 * for the program to find the correct path 
@@ -219,7 +368,7 @@ public class Board {
 		layoutConfigFile = board;
 		setupConfigFile = setup;
 	}
-	
+
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
 	}
@@ -242,13 +391,11 @@ public class Board {
 	}
 
 	public Set<BoardCell> getAdjList(int i, int j) {
-		//Temp code to allow tests to run
-		targets = new HashSet<BoardCell>();
-		return targets;
+		return (getCell(i,j).adjList);
 	}
 
 	public void calcTargets(BoardCell cell, int i) {
-		
+
 	}
 
 	public Set<BoardCell> getTargets() {

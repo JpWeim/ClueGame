@@ -10,14 +10,14 @@ import java.util.Set;
 
 public class BoardCell {
 	Set<BoardCell> adjList = new HashSet<BoardCell>();
-	private boolean isRoom, isOccupied;
+	private boolean isRoom, isOccupied, isDoorway;
 	private int row, col;
 	private char initial;
 	private DoorDirection doorDirection;
-	private boolean isDoorway;
 	private boolean roomLabel;
 	private boolean roomCenter;
 	private char secretPassage;
+	private boolean hasPassage;
 	
 
 	public BoardCell(int row, int col) {
@@ -81,6 +81,7 @@ public class BoardCell {
 	public void setDoorway(boolean door) {
 		isDoorway = door;
 	}
+	
 	public boolean isDoorway() {
 		return isDoorway;
 	}
@@ -101,18 +102,27 @@ public class BoardCell {
 	public void setRoomCenter(boolean center) {
 		roomCenter = center;
 	}
+	
 	public boolean isRoomCenter() {
 		return roomCenter;
 	}
 
 	/*
-	 * Getter and setter for occupied cell
+	 * Getter and setter for secret passage cell
 	 */
 	public void setSecretPassage(char secret) {
 		secretPassage = secret;
 	}
 	public char getSecretPassage() {
 		return secretPassage;
+	}
+	
+	public void setHasSecretPassage(boolean passage) {
+		hasPassage = passage;
+	}
+	
+	public boolean hasSecretPassage() {
+		return hasPassage;
 	}
 }
 
