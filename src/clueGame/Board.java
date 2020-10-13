@@ -38,8 +38,9 @@ public class Board {
 		return theInstance;
 	}
 	
+
 	/*
-	 * Creates new board and fills it with cells
+	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
 	 */
 	public void initialize() {
 		try {
@@ -63,50 +64,59 @@ public class Board {
 		
 	}
 
-
+	//Not sure what this is for...
 	public void loadConfigFiles() {
 		
 	}
 	
-	/*
-	 * Scan in setup file. Scans through file, ignoring comment lines
-	 * noted by "//". Splits the non-comment lines into arrays of strings,
-	 * creates a new empty Room for testing, and adds the letter held at the end 
-	 * of the array casted to a char and the Room object into the map
-	 */
+	
 	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
 		roomMap = new HashMap<Character, Room>();
 		File file = new File(setupConfigFile);
 		try {
 			Scanner sc = new Scanner(file);
-			while(sc.hasNextLine()) {
-			    String line = sc.nextLine();
-			    if(!line.startsWith("/")) {
-			    	if (line.startsWith("Room") || line.startsWith("Space")) {
-				         String[] roomInfo = line.split(", ");
-				         Room room = new Room();
-				         room.setName(roomInfo[1]);
-				         Character letter = roomInfo[2].charAt(0);
-				         roomMap.put(letter, room);
-			    	}
-			    	else {
-			    		throw new BadConfigFormatException("Error, invalid layout");
-			    	}
-			    }    
-			}
+			scanSetupIntoMap(sc);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
+
+	/*
+	 * Scan in setup file. Scans through file, ignoring comment lines
+	 * noted by "//". Splits the non-comment lines into arrays of strings,
+	 * creates a new empty Room. Gets the last letter of the line and casts it
+	 * into a char. This is the key, and the room is the value; these are put into
+	 * the map
+	 */
+	private void scanSetupIntoMap(Scanner sc) throws BadConfigFormatException {
+		while(sc.hasNextLine()) {
+		    String line = sc.nextLine();
+		    if(!line.startsWith("/")) {
+		    	if (line.startsWith("Room") || line.startsWith("Space")) {
+			         String[] roomInfo = line.split(", ");
+			         Room room = new Room();
+			         room.setName(roomInfo[1]);
+			         Character letter = roomInfo[2].charAt(0);
+			         roomMap.put(letter, room);
+		    	}
+		    	else {
+		    		throw new BadConfigFormatException("Error, invalid layout");
+		    	}
+		    }    
+		}
+	}
 	
 	/*
 	 * Scans through the file, converts every line into an array using
-	 * split acting on ",", and adds the array to an array list.
+	 * split acting on ", ", and adds the array to an array list.
 	 * Then takes the first row and measures how long it is. Then compares
 	 * every other row in terms of length. If one row is not the same length,
 	 * throws a BadConfigFormatException.
+	 * Then checks to make sure the icons are all included in the map and 
+	 * therefore, part of the Setup file.
+	 * Finally, creates the grid, and fills it with cells.
 	 */
 	public void loadLayoutConfig() throws FileNotFoundException, BadConfigFormatException {
 		File file = new File(layoutConfigFile);
@@ -120,23 +130,23 @@ public class Board {
 		}
 		
 		int rowLength = roomRows.get(0).length;
-		for (String[] x : roomRows) {
-			if (rowLength != x.length) {
-				throw new BadConfigFormatException("Error, invalid layout");
-			}
-		}
+		rowLengthCheck(rowLength);
 		
 		
 		for (String[] x : roomRows) {
-			for (int i = 0; i < x.length; i++) {
-				char roomLetter = x[i].charAt(0);
-				if (!(roomMap.containsKey(roomLetter))){
-					throw new BadConfigFormatException("Error, invalid room");
-				}
-			}
+			iconCheck(x);
 		}
 		
 		grid = new BoardCell[numRows][numColumns];
+		cellSetup();
+	}
+
+	/*
+	 * Two for loops to iterate through the 2d board. Sets the cell's initial, checks to see
+	 * if the cell is a door, a center cell, a label cell, or a secret passageway, and assigns
+	 * it as such. Finally puts the cell into the board.  
+	 */
+	private void cellSetup() {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				BoardCell cell = new BoardCell(i, j);
@@ -160,23 +170,40 @@ public class Board {
 						cell.setDoorway(true);
 						cell.setDoorDirection(DoorDirection.UP);
 					}
-					
 					else if (cellIcon.contains("*")) {
 						cell.setRoomCenter(true);
-						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell);
+						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell); //Unsure if this is the correct code, works
+																			 //for tests, but may have to revisit
 					}
-					
 					else if (cellIcon.contains("#")) {
 						cell.setRoomLabel(true);
-						roomMap.get(cellIcon.charAt(0)).setLabelCell(cell);
+						roomMap.get(cellIcon.charAt(0)).setLabelCell(cell); //see above
 					}
-				
 					else {
 						cell.setSecretPassage(cellIcon.charAt(1));
 					}
 				}
 				
 				grid[i][j] = cell;
+			}
+		}
+	}
+
+	//Checks to make sure icons are valid and in the map
+	private void iconCheck(String[] x) throws BadConfigFormatException {
+		for (int i = 0; i < x.length; i++) {
+			char roomLetter = x[i].charAt(0);
+			if (!(roomMap.containsKey(roomLetter))){
+				throw new BadConfigFormatException("Error, invalid room");
+			}
+		}
+	}
+
+	//Makes sure every row is the same length
+	private void rowLengthCheck(int rowLength) throws BadConfigFormatException {
+		for (String[] x : roomRows) {
+			if (rowLength != x.length) {
+				throw new BadConfigFormatException("Error, invalid layout");
 			}
 		}
 	}
@@ -210,7 +237,6 @@ public class Board {
 
 	public Room getRoom(BoardCell cell) {
 		char c = cell.getInitial();
-		System.out.println(c);
 		return roomMap.get(c);
 	}
 
