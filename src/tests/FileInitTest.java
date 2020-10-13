@@ -16,8 +16,8 @@ import clueGame.Room;
 
 class FileInitTest {
 
-	public static final int NUM_ROWS = 26;
-	public static final int NUM_COLUMNS = 25;
+	public static final int NUM_ROWS = 25;
+	public static final int NUM_COLUMNS = 24;
 	
 	private static Board board;
 	
@@ -35,10 +35,10 @@ class FileInitTest {
 	public void testRoomLabels() {
 		// To ensure data is correctly loaded, test retrieving a few rooms
 		// from the hash, including the first and last in the file and a few others
-		assertEquals("Conservatory", board.getRoom('C').getName() );
-		assertEquals("Ballroom", board.getRoom('B').getName() );
-		assertEquals("Billiard Room", board.getRoom('R').getName() );
-		assertEquals("Dining Room", board.getRoom('D').getName() );
+		assertEquals("Market", board.getRoom('M').getName() );
+		assertEquals("Brown", board.getRoom('B').getName() );
+		assertEquals("Hill", board.getRoom('H').getName() );
+		assertEquals("Green", board.getRoom('G').getName() );
 		assertEquals("Walkway", board.getRoom('W').getName() );
 	}
 	

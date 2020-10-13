@@ -42,16 +42,25 @@ public class Board {
 	 * Creates new board and fills it with cells
 	 */
 	public void initialize() {
-		/*
-		grid = new BoardCell[numRows][numColumns];
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numColumns; j++) {
-				BoardCell cell = new BoardCell(i, j);
-				grid[i][j] = cell;
-			}
+		try {
+			loadSetupConfig();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (BadConfigFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		*/
-
+		try {
+			loadLayoutConfig();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 
@@ -76,6 +85,7 @@ public class Board {
 			    	if (line.startsWith("Room") || line.startsWith("Space")) {
 				         String[] roomInfo = line.split(", ");
 				         Room room = new Room();
+				         room.setName(roomInfo[1]);
 				         Character letter = roomInfo[2].charAt(0);
 				         roomMap.put(letter, room);
 			    	}
@@ -125,6 +135,50 @@ public class Board {
 				}
 			}
 		}
+		
+		grid = new BoardCell[numRows][numColumns];
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				BoardCell cell = new BoardCell(i, j);
+				
+				String cellIcon = roomRows.get(i)[j];
+				cell.setInitial(cellIcon.charAt(0));
+				if (cellIcon.length() == 2) {
+					if (cellIcon.contains("<")) {
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.LEFT);
+					}
+					else if (cellIcon.contains(">")) {
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.RIGHT);
+					}
+					else if (cellIcon.contains("v")) {
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.DOWN);
+					}
+					else if (cellIcon.contains("^")) {
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.UP);
+					}
+					
+					else if (cellIcon.contains("*")) {
+						cell.setRoomCenter(true);
+						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell);
+					}
+					
+					else if (cellIcon.contains("#")) {
+						cell.setRoomLabel(true);
+						roomMap.get(cellIcon.charAt(0)).setLabelCell(cell);
+					}
+				
+					else {
+						cell.setSecretPassage(cellIcon.charAt(1));
+					}
+				}
+				
+				grid[i][j] = cell;
+			}
+		}
 	}
 	
 	/*
@@ -151,13 +205,13 @@ public class Board {
 	}
 
 	public Room getRoom(char c) {
-		Room room = new Room();
-		return room;
+		return roomMap.get(c);
 	}
 
 	public Room getRoom(BoardCell cell) {
-		Room room = new Room();
-		return room;
+		char c = cell.getInitial();
+		System.out.println(c);
+		return roomMap.get(c);
 	}
 
 	public Set<BoardCell> getAdjList(int i, int j) {

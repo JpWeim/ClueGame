@@ -71,7 +71,7 @@ public class BoardCell {
 	public void setDoorDirection(DoorDirection direction) {
 		doorDirection = direction;
 	}
-	public Object getDoorDirection() {
+	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
 
