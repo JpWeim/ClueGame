@@ -29,7 +29,7 @@ class BoardAdjTargetTest {
 		board.initialize();
 	}
 	
-	@Test
+	//@Test
 	/*
 	 * Ensures when in a room, a player can only move to door
 	 * or secret passage if it applies
@@ -64,7 +64,7 @@ class BoardAdjTargetTest {
 	 * when next to a door, as well as the surrounding tiles
 	 * Marked light red
 	 */
-	@Test
+	//@Test
 	public void testAdjacencyDoor()
 	{
 		//Testing door entering brown from right side
@@ -95,7 +95,7 @@ class BoardAdjTargetTest {
 	 * Testing different walkways, from one possible move to four
 	 * Marked dark red
 	 */
-	@Test
+	//@Test
 	public void testAdjacencyWalkways()
 	{
 		//Starting location upper right, one possible move
@@ -130,7 +130,7 @@ class BoardAdjTargetTest {
 	 * Tests the situation where the player starts their
 	 * turn in periodic
 	 */
-	@Test
+	//@Test
 	public void testTargetsFromPeriodic() {
 		// test a roll of 1
 		//Should end up with the door and the secret passage
@@ -168,7 +168,7 @@ class BoardAdjTargetTest {
 	 * Tests where the target starts at a door
 	 * Start at mines market left door
 	 */
-	@Test
+	//@Test
 	public void testTargetsAtDoor() {
 		// test a roll of 1, at door
 		//Able to enter Market, rest are walkways
@@ -204,7 +204,7 @@ class BoardAdjTargetTest {
 		assertTrue(targets.contains(board.getCell(1, 7)));
 	}
 
-	@Test
+	//@Test
 	public void testTargetsInWalkway1() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(16, 16), 1);
@@ -242,7 +242,7 @@ class BoardAdjTargetTest {
 		assertTrue(targets.contains(board.getCell(14, 14)));
 	}
 	
-	@Test
+	//@Test
 	// test to make sure occupied locations do not cause problems
 	public void testTargetsOccupied() {
 		// test a roll of 3, 3 sides of player are blocked

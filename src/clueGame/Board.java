@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class Board {
 	private BoardCell[][] grid;
-	ArrayList<String[]> roomRows = new ArrayList<String[]>();
+	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private static int numColumns = 24;
@@ -43,6 +43,7 @@ public class Board {
 	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
 	 */
 	public void initialize() {
+		roomRows = new ArrayList<String[]>();
 		try {
 			loadSetupConfig();
 		} catch (FileNotFoundException e1) {
