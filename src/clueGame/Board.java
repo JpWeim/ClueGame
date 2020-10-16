@@ -16,6 +16,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import experiment.TestBoard;
+import experiment.TestBoardCell;
 
 public class Board {
 	private BoardCell[][] grid;
@@ -394,13 +395,36 @@ public class Board {
 		return (getCell(i,j).adjList);
 	}
 
-	public void calcTargets(BoardCell cell, int i) {
-
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+		visited.add(startCell);
+		findAllTargets(startCell, pathLength);
+	}
+	
+	public void findAllTargets(BoardCell startCell, int pathLength) {
+		for(BoardCell adjCell : startCell.getAdjList()) {
+			if(visited.contains(adjCell)) {
+			}
+			else if (adjCell.isRoomCenter() == true) {
+				targets.add(adjCell);
+			}
+			else if (adjCell.getOccupied() == true) {
+			}
+			else {
+			visited.add(adjCell);
+			if(pathLength == 1) {
+				targets.add(adjCell);
+			} 
+			else {
+				findAllTargets(adjCell, pathLength-1);
+			}
+			visited.remove(adjCell);
+			}
+		}
 	}
 
 	public Set<BoardCell> getTargets() {
-		//Temp code to allow tests to run
-		targets = new HashSet<BoardCell>();
 		return targets;
 	}
 
