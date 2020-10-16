@@ -220,13 +220,12 @@ class BoardAdjTargetTest {
 		//Able to enter Alderson and Brown
 		board.calcTargets(board.getCell(16, 16), 3);
 		targets= board.getTargets();
-		assertEquals(13, targets.size());
+		assertEquals(12, targets.size());
 		assertTrue(targets.contains(board.getCell(16, 15)));
 		assertTrue(targets.contains(board.getCell(15, 16)));
 		assertTrue(targets.contains(board.getCell(16, 17)));
 		assertTrue(targets.contains(board.getCell(17, 16)));
 		assertTrue(targets.contains(board.getCell(20, 12)));
-		assertTrue(targets.contains(board.getCell(21, 19)));
 
 
 		
@@ -265,8 +264,8 @@ class BoardAdjTargetTest {
 		board.getCell(22, 3).setOccupied(false);
 		board.getCell(23, 7).setOccupied(false);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
-		assertTrue(targets.contains(board.getCell(22, 3)));	
+		assertEquals(2, targets.size());
+		assertTrue(targets.contains(board.getCell(24, 6)));	
 		assertTrue(targets.contains(board.getCell(22, 6)));	
 			
 		

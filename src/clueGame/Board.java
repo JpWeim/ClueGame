@@ -427,7 +427,7 @@ public class Board {
 			if(visited.contains(adjCell)) {
 			}
 			else if (adjCell.isRoomCenter() == true) {
-	
+
 				targets.add(adjCell);
 			}
 			else if (adjCell.getOccupied() == true) {
@@ -435,13 +435,6 @@ public class Board {
 			else {
 			visited.add(adjCell);
 			if(pathLength == 1) {
-				if (adjCell.isDoorway()) {
-					for (BoardCell x : adjCell.adjList) {
-						if (x.isRoomCenter()) {
-							targets.add(x);
-						}
-					}
-				}
 				targets.add(adjCell);
 
 			} 
