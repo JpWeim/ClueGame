@@ -24,7 +24,7 @@ class BoardAdjTargetTest {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");		
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		// Initialize will load config files 
 		board.initialize();
 	}
@@ -55,8 +55,8 @@ class BoardAdjTargetTest {
 		assertEquals(4, testList.size());
 		assertTrue(testList.contains(board.getCell(19, 7)));
 		assertTrue(testList.contains(board.getCell(16, 9)));
-		assertTrue(testList.contains(board.getCell(6, 14)));
-		assertTrue(testList.contains(board.getCell(6, 16)));
+		assertTrue(testList.contains(board.getCell(16, 14)));
+		assertTrue(testList.contains(board.getCell(19, 16)));
 	}
 	
 	/*
