@@ -11,7 +11,7 @@ import java.util.Set;
 public class BoardCell {
 	Set<BoardCell> adjList = new HashSet<BoardCell>();
 	private boolean isRoom, isOccupied, isDoorway;
-	public int row, col;
+	private int row, col;
 	private char initial;
 	private DoorDirection doorDirection;
 	private boolean roomLabel;

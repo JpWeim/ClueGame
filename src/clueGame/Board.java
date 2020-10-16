@@ -8,15 +8,12 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import experiment.TestBoard;
-import experiment.TestBoardCell;
 
 public class Board {
 	private BoardCell[][] grid;
@@ -410,6 +407,13 @@ public class Board {
 	}
 	
 
+	
+	private void findAllTargets(BoardCell startCell, int pathLength) {
+		for(BoardCell adjCell : startCell.getAdjList()) {
+			addCorrectCells(pathLength, adjCell);
+		}
+	}
+
 	/*
 	 * Iterates through every adjacent cell to the current cell
 	 * If the adjacent cell has already been visited, it is skipped
@@ -422,28 +426,26 @@ public class Board {
 	 * with the pathLength -1. 
 	 * At the end, removed the visited cell for cleanup.
 	 */
-	private void findAllTargets(BoardCell startCell, int pathLength) {
-		for(BoardCell adjCell : startCell.getAdjList()) {
-			if(visited.contains(adjCell)) {
-			}
-			else if (adjCell.isRoomCenter() == true) {
+	private void addCorrectCells(int pathLength, BoardCell adjCell) {
+		if(visited.contains(adjCell)) {
+		}
+		else if (adjCell.isRoomCenter() == true) {
 
-				targets.add(adjCell);
-			}
-			else if (adjCell.getOccupied() == true) {
-			}
-			else {
-			visited.add(adjCell);
-			if(pathLength == 1) {
-				targets.add(adjCell);
+			targets.add(adjCell);
+		}
+		else if (adjCell.getOccupied() == true) {
+		}
+		else {
+		visited.add(adjCell);
+		if(pathLength == 1) {
+			targets.add(adjCell);
 
-			} 
-			else {
+		} 
+		else {
 
-				findAllTargets(adjCell, pathLength-1);
-			}
-			visited.remove(adjCell);
-			}
+			findAllTargets(adjCell, pathLength-1);
+		}
+		visited.remove(adjCell);
 		}
 	}
 
