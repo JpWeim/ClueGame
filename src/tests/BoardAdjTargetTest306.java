@@ -157,7 +157,7 @@ public class BoardAdjTargetTest306 {
 		assertTrue(targets.contains(board.getCell(17, 20)));
 		assertTrue(targets.contains(board.getCell(16, 19)));	
 		assertTrue(targets.contains(board.getCell(17, 16)));
-		assertTrue(targets.contains(board.getCell(2, 2)));	
+		assertTrue(targets.contains(board.getCell(2, 2)));
 		
 		// test a roll of 4
 		board.calcTargets(board.getCell(20, 19), 4);
@@ -167,6 +167,7 @@ public class BoardAdjTargetTest306 {
 		assertTrue(targets.contains(board.getCell(18, 16)));	
 		assertTrue(targets.contains(board.getCell(16, 16)));
 		assertTrue(targets.contains(board.getCell(2, 2)));	
+		
 	}
 
 	// Tests out of room center, 1, 3 and 4

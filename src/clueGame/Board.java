@@ -330,10 +330,10 @@ public class Board {
 						cell.setHasSecretPassage(true);
 					}
 				}
-				/*if (!(cellIcon.contains("W")) || !(cellIcon.contains("X"))) {
+				if (!(cellIcon.contains("W")) && !(cellIcon.contains("X"))) {
 					cell.setIsRoom(true);
 				}
-				*/
+				
 
 				grid[i][j] = cell;
 			}
@@ -395,6 +395,13 @@ public class Board {
 		return (getCell(i,j).adjList);
 	}
 
+
+	/*
+	 * Sets up for recursive findAllTargets
+	 * Instantiates the sets and adds the starting cell
+	 * to visited so it does not loop back, then calls
+	 * findAllTargets
+	 */
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
@@ -402,11 +409,25 @@ public class Board {
 		findAllTargets(startCell, pathLength);
 	}
 	
-	public void findAllTargets(BoardCell startCell, int pathLength) {
+
+	/*
+	 * Iterates through every adjacent cell to the current cell
+	 * If the adjacent cell has already been visited, it is skipped
+	 * If the adjacent cell is occupied by someone else, it is skipped
+	 * If the adjacent cell is a room, it is added to targets and the 
+	 * method is not called again, therefore "taking up the rest of 
+	 * the movement.
+	 * If none of the above occur, checks to see if the pathLength is 1 and 
+	 * if so, adds the cell to the targets, else, recursively calls itself
+	 * with the pathLength -1. 
+	 * At the end, removed the visited cell for cleanup.
+	 */
+	private void findAllTargets(BoardCell startCell, int pathLength) {
 		for(BoardCell adjCell : startCell.getAdjList()) {
 			if(visited.contains(adjCell)) {
 			}
 			else if (adjCell.isRoomCenter() == true) {
+	
 				targets.add(adjCell);
 			}
 			else if (adjCell.getOccupied() == true) {
@@ -414,9 +435,18 @@ public class Board {
 			else {
 			visited.add(adjCell);
 			if(pathLength == 1) {
+				if (adjCell.isDoorway()) {
+					for (BoardCell x : adjCell.adjList) {
+						if (x.isRoomCenter()) {
+							targets.add(x);
+						}
+					}
+				}
 				targets.add(adjCell);
+
 			} 
 			else {
+
 				findAllTargets(adjCell, pathLength-1);
 			}
 			visited.remove(adjCell);
