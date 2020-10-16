@@ -330,10 +330,10 @@ public class Board {
 						cell.setHasSecretPassage(true);
 					}
 				}
-				/*if (!(cellIcon.contains("W")) || !(cellIcon.contains("X"))) {
+				if (!(cellIcon.contains("W")) && !(cellIcon.contains("X"))) {
 					cell.setIsRoom(true);
 				}
-				*/
+				
 
 				grid[i][j] = cell;
 			}
