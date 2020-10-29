@@ -280,25 +280,27 @@ public class Board {
 	 * they are walkways
 	 */
 	private void walkwayAjd(int i, int j) {
-		if (getCell(i,j).getInitial() == 'W' && !(getCell(i,j).isDoorway())) {
+		BoardCell walkwayCell = getCell(i,j);
+		
+		if (walkwayCell.getInitial() == 'W' && !(walkwayCell.isDoorway())) {
 			if(i-1 >= 0) {
 				if (getCell(i-1, j).getInitial() != 'X' && getCell(i-1,j).getInitial() == 'W') {
-					getCell(i,j).addAdj(getCell(i-1, j));
+					walkwayCell.addAdj(getCell(i-1, j));
 				}
 			}
 			if(i+1 < Board.numRows) {
 				if (getCell(i+1, j).getInitial() != 'X' && getCell(i+1,j).getInitial() == 'W') {
-					getCell(i,j).addAdj(getCell(i+1, j));
+					walkwayCell.addAdj(getCell(i+1, j));
 				}
 			}
 			if(j-1 >= 0) {
 				if (getCell(i, j-1).getInitial() != 'X' && getCell(i,j-1).getInitial() == 'W') {
-					getCell(i,j).addAdj(getCell(i, j-1));
+					walkwayCell.addAdj(getCell(i, j-1));
 				}
 			}
 			if(j+1 < Board.numColumns) {
 				if (getCell(i, j+1).getInitial() != 'X' && getCell(i,j+1).getInitial() == 'W') {
-					getCell(i,j).addAdj(getCell(i, j+1));
+					walkwayCell.addAdj(getCell(i, j+1));
 				}
 			}
 
