@@ -212,15 +212,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.UP) {
 				doorCell.addAdj(roomMap.get(getCell(i-1,j).getInitial()).getCenterCell());
 
-				if(getCell(i+1,j).getInitial() =='W'){
+				if(getCell(i+1,j).isWalkway()){
 					doorCell.addAdj(getCell(i+1,j));	
 				}
 
-				if(getCell(i,j+1).getInitial() =='W'){
+				if(getCell(i,j+1).isWalkway()){
 					doorCell.addAdj(getCell(i,j+1));	
 				}
 
-				if(getCell(i,j-1).getInitial() =='W'){
+				if(getCell(i,j-1).isWalkway()){
 					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
@@ -228,15 +228,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.DOWN) {
 				doorCell.addAdj(roomMap.get(getCell(i+1,j).getInitial()).getCenterCell());
 
-				if(getCell(i-1,j).getInitial() =='W'){
+				if(getCell(i-1,j).isWalkway()){
 					doorCell.addAdj(getCell(i-1,j));	
 				}
 
-				if(getCell(i,j+1).getInitial() =='W'){
+				if(getCell(i,j+1).isWalkway()){
 					doorCell.addAdj(getCell(i,j+1));	
 				}
 
-				if(getCell(i,j-1).getInitial() =='W'){
+				if(getCell(i,j-1).isWalkway()){
 					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
@@ -244,15 +244,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.LEFT) {
 				doorCell.addAdj(roomMap.get(getCell(i,j-1).getInitial()).getCenterCell());
 
-				if(getCell(i,j+1).getInitial() =='W'){
+				if(getCell(i,j+1).isWalkway()){
 					doorCell.addAdj(getCell(i,j+1));	
 				}
 
-				if(getCell(i+1,j).getInitial() =='W'){
+				if(getCell(i+1,j).isWalkway()){
 					doorCell.addAdj(getCell(i+1,j));	
 				}
 
-				if(getCell(i-1,j).getInitial() =='W'){
+				if(getCell(i-1,j).isWalkway()){
 					doorCell.addAdj(getCell(i-1,j));	
 				}
 			}
@@ -260,15 +260,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.RIGHT) {
 				doorCell.addAdj(roomMap.get(getCell(i,j+1).getInitial()).getCenterCell());
 
-				if(getCell(i+1,j).getInitial() =='W'){
+				if(getCell(i+1,j).isWalkway()){
 					doorCell.addAdj(getCell(i+1,j));	
 				}
 
-				if(getCell(i-1,j).getInitial() =='W'){
+				if(getCell(i-1,j).isWalkway()){
 					doorCell.addAdj(getCell(i-1,j));	
 				}
 
-				if(getCell(i,j-1).getInitial() =='W'){
+				if(getCell(i,j-1).isWalkway()){
 					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
@@ -351,39 +351,12 @@ public class Board {
 						cell.setHasSecretPassage(true);
 					}
 					
-					/*if (cellIcon.contains("<")) {
-						cell.setDoorway(true);
-						cell.setDoorDirection(DoorDirection.LEFT);
-					}
-					else if (cellIcon.contains(">")) {
-						cell.setDoorway(true);
-						cell.setDoorDirection(DoorDirection.RIGHT);
-					}
-					else if (cellIcon.contains("v")) {
-						cell.setDoorway(true);
-						cell.setDoorDirection(DoorDirection.DOWN);
-					}
-					else if (cellIcon.contains("^")) {
-						cell.setDoorway(true);
-						cell.setDoorDirection(DoorDirection.UP);
-					}
-					else if (cellIcon.contains("*")) {
-						cell.setRoomCenter(true);
-						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell); //Unsure if this is the correct code, works
-																			 //for tests, but may have to revisit
-					}
-					else if (cellIcon.contains("#")) {
-						cell.setRoomLabel(true);
-						roomMap.get(cellIcon.charAt(0)).setLabelCell(cell); //see above
-					}
-					else {
-						cell.setSecretPassage(cellIcon.charAt(1));
-						cell.setHasSecretPassage(true);
-					}
-					*/
 				}
 				if (!(cellIcon.contains("W")) && !(cellIcon.contains("X"))) {
 					cell.setIsRoom(true);
+				}
+				if (cellIcon.contains("W") && cellIcon.length() == 1) {
+					cell.setIsWalkway(true);
 				}
 			
 				grid[i][j] = cell;
