@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class BoardCell {
 	Set<BoardCell> adjList = new HashSet<BoardCell>();
-	private boolean isRoom, isOccupied, isDoorway;
+	private boolean isRoom, isOccupied, isDoorway, isWalkway;
 	private int row, col;
 	private char initial;
 	private DoorDirection doorDirection;
@@ -43,6 +43,13 @@ public class BoardCell {
 	}
 	public boolean isRoom() {
 		return isRoom;
+	}
+	
+	public void setIsWalkway(boolean walkway) {
+		this.isWalkway = walkway;
+	}
+	public boolean isWalkway() {
+		return isWalkway;
 	}
 
 	/*
