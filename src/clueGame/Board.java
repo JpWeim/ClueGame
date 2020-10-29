@@ -45,7 +45,6 @@ public class Board {
 	public void initialize() {
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
-
 	}
 	
 	/*
@@ -160,36 +159,39 @@ public class Board {
 	 * the center room adj list
 	 */
 	private void centerRoomAdj(int i, int j) {
-		if (getCell(i,j).isRoomCenter()) {
+		BoardCell centerCell = getCell(i,j);
+		
+		if (centerCell.isRoomCenter()) {
 			for(int k = 0; k < numRows; k++) {
 				for(int l = 0; l < numColumns; l++) {
+					BoardCell adjCell = getCell(k,l);
 
-					if(getCell(k,l).getInitial() == getCell(i,j).getInitial() && getCell(k,l).hasSecretPassage()) {
-						getCell(i,j).addAdj(roomMap.get(getCell(k,l).getSecretPassage()).getCenterCell());
+					if(adjCell.getInitial() == centerCell.getInitial() && getCell(k,l).hasSecretPassage()) {
+						centerCell.addAdj(roomMap.get(adjCell.getSecretPassage()).getCenterCell());
 					}
 
-					if (getCell(k,l).isDoorway()) {
-						if (getCell(k,l).getDoorDirection() == DoorDirection.UP) {
-							if(getCell(k-1,l).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
+					if (adjCell.isDoorway()) {
+						if (adjCell.getDoorDirection() == DoorDirection.UP) {
+							if(getCell(k-1,l).getInitial() == centerCell.getInitial()) {
+								centerCell.addAdj(adjCell);
 							}
 						}
 
-						if (getCell(k,l).getDoorDirection() == DoorDirection.DOWN) {
-							if(getCell(k+1,l).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
+						if (adjCell.getDoorDirection() == DoorDirection.DOWN) {
+							if(getCell(k+1,l).getInitial() == centerCell.getInitial()) {
+								centerCell.addAdj(adjCell);
 							}
 						}
 
-						if (getCell(k,l).getDoorDirection() == DoorDirection.RIGHT) {
-							if(getCell(k,l+1).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
+						if (adjCell.getDoorDirection() == DoorDirection.RIGHT) {
+							if(getCell(k,l+1).getInitial() == centerCell.getInitial()) {
+								centerCell.addAdj(adjCell);
 							}
 						}
 
-						if (getCell(k,l).getDoorDirection() == DoorDirection.LEFT) {
-							if(getCell(k,l-1).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
+						if (adjCell.getDoorDirection() == DoorDirection.LEFT) {
+							if(getCell(k,l-1).getInitial() == centerCell.getInitial()) {
+								centerCell.addAdj(adjCell);
 							}
 						}
 					}
