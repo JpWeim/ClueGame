@@ -320,7 +320,38 @@ public class Board {
 				String cellIcon = roomRows.get(i)[j];
 				cell.setInitial(cellIcon.charAt(0));
 				if (cellIcon.length() == 2) {
-					if (cellIcon.contains("<")) {
+					
+					switch(cellIcon.charAt(1)) {
+					case '<':
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.LEFT);
+						break;
+					case '>':
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.RIGHT);
+						break;
+					case 'v':
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.DOWN);
+						break;
+					case '^':
+						cell.setDoorway(true);
+						cell.setDoorDirection(DoorDirection.UP);
+						break;
+					case '*':
+						cell.setRoomCenter(true);
+						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell);
+						break;
+					case '#':
+						cell.setRoomLabel(true);
+						roomMap.get(cellIcon.charAt(0)).setLabelCell(cell);
+						break;
+					default:
+						cell.setSecretPassage(cellIcon.charAt(1));
+						cell.setHasSecretPassage(true);
+					}
+					
+					/*if (cellIcon.contains("<")) {
 						cell.setDoorway(true);
 						cell.setDoorDirection(DoorDirection.LEFT);
 					}
@@ -349,6 +380,7 @@ public class Board {
 						cell.setSecretPassage(cellIcon.charAt(1));
 						cell.setHasSecretPassage(true);
 					}
+					*/
 				}
 				if (!(cellIcon.contains("W")) && !(cellIcon.contains("X"))) {
 					cell.setIsRoom(true);
