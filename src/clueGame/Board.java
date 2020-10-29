@@ -44,6 +44,14 @@ public class Board {
 	 */
 	public void initialize() {
 		roomRows = new ArrayList<String[]>();
+		loadConfigFiles();
+
+	}
+	
+	/*
+	 * Calls loadSetupConfig and loadLayoutConfig
+	 */
+	public void loadConfigFiles() {
 		try {
 			loadSetupConfig();
 		} catch (FileNotFoundException e1) {
@@ -62,12 +70,6 @@ public class Board {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-
-	//Not sure what this is for...
-	public void loadConfigFiles() {
-
 	}
 
 
