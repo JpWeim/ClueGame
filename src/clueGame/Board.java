@@ -206,68 +206,70 @@ public class Board {
 	 */
 	
 	private void doorAdj(int i, int j) {
-		if (getCell(i,j).isDoorway()) {
-			if (getCell(i,j).getDoorDirection() == DoorDirection.UP) {
-				getCell(i,j).addAdj(roomMap.get(getCell(i-1,j).getInitial()).getCenterCell());
+		BoardCell doorCell = getCell(i,j);
+		
+		if (doorCell.isDoorway()) {
+			if (doorCell.getDoorDirection() == DoorDirection.UP) {
+				doorCell.addAdj(roomMap.get(getCell(i-1,j).getInitial()).getCenterCell());
 
 				if(getCell(i+1,j).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i+1,j));	
+					doorCell.addAdj(getCell(i+1,j));	
 				}
 
 				if(getCell(i,j+1).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i,j+1));	
+					doorCell.addAdj(getCell(i,j+1));	
 				}
 
 				if(getCell(i,j-1).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i,j-1));	
+					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
 
-			if (getCell(i,j).getDoorDirection() == DoorDirection.DOWN) {
-				getCell(i,j).addAdj(roomMap.get(getCell(i+1,j).getInitial()).getCenterCell());
+			if (doorCell.getDoorDirection() == DoorDirection.DOWN) {
+				doorCell.addAdj(roomMap.get(getCell(i+1,j).getInitial()).getCenterCell());
 
 				if(getCell(i-1,j).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i-1,j));	
+					doorCell.addAdj(getCell(i-1,j));	
 				}
 
 				if(getCell(i,j+1).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i,j+1));	
+					doorCell.addAdj(getCell(i,j+1));	
 				}
 
 				if(getCell(i,j-1).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i,j-1));	
+					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
 
-			if (getCell(i,j).getDoorDirection() == DoorDirection.LEFT) {
-				getCell(i,j).addAdj(roomMap.get(getCell(i,j-1).getInitial()).getCenterCell());
+			if (doorCell.getDoorDirection() == DoorDirection.LEFT) {
+				doorCell.addAdj(roomMap.get(getCell(i,j-1).getInitial()).getCenterCell());
 
 				if(getCell(i,j+1).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i,j+1));	
+					doorCell.addAdj(getCell(i,j+1));	
 				}
 
 				if(getCell(i+1,j).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i+1,j));	
+					doorCell.addAdj(getCell(i+1,j));	
 				}
 
 				if(getCell(i-1,j).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i-1,j));	
+					doorCell.addAdj(getCell(i-1,j));	
 				}
 			}
 
-			if (getCell(i,j).getDoorDirection() == DoorDirection.RIGHT) {
-				getCell(i,j).addAdj(roomMap.get(getCell(i,j+1).getInitial()).getCenterCell());
+			if (doorCell.getDoorDirection() == DoorDirection.RIGHT) {
+				doorCell.addAdj(roomMap.get(getCell(i,j+1).getInitial()).getCenterCell());
 
 				if(getCell(i+1,j).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i+1,j));	
+					doorCell.addAdj(getCell(i+1,j));	
 				}
 
 				if(getCell(i-1,j).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i-1,j));	
+					doorCell.addAdj(getCell(i-1,j));	
 				}
 
 				if(getCell(i,j-1).getInitial() =='W'){
-					getCell(i,j).addAdj(getCell(i,j-1));	
+					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
 		}
