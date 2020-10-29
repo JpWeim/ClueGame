@@ -201,8 +201,8 @@ public class Board {
 	}
 	
 	/*
-	 * Adds cells around doorway, (could probably add into walkwayAdj method)
-	 * Makes sure the cell being added is also a walkway
+	 * Adds cells around doorway
+	 * Makes sure the cell being added is also a walkway or doorway
 	 */
 	
 	private void doorAdj(int i, int j) {
@@ -212,15 +212,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.UP) {
 				doorCell.addAdj(roomMap.get(getCell(i-1,j).getInitial()).getCenterCell());
 
-				if(getCell(i+1,j).isWalkway()){
+				if(getCell(i+1,j).isWalkway() || getCell(i+1,j).isDoorway()){
 					doorCell.addAdj(getCell(i+1,j));	
 				}
 
-				if(getCell(i,j+1).isWalkway()){
+				if(getCell(i,j+1).isWalkway() || getCell(i,j+1).isDoorway()){
 					doorCell.addAdj(getCell(i,j+1));	
 				}
 
-				if(getCell(i,j-1).isWalkway()){
+				if(getCell(i,j-1).isWalkway() || getCell(i,j-1).isDoorway()){
 					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
@@ -228,15 +228,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.DOWN) {
 				doorCell.addAdj(roomMap.get(getCell(i+1,j).getInitial()).getCenterCell());
 
-				if(getCell(i-1,j).isWalkway()){
+				if(getCell(i-1,j).isWalkway() || getCell(i-1,j).isDoorway()){
 					doorCell.addAdj(getCell(i-1,j));	
 				}
 
-				if(getCell(i,j+1).isWalkway()){
+				if(getCell(i,j+1).isWalkway() || getCell(i,j+1).isDoorway()){
 					doorCell.addAdj(getCell(i,j+1));	
 				}
 
-				if(getCell(i,j-1).isWalkway()){
+				if(getCell(i,j-1).isWalkway() || getCell(i,j-1).isDoorway()){
 					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
@@ -244,15 +244,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.LEFT) {
 				doorCell.addAdj(roomMap.get(getCell(i,j-1).getInitial()).getCenterCell());
 
-				if(getCell(i,j+1).isWalkway()){
+				if(getCell(i,j+1).isWalkway() || getCell(i,j+1).isDoorway()){
 					doorCell.addAdj(getCell(i,j+1));	
 				}
 
-				if(getCell(i+1,j).isWalkway()){
+				if(getCell(i+1,j).isWalkway() || getCell(i+1,j).isDoorway()){
 					doorCell.addAdj(getCell(i+1,j));	
 				}
 
-				if(getCell(i-1,j).isWalkway()){
+				if(getCell(i-1,j).isWalkway() || getCell(i-1,j).isDoorway()){
 					doorCell.addAdj(getCell(i-1,j));	
 				}
 			}
@@ -260,15 +260,15 @@ public class Board {
 			if (doorCell.getDoorDirection() == DoorDirection.RIGHT) {
 				doorCell.addAdj(roomMap.get(getCell(i,j+1).getInitial()).getCenterCell());
 
-				if(getCell(i+1,j).isWalkway()){
+				if(getCell(i+1,j).isWalkway() || getCell(i+1,j).isDoorway()){
 					doorCell.addAdj(getCell(i+1,j));	
 				}
 
-				if(getCell(i-1,j).isWalkway()){
+				if(getCell(i-1,j).isWalkway() || getCell(i-1,j).isDoorway()){
 					doorCell.addAdj(getCell(i-1,j));	
 				}
 
-				if(getCell(i,j-1).isWalkway()){
+				if(getCell(i,j-1).isWalkway() || getCell(i,j-1).isDoorway()){
 					doorCell.addAdj(getCell(i,j-1));	
 				}
 			}
@@ -282,7 +282,7 @@ public class Board {
 	private void walkwayAjd(int i, int j) {
 		BoardCell walkwayCell = getCell(i,j);
 		
-		if (walkwayCell.getInitial() == 'W' && !(walkwayCell.isDoorway())) {
+		if (walkwayCell.isWalkway()) {
 			if(i-1 >= 0) {
 				if (getCell(i-1, j).getInitial() != 'X' && getCell(i-1,j).getInitial() == 'W') {
 					walkwayCell.addAdj(getCell(i-1, j));
