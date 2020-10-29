@@ -81,7 +81,6 @@ public class BoardCell {
 	public void setDoorway(boolean door) {
 		isDoorway = door;
 	}
-	
 	public boolean isDoorway() {
 		return isDoorway;
 	}
@@ -120,7 +119,6 @@ public class BoardCell {
 	public void setHasSecretPassage(boolean passage) {
 		hasPassage = passage;
 	}
-	
 	public boolean hasSecretPassage() {
 		return hasPassage;
 	}

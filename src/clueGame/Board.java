@@ -148,35 +148,59 @@ public class Board {
 			for (int j = 0; j < numColumns; j++) {
 				centerRoomAdj(i, j);
 				doorAdj(i, j);
-
-				//TODO Refactor this, comment refactored code
-				if (getCell(i,j).getInitial() == 'W' && !(getCell(i,j).isDoorway())) {
-					if(i-1 >= 0) {
-						if (getCell(i-1, j).getInitial() != 'X' && getCell(i-1,j).getInitial() == 'W') {
-							getCell(i,j).addAdj(getCell(i-1, j));
-						}
-					}
-					if(i+1 < Board.numRows) {
-						if (getCell(i+1, j).getInitial() != 'X' && getCell(i+1,j).getInitial() == 'W') {
-							getCell(i,j).addAdj(getCell(i+1, j));
-						}
-					}
-					if(j-1 >= 0) {
-						if (getCell(i, j-1).getInitial() != 'X' && getCell(i,j-1).getInitial() == 'W') {
-							getCell(i,j).addAdj(getCell(i, j-1));
-						}
-					}
-					if(j+1 < Board.numColumns) {
-						if (getCell(i, j+1).getInitial() != 'X' && getCell(i,j+1).getInitial() == 'W') {
-							getCell(i,j).addAdj(getCell(i, j+1));
-						}
-					}
-
-				}
+				walkwayAjd(i, j);
 			}
 		}
 	}
 
+	/*
+	 * Loops through board adding secret passage (if applicable) and doorways to 
+	 * the center room adj list
+	 */
+	private void centerRoomAdj(int i, int j) {
+		if (getCell(i,j).isRoomCenter()) {
+			for(int k = 0; k < numRows; k++) {
+				for(int l = 0; l < numColumns; l++) {
+
+					if(getCell(k,l).getInitial() == getCell(i,j).getInitial() && getCell(k,l).hasSecretPassage()) {
+						getCell(i,j).addAdj(roomMap.get(getCell(k,l).getSecretPassage()).getCenterCell());
+					}
+
+					if (getCell(k,l).isDoorway()) {
+						if (getCell(k,l).getDoorDirection() == DoorDirection.UP) {
+							if(getCell(k-1,l).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+
+						if (getCell(k,l).getDoorDirection() == DoorDirection.DOWN) {
+							if(getCell(k+1,l).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+
+						if (getCell(k,l).getDoorDirection() == DoorDirection.RIGHT) {
+							if(getCell(k,l+1).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+
+						if (getCell(k,l).getDoorDirection() == DoorDirection.LEFT) {
+							if(getCell(k,l-1).getInitial() == getCell(i,j).getInitial()) {
+								getCell(i,j).addAdj(getCell(k,l));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/*
+	 * Adds cells around doorway, (could probably add into walkwayAdj method)
+	 * Makes sure the cell being added is also a walkway
+	 */
+	
 	private void doorAdj(int i, int j) {
 		if (getCell(i,j).isDoorway()) {
 			if (getCell(i,j).getDoorDirection() == DoorDirection.UP) {
@@ -244,43 +268,34 @@ public class Board {
 			}
 		}
 	}
-
-	private void centerRoomAdj(int i, int j) {
-		if (getCell(i,j).isRoomCenter()) {
-			for(int k = 0; k < numRows; k++) {
-				for(int l = 0; l < numColumns; l++) {
-
-					if(getCell(k,l).getInitial() == getCell(i,j).getInitial() && getCell(k,l).hasSecretPassage()) {
-						getCell(i,j).addAdj(roomMap.get(getCell(k,l).getSecretPassage()).getCenterCell());
-					}
-
-					if (getCell(k,l).isDoorway()) {
-						if (getCell(k,l).getDoorDirection() == DoorDirection.UP) {
-							if(getCell(k-1,l).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
-							}
-						}
-
-						if (getCell(k,l).getDoorDirection() == DoorDirection.DOWN) {
-							if(getCell(k+1,l).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
-							}
-						}
-
-						if (getCell(k,l).getDoorDirection() == DoorDirection.RIGHT) {
-							if(getCell(k,l+1).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
-							}
-						}
-
-						if (getCell(k,l).getDoorDirection() == DoorDirection.LEFT) {
-							if(getCell(k,l-1).getInitial() == getCell(i,j).getInitial()) {
-								getCell(i,j).addAdj(getCell(k,l));
-							}
-						}
-					}
+	
+	/*
+	 * Added cells around a walkway cell to its adjacency list, making sure
+	 * they are walkways
+	 */
+	private void walkwayAjd(int i, int j) {
+		if (getCell(i,j).getInitial() == 'W' && !(getCell(i,j).isDoorway())) {
+			if(i-1 >= 0) {
+				if (getCell(i-1, j).getInitial() != 'X' && getCell(i-1,j).getInitial() == 'W') {
+					getCell(i,j).addAdj(getCell(i-1, j));
 				}
 			}
+			if(i+1 < Board.numRows) {
+				if (getCell(i+1, j).getInitial() != 'X' && getCell(i+1,j).getInitial() == 'W') {
+					getCell(i,j).addAdj(getCell(i+1, j));
+				}
+			}
+			if(j-1 >= 0) {
+				if (getCell(i, j-1).getInitial() != 'X' && getCell(i,j-1).getInitial() == 'W') {
+					getCell(i,j).addAdj(getCell(i, j-1));
+				}
+			}
+			if(j+1 < Board.numColumns) {
+				if (getCell(i, j+1).getInitial() != 'X' && getCell(i,j+1).getInitial() == 'W') {
+					getCell(i,j).addAdj(getCell(i, j+1));
+				}
+			}
+
 		}
 	}
 
@@ -316,7 +331,7 @@ public class Board {
 					else if (cellIcon.contains("*")) {
 						cell.setRoomCenter(true);
 						roomMap.get(cellIcon.charAt(0)).setCenterCell(cell); //Unsure if this is the correct code, works
-						//for tests, but may have to revisit
+																			 //for tests, but may have to revisit
 					}
 					else if (cellIcon.contains("#")) {
 						cell.setRoomLabel(true);
@@ -330,8 +345,7 @@ public class Board {
 				if (!(cellIcon.contains("W")) && !(cellIcon.contains("X"))) {
 					cell.setIsRoom(true);
 				}
-				
-
+			
 				grid[i][j] = cell;
 			}
 		}
@@ -406,8 +420,9 @@ public class Board {
 		findAllTargets(startCell, pathLength);
 	}
 	
-
-	
+	/*
+	* Iterates through every adjacent cell to the current cell
+	* */
 	private void findAllTargets(BoardCell startCell, int pathLength) {
 		for(BoardCell adjCell : startCell.getAdjList()) {
 			addCorrectCells(pathLength, adjCell);
@@ -415,7 +430,7 @@ public class Board {
 	}
 
 	/*
-	 * Iterates through every adjacent cell to the current cell
+	 
 	 * If the adjacent cell has already been visited, it is skipped
 	 * If the adjacent cell is occupied by someone else, it is skipped
 	 * If the adjacent cell is a room, it is added to targets and the 
@@ -430,7 +445,6 @@ public class Board {
 		if(visited.contains(adjCell)) {
 		}
 		else if (adjCell.isRoomCenter() == true) {
-
 			targets.add(adjCell);
 		}
 		else if (adjCell.getOccupied() == true) {
@@ -439,10 +453,8 @@ public class Board {
 		visited.add(adjCell);
 		if(pathLength == 1) {
 			targets.add(adjCell);
-
 		} 
 		else {
-
 			findAllTargets(adjCell, pathLength-1);
 		}
 		visited.remove(adjCell);

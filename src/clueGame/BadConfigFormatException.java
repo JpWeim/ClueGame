@@ -6,7 +6,7 @@ public class BadConfigFormatException extends Exception{
 	
 	}
 	
-public BadConfigFormatException(String error) {
+	public BadConfigFormatException(String error) {
 		super(error);
 	}
 	
