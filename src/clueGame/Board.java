@@ -3,7 +3,7 @@
  * @author Hunter Sitki
  */
 
-package clueGame;
+package clueGame; 
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,19 +54,19 @@ public class Board {
 		try {
 			loadSetupConfig();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			// TODO Custom exception
 			e1.printStackTrace();
 		} catch (BadConfigFormatException e1) {
-			// TODO Auto-generated catch block
+			// TODO Custom exception
 			e1.printStackTrace();
 		}
 		try {
 			loadLayoutConfig();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO Custom exception
 			e.printStackTrace();
 		} catch (BadConfigFormatException e) {
-			// TODO Auto-generated catch block
+			// TODO Custom exception
 			e.printStackTrace();
 		}
 	}
@@ -443,7 +443,6 @@ public class Board {
 	}
 
 	/*
-	 
 	 * If the adjacent cell has already been visited, it is skipped
 	 * If the adjacent cell is occupied by someone else, it is skipped
 	 * If the adjacent cell is a room, it is added to targets and the 
