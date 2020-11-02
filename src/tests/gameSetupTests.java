@@ -35,14 +35,20 @@ class gameSetupTests {
 	/*
 	 * Tests to make sure the correct number of players are in the
 	 * list of Player objects, do not confuse with totalPlayerCards, which is a 
-	 * list of Card objects representing players
+	 * list of Card objects representing players. Tests that each player is correctly
+	 * declared as human or computer. The first player created should be the only
+	 * human player.
 	 */
 	@Test
 	public void testPlayers() {
 		List<Player> testList = board.getPlayers();
 		assertEquals(6, testList.size());
 		assertTrue(testList.get(0).getIsHuman());
-		assertFalse(testList.get(0).getIsHuman());
+		assertFalse(testList.get(1).getIsHuman());
+		assertFalse(testList.get(2).getIsHuman());
+		assertFalse(testList.get(3).getIsHuman());
+		assertFalse(testList.get(4).getIsHuman());
+		assertFalse(testList.get(5).getIsHuman());
 	}
 
 	/*
