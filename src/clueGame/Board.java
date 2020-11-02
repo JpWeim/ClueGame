@@ -65,11 +65,7 @@ public class Board {
 		totalRooms.clear();
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
-		
-		System.out.println("------------------------");
-		for (Card x : totalRooms) {
-			System.out.println(x.getCardName());
-		}
+
 		if (!totalPlayers.isEmpty()) {
 			deal();
 		}
