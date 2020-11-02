@@ -93,7 +93,7 @@ public class Board {
 	}
 
 
-	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		roomMap = new HashMap<Character, Room>();
 		File file = new File(setupConfigFile);
 		try {
