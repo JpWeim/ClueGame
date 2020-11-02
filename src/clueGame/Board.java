@@ -21,7 +21,7 @@ public class Board {
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private Set<Player> players = new HashSet<Player>();
+	private Set<Player> players = new HashSet<Player>();//TODO initialize these in code rather than at start
 	private Set<String> weapons = new HashSet<String>();
 	private Set<Card> deck = new HashSet<Card>();
 	private static int numColumns;
@@ -114,8 +114,10 @@ public class Board {
 					Character letter = roomInfo[2].charAt(0);
 					roomMap.put(letter, room);
 					
-					Card card = new Card(roomInfo[1],CardType.ROOM);
-					deck.add(card);
+					if (letter != 'W' && letter != 'X') {
+						Card card = new Card(roomInfo[1],CardType.ROOM);
+						deck.add(card);
+					}
 				}
 				else if (line.startsWith("Player")) {
 					String[] playerInfo = line.split(", ");
@@ -517,6 +519,15 @@ public class Board {
 	public Set<Player> getPlayers(){
 		return players;
 	}
+	
+	
+	public Set<Card> getDeck() {
+		for (Card x : deck) {
+			System.out.println(x.getCardName());
+		}
+		return deck;
+	}
+
 
 	public void deal() {
 		

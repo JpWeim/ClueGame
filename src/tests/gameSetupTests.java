@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
+import clueGame.Card;
 import clueGame.Player;
 
 class gameSetupTests {
@@ -29,10 +30,15 @@ class gameSetupTests {
 	}
 
 	@Test
-	void testPlayers() {
+	public void testPlayers() {
 		Set<Player> testList = board.getPlayers();
 		assertEquals(6, testList.size());
-		
+	}
+	
+	@Test
+	public void testDeck() {
+		Set<Card> testDeck = board.getDeck();
+		assertEquals(21, testDeck.size());
 	}
 
 }

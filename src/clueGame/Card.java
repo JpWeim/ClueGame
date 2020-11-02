@@ -11,4 +11,8 @@ public class Card {
 	public boolean equals(Card target) {
 		return true;
 	}
+	public String getCardName() {
+		return cardName;
+	}
+
 }
