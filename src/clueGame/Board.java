@@ -48,6 +48,12 @@ public class Board {
 		return theInstance;
 	}
 
+	
+/*
+ * *************************************************************************************************************************************************
+ * Initialize methods
+ * *************************************************************************************************************************************************
+ */
 
 	/*
 	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
@@ -96,6 +102,17 @@ public class Board {
 			e.printStackTrace();
 		}
 
+	}
+	
+	/*
+	 * Sets variables to file names, needed to add "data/"
+	 * for the program to find the correct path 
+	 */
+	public void setConfigFiles(String board, String setup) {
+		board = "data/" + board;
+		setup = "data/" + setup;
+		layoutConfigFile = board;
+		setupConfigFile = setup;
 	}
 
 	/*
@@ -206,6 +223,12 @@ public class Board {
 		}
 	}
 
+	
+/*
+ * *************************************************************************************************************************************************
+ * Adjacent methods
+ * *************************************************************************************************************************************************
+ */
 	/*
 	 * Loops through board adding secret passage (if applicable) and doorways to 
 	 * the center room adj list
@@ -359,6 +382,12 @@ public class Board {
 		}
 	}
 
+	
+/*
+ * *************************************************************************************************************************************************
+ * Cell methods
+ * *************************************************************************************************************************************************
+ */
 	/*
 	 * Two for loops to iterate through the 2d board. Sets the cell's initial, checks to see
 	 * if the cell is a door, a center cell, a label cell, or a secret passageway, and assigns
@@ -435,17 +464,14 @@ public class Board {
 		}
 	}
 
-	/*
-	 * Sets variables to file names, needed to add "data/"
-	 * for the program to find the correct path 
-	 */
-	public void setConfigFiles(String board, String setup) {
-		board = "data/" + board;
-		setup = "data/" + setup;
-		layoutConfigFile = board;
-		setupConfigFile = setup;
-	}
 
+
+	
+/*
+ * *************************************************************************************************************************************************
+ * Target methods
+ * *************************************************************************************************************************************************
+ */
 	/*
 	 * Sets up for recursive findAllTargets
 	 * Instantiates the sets and adds the starting cell
@@ -499,11 +525,14 @@ public class Board {
 		}
 	}
 	
-
+/*
+ * *************************************************************************************************************************************************
+ * Card methods
+ * *************************************************************************************************************************************************
+ */
 	public void deal() {
 		pickSolutionCards();
-		
-		
+		//TODO deal cards to players
 	}
 
 	/*
@@ -517,8 +546,7 @@ public class Board {
 		int weaponCard = rand.nextInt(totalWeapons.size());
 
 		solution = new Solution(totalPlayers.get(playerCard), totalRooms.get(roomCard), totalWeapons.get(weaponCard));
-
-
+		
 		deck.remove(totalPlayers.get(playerCard));
 		totalPlayers.remove(playerCard);
 
@@ -530,11 +558,11 @@ public class Board {
 	}
 
 	
-	/* 
-	 * ------------------------------------------------------------------------------------------------------------------------------------------
-	 * Getters and setters
-	 *  ------------------------------------------------------------------------------------------------------------------------------------------
-	*/
+/*
+ * *************************************************************************************************************************************************
+ * Getters and setters 
+ * *************************************************************************************************************************************************
+ */
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
