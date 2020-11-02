@@ -61,6 +61,7 @@ public class Board {
 	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
 	 */
 	public void initialize() {
+		//clear to allow tests to work because we are using one instance of the board
 		deck.clear();
 		totalRooms.clear();
 		roomRows = new ArrayList<String[]>();
