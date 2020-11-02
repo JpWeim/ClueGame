@@ -5,6 +5,7 @@
 
 package clueGame; 
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Board {
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
+	private Set<Player> players = new HashSet<Player>();
 	private static int numColumns;
 	private static int numRows;
 	private String layoutConfigFile;
@@ -102,6 +104,12 @@ public class Board {
 					room.setName(roomInfo[1]);
 					Character letter = roomInfo[2].charAt(0);
 					roomMap.put(letter, room);
+				}
+				else if (line.startsWith("Player")) {
+					String[] playerInfo = line.split(", ");
+					if (playerInfo[3].equalsIgnoreCase("Computer")) {
+						players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+					}
 				}
 				else {
 					throw new BadConfigFormatException("Error, invalid layout");
@@ -476,6 +484,16 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	public Set<Player> getPlayers(){
+		for (Player x : players) {
+			System.out.println(x.getName());
+		}
+		return players;
+	}
 
-
+	public void deal() {
+		
+	}
+	
 }
