@@ -63,8 +63,9 @@ public class Board {
 	public void initialize() {
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
-		
-		deal();
+		if (!totalPlayers.isEmpty()) {
+			deal();
+		}
 	}
 	
 	/*

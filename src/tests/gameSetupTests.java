@@ -81,8 +81,7 @@ class gameSetupTests {
 	/*
 	 * Tests that all cards are dealt once the deck is shuffled, then tests
 	 * that each player gets the correct number of cards for the order they
-	 * are dealt. The first 3 players (indexed 0-2) should get 4 cards and 
-	 * the last 3 players (3-5) should get 3 cards each.
+	 * are dealt. All players should get 3 cards
 	 */
 	@Test
 	public void testDeal() {
