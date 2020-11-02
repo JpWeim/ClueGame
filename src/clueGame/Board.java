@@ -22,6 +22,8 @@ public class Board {
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private Set<Player> players = new HashSet<Player>();
+	private Set<String> weapons = new HashSet<String>();
+	private Set<Card> deck = new HashSet<Card>();
 	private static int numColumns;
 	private static int numRows;
 	private String layoutConfigFile;
@@ -93,6 +95,13 @@ public class Board {
 	 * creates a new empty Room. Gets the last letter of the line and casts it
 	 * into a char. This is the key, and the room is the value; these are put into
 	 * the map
+	 * If the line is a player, adds a new computer or human player depending to the 
+	 * set of players. A player has a name, color, and starting coords
+	 * If the line is a weapon, adds it to a set
+	 * 
+	 * After each line is added to its respective sets/maps, creates a card of said type
+	 * and puts it in the deck
+	 * 
 	 */
 	private void scanSetupIntoMap(Scanner sc) throws BadConfigFormatException {
 		while(sc.hasNextLine()) {
@@ -104,18 +113,33 @@ public class Board {
 					room.setName(roomInfo[1]);
 					Character letter = roomInfo[2].charAt(0);
 					roomMap.put(letter, room);
+					
+					Card card = new Card(roomInfo[1],CardType.ROOM);
+					deck.add(card);
 				}
 				else if (line.startsWith("Player")) {
 					String[] playerInfo = line.split(", ");
 					if (playerInfo[3].equalsIgnoreCase("Computer")) {
 						players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+						
+						Card card = new Card(playerInfo[1],CardType.PERSON);
+						deck.add(card);
 					}
+					//TODO implement human player
+				}
+				else if (line.startsWith("Weapon")) {
+					String[] weapon = line.split(", ");
+					weapons.add(weapon[1]);
+					
+					Card card = new Card(weapon[1],CardType.WEAPON);
+					deck.add(card);
 				}
 				else {
 					throw new BadConfigFormatException("Error, invalid layout");
 				}
 			}    
 		}
+		
 	}
 
 	/*
@@ -486,9 +510,6 @@ public class Board {
 	}
 	
 	public Set<Player> getPlayers(){
-		for (Player x : players) {
-			System.out.println(x.getName());
-		}
 		return players;
 	}
 
