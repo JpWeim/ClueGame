@@ -61,8 +61,15 @@ public class Board {
 	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
 	 */
 	public void initialize() {
+		deck.clear();
+		totalRooms.clear();
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
+		
+		System.out.println("------------------------");
+		for (Card x : totalRooms) {
+			System.out.println(x.getCardName());
+		}
 		if (!totalPlayers.isEmpty()) {
 			deal();
 		}
@@ -591,10 +598,6 @@ public class Board {
 	}
 	
 	public List<Card> getDeck() {
-		for (Card x : deck) {
-			System.out.println(x.getCardName());
-		}
-		
 		return deck;
 	}
 	public List<Card> getShuffledDeck() {
@@ -604,6 +607,7 @@ public class Board {
 		return totalPlayers;
 	}
 	public List<Card> getWeaponCards(){
+
 		return totalWeapons;
 	}
 	public List<Card> getRoomCards(){
