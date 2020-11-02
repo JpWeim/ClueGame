@@ -27,7 +27,7 @@ public class Board {
 	private List<Player> players = new ArrayList<Player>();//TODO initialize these in code rather than at start
 	private List<String> weapons = new ArrayList<String>();
 	private List<Card> deck = new ArrayList<Card>();
-	private List<Card> shuffledDeck = new ArrayList<Card>();
+	private List<Card> shuffledDeck;
 	private List<Card> totalRooms = new ArrayList<Card>();
 	private List<Card> totalWeapons = new ArrayList<Card>();
 	private List<Card> totalPlayers = new ArrayList<Card>();
@@ -146,7 +146,7 @@ public class Board {
 						Card card = new Card(roomInfo[1],CardType.ROOM);
 						totalRooms.add(card);
 						deck.add(card);
-						shuffledDeck.add(card);
+						
 					}
 				}
 				else if (line.startsWith("Player")) {
@@ -157,7 +157,7 @@ public class Board {
 						Card card = new Card(playerInfo[1],CardType.PERSON);
 						totalPlayers.add(card);
 						deck.add(card);
-						shuffledDeck.add(card);
+						
 					}
 					else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
 						players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
@@ -165,7 +165,7 @@ public class Board {
 						Card card = new Card(playerInfo[1],CardType.PERSON);
 						totalPlayers.add(card);
 						deck.add(card);
-						shuffledDeck.add(card);
+						
 					}
 				}
 				else if (line.startsWith("Weapon")) {
@@ -175,14 +175,14 @@ public class Board {
 					Card card = new Card(weapon[1],CardType.WEAPON);
 					totalWeapons.add(card);
 					deck.add(card);
-					shuffledDeck.add(card);
+					
 				}
 				else {
 					throw new BadConfigFormatException("Error, invalid layout");
 				}
 			}    
 		}
-		
+
 	}
 
 	/*
@@ -539,8 +539,7 @@ public class Board {
 	public void deal() {
 		pickSolutionCards();
 		
-		
-		//shuffledDeck = deck;
+		shuffledDeck = new ArrayList<Card>(deck);
 		Collections.shuffle(shuffledDeck);
 		
 		int totalCards = shuffledDeck.size();
@@ -550,6 +549,7 @@ public class Board {
 			currPlayer.updateHand(nextCard);
 			shuffledDeck.remove(nextCard);
 		}
+
 		
 	}
 
@@ -590,6 +590,10 @@ public class Board {
 	}
 	
 	public List<Card> getDeck() {
+		for (Card x : deck) {
+			System.out.println(x.getCardName());
+		}
+		
 		return deck;
 	}
 	public List<Card> getShuffledDeck() {

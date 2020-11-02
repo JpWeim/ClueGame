@@ -90,8 +90,8 @@ class gameSetupTests {
 		List<Player> playerList = board.getPlayers();
 		
 		assertEquals(0, shuffledDeck.size());
-		assertEquals(4, playerList.get(0).getHandSize());
-		assertEquals(4, playerList.get(2).getHandSize());
+		assertEquals(3, playerList.get(0).getHandSize());
+		assertEquals(3, playerList.get(2).getHandSize());
 		assertEquals(3, playerList.get(3).getHandSize());
 		assertEquals(3, playerList.get(5).getHandSize());
 		
