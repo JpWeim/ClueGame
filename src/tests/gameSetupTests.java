@@ -70,6 +70,26 @@ class gameSetupTests {
 		Assert.assertEquals(5, board.getWeaponCards().size());
 	}
 	
+	/*
+	 * Tests that all cards are dealt once the deck is shuffled, then tests
+	 * that each player gets the correct number of cards for the order they
+	 * are dealt. The first 3 players (indexed 0-2) should get 4 cards and 
+	 * the last 3 players (3-5) should get 3 cards each.
+	 */
+	@Test
+	public void testDeal() {
+		List<Card> shuffledDeck = board.getShuffledDeck();
+		List<Player> playerList = board.getPlayers();
+		
+		assertEquals(0, shuffledDeck.size());
+		assertEquals(4, playerList.get(0).getHandSize());
+		assertEquals(4, playerList.get(2).getHandSize());
+		assertEquals(3, playerList.get(3).getHandSize());
+		assertEquals(3, playerList.get(5).getHandSize());
+		
+		
+	}
+	
 	
 
 }

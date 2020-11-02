@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,7 +10,7 @@ public abstract class Player {
 	private Color color;
 	protected int startRow, startCol;
 	protected int row, column;
-	protected List<Card> cards;
+	protected List<Card> cards = new ArrayList<Card>();
 	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;
@@ -19,7 +20,7 @@ public abstract class Player {
 	}
 	
 	public void updateHand(Card card) {
-		
+		cards.add(card);
 	}
 	
 	
@@ -74,6 +75,10 @@ public abstract class Player {
 
 	public void setColumn(int column) {
 		this.column = column;
+	}
+
+	public int getHandSize() {
+		return cards.size();
 	}
 
 	

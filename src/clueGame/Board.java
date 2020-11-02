@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Board {
 	private List<Player> players = new ArrayList<Player>();//TODO initialize these in code rather than at start
 	private List<String> weapons = new ArrayList<String>();
 	private List<Card> deck = new ArrayList<Card>();
+	private List<Card> shuffledDeck = new ArrayList<Card>();
 	private List<Card> totalRooms = new ArrayList<Card>();
 	private List<Card> totalWeapons = new ArrayList<Card>();
 	private List<Card> totalPlayers = new ArrayList<Card>();
@@ -144,6 +146,7 @@ public class Board {
 						Card card = new Card(roomInfo[1],CardType.ROOM);
 						totalRooms.add(card);
 						deck.add(card);
+						shuffledDeck.add(card);
 					}
 				}
 				else if (line.startsWith("Player")) {
@@ -154,6 +157,7 @@ public class Board {
 						Card card = new Card(playerInfo[1],CardType.PERSON);
 						totalPlayers.add(card);
 						deck.add(card);
+						shuffledDeck.add(card);
 					}
 					else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
 						players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
@@ -161,6 +165,7 @@ public class Board {
 						Card card = new Card(playerInfo[1],CardType.PERSON);
 						totalPlayers.add(card);
 						deck.add(card);
+						shuffledDeck.add(card);
 					}
 				}
 				else if (line.startsWith("Weapon")) {
@@ -170,6 +175,7 @@ public class Board {
 					Card card = new Card(weapon[1],CardType.WEAPON);
 					totalWeapons.add(card);
 					deck.add(card);
+					shuffledDeck.add(card);
 				}
 				else {
 					throw new BadConfigFormatException("Error, invalid layout");
@@ -532,7 +538,19 @@ public class Board {
  */
 	public void deal() {
 		pickSolutionCards();
-		//TODO deal cards to players
+		
+		
+		//shuffledDeck = deck;
+		Collections.shuffle(shuffledDeck);
+		
+		int totalCards = shuffledDeck.size();
+		for (int i = 0; i < totalCards; i++) {
+			Player currPlayer = players.get(i%6);
+			Card nextCard = shuffledDeck.get(0);
+			currPlayer.updateHand(nextCard);
+			shuffledDeck.remove(nextCard);
+		}
+		
 	}
 
 	/*
@@ -573,6 +591,9 @@ public class Board {
 	
 	public List<Card> getDeck() {
 		return deck;
+	}
+	public List<Card> getShuffledDeck() {
+		return shuffledDeck;
 	}
 	public List<Card> getPlayerCards(){
 		return totalPlayers;
