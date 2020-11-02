@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 
 public abstract class Player {
@@ -10,6 +11,7 @@ public abstract class Player {
 	private Color color;
 	protected int startRow, startCol;
 	protected int row, column;
+	protected boolean isHuman;
 	protected List<Card> cards = new ArrayList<Card>();
 	
 	public Player(String name, Color color, int startRow, int startCol) {
@@ -81,5 +83,8 @@ public abstract class Player {
 		return cards.size();
 	}
 
+	public abstract boolean getIsHuman();
+
+	
 	
 }

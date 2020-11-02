@@ -41,6 +41,8 @@ class gameSetupTests {
 	public void testPlayers() {
 		List<Player> testList = board.getPlayers();
 		assertEquals(6, testList.size());
+		assertTrue(testList.get(0).getIsHuman());
+		assertFalse(testList.get(0).getIsHuman());
 	}
 
 	/*
