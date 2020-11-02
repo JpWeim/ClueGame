@@ -24,6 +24,9 @@ public class Board {
 	private Set<Player> players = new HashSet<Player>();//TODO initialize these in code rather than at start
 	private Set<String> weapons = new HashSet<String>();
 	private Set<Card> deck = new HashSet<Card>();
+	private Set<Card> totalRooms = new HashSet<Card>();
+	private Set<Card> totalWeapons = new HashSet<Card>();
+	private Set<Card> totalPlayers = new HashSet<Card>();
 	private static int numColumns;
 	private static int numRows;
 	private String layoutConfigFile;
@@ -49,6 +52,8 @@ public class Board {
 	public void initialize() {
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
+		
+		deal();
 	}
 	
 	/*
@@ -73,6 +78,7 @@ public class Board {
 			// TODO Custom exception
 			e.printStackTrace();
 		}
+		
 	}
 
 
@@ -81,7 +87,7 @@ public class Board {
 		File file = new File(setupConfigFile);
 		try {
 			Scanner sc = new Scanner(file);
-			scanSetupIntoMap(sc);
+			scanSetupFile(sc);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +109,7 @@ public class Board {
 	 * and puts it in the deck
 	 * 
 	 */
-	private void scanSetupIntoMap(Scanner sc) throws BadConfigFormatException {
+	private void scanSetupFile(Scanner sc) throws BadConfigFormatException {
 		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			if(!line.startsWith("/")) {
@@ -116,6 +122,7 @@ public class Board {
 					
 					if (letter != 'W' && letter != 'X') {
 						Card card = new Card(roomInfo[1],CardType.ROOM);
+						totalRooms.add(card);
 						deck.add(card);
 					}
 				}
@@ -125,12 +132,14 @@ public class Board {
 						players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
 						
 						Card card = new Card(playerInfo[1],CardType.PERSON);
+						totalPlayers.add(card);
 						deck.add(card);
 					}
 					else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
 						players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
 						
 						Card card = new Card(playerInfo[1],CardType.PERSON);
+						totalPlayers.add(card);
 						deck.add(card);
 					}
 				}
@@ -139,6 +148,7 @@ public class Board {
 					weapons.add(weapon[1]);
 					
 					Card card = new Card(weapon[1],CardType.WEAPON);
+					totalWeapons.add(card);
 					deck.add(card);
 				}
 				else {
@@ -520,14 +530,18 @@ public class Board {
 		return players;
 	}
 	
-	
 	public Set<Card> getDeck() {
-		for (Card x : deck) {
-			System.out.println(x.getCardName());
-		}
 		return deck;
 	}
-
+	public Set<Card> getPlayerCards(){
+		return totalPlayers;
+	}
+	public Set<Card> getWeaponCards(){
+		return totalWeapons;
+	}
+	public Set<Card> getRoomCards(){
+		return totalRooms;
+	}
 
 	public void deal() {
 		

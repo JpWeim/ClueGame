@@ -1,10 +1,10 @@
 package tests;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Set;
+
+import org.junit.Assert;
+
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,10 @@ class gameSetupTests {
 	@Test
 	public void testDeck() {
 		Set<Card> testDeck = board.getDeck();
-		assertEquals(21, testDeck.size());
+		Assert.assertEquals(21, testDeck.size());
+		Assert.assertEquals(6, board.getPlayerCards().size());
+		Assert.assertEquals(9, board.getRoomCards().size());
+		Assert.assertEquals(6, board.getWeaponCards().size());
 	}
 
 }
