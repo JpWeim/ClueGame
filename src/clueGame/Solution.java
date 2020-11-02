@@ -1,15 +1,14 @@
 package clueGame;
 
-public class Card {
-	private String cardName;
-	private CardType type;
+public class Solution {
+	public Card person;
+	public Card room;
+	public Card weapon;
 	
-	public Card(String cardName, CardType type) {
-		this.cardName = cardName;
-		this.type = type;
-	}
-	public boolean equals(Card target) {
-		return true;
+	public Solution(Card person, Card room, Card weapon) {
+		this.person = person;
+		this.room = room;
+		this.weapon = weapon;
 	}
 	
 	
@@ -18,10 +17,16 @@ public class Card {
 	 * Getters and setters
 	 *  ------------------------------------------------------------------------------------------------------------------------------------------
 	*/
-	public String getCardName() {
-		return cardName;
+	public Card getPerson() {
+		return person;
 	}
-	public CardType getCardType() {
-		return type;
+
+	public Card getRoom() {
+		return room;
 	}
+
+	public Card getWeapon() {
+		return weapon;
+	}
+
 }

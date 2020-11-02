@@ -2,7 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.Set;
+
 
 public abstract class Player {
 	private String name;
@@ -22,6 +22,12 @@ public abstract class Player {
 		
 	}
 	
+	
+	/* 
+	 * ------------------------------------------------------------------------------------------------------------------------------------------
+	 * Getters and setters
+	 *  ------------------------------------------------------------------------------------------------------------------------------------------
+	*/
 	public String getName() {
 		return name;
 	}

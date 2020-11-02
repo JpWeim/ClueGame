@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
+	private Solution solution;
 
 
 	private static Board theInstance = new Board();
@@ -444,32 +446,6 @@ public class Board {
 		setupConfigFile = setup;
 	}
 
-	public BoardCell getCell(int row, int col) {
-		return grid[row][col];
-	}
-
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumColumns() {
-		return numColumns;
-	}
-
-	public Room getRoom(char c) {
-		return roomMap.get(c);
-	}
-
-	public Room getRoom(BoardCell cell) {
-		char c = cell.getInitial();
-		return roomMap.get(c);
-	}
-
-	public Set<BoardCell> getAdjList(int i, int j) {
-		return (getCell(i,j).adjList);
-	}
-
-
 	/*
 	 * Sets up for recursive findAllTargets
 	 * Instantiates the sets and adds the starting cell
@@ -522,7 +498,43 @@ public class Board {
 		visited.remove(adjCell);
 		}
 	}
+	
 
+	public void deal() {
+		pickSolutionCards();
+		
+		
+	}
+
+	/*
+	 * Generates 3 random numbers and picks three random cards out of the player cards, room cards, and weapon cards respectively
+	 * Puts those three cards into the solution class and removes them from the total deck and their lists
+	 */
+	private void pickSolutionCards() {
+		Random rand = new Random();
+		int playerCard = rand.nextInt(totalPlayers.size());
+		int roomCard = rand.nextInt(totalRooms.size());
+		int weaponCard = rand.nextInt(totalWeapons.size());
+
+		solution = new Solution(totalPlayers.get(playerCard), totalRooms.get(roomCard), totalWeapons.get(weaponCard));
+
+
+		deck.remove(totalPlayers.get(playerCard));
+		totalPlayers.remove(playerCard);
+
+		deck.remove(totalRooms.get(roomCard));
+		totalRooms.remove(roomCard);
+
+		deck.remove(totalWeapons.get(weaponCard));
+		totalWeapons.remove(weaponCard);
+	}
+
+	
+	/* 
+	 * ------------------------------------------------------------------------------------------------------------------------------------------
+	 * Getters and setters
+	 *  ------------------------------------------------------------------------------------------------------------------------------------------
+	*/
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
@@ -544,8 +556,32 @@ public class Board {
 		return totalRooms;
 	}
 
-	public void deal() {
-		
+	public Solution getSolution() {
+		return solution;
+	}
+	public BoardCell getCell(int row, int col) {
+		return grid[row][col];
+	}
+
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public int getNumColumns() {
+		return numColumns;
+	}
+
+	public Room getRoom(char c) {
+		return roomMap.get(c);
+	}
+
+	public Room getRoom(BoardCell cell) {
+		char c = cell.getInitial();
+		return roomMap.get(c);
+	}
+
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return (getCell(i,j).adjList);
 	}
 	
 }
