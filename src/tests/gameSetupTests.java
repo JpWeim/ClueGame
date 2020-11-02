@@ -1,5 +1,6 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +31,7 @@ class gameSetupTests {
 	@Test
 	void testPlayers() {
 		Set<Player> testList = board.getPlayers();
+		assertEquals(6, testList.size());
 		
 	}
 

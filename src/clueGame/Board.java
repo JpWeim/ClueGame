@@ -125,7 +125,12 @@ public class Board {
 						Card card = new Card(playerInfo[1],CardType.PERSON);
 						deck.add(card);
 					}
-					//TODO implement human player
+					else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
+						players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+						
+						Card card = new Card(playerInfo[1],CardType.PERSON);
+						deck.add(card);
+					}
 				}
 				else if (line.startsWith("Weapon")) {
 					String[] weapon = line.split(", ");
