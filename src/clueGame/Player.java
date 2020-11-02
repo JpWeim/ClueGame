@@ -82,7 +82,14 @@ public abstract class Player {
 	public int getHandSize() {
 		return cards.size();
 	}
+	
+	public Card getCard(int index) {
+		return cards.get(index);
+	}
 
+	public List<Card> getHand() {
+		return cards;
+	}
 	public abstract boolean getIsHuman();
 
 	

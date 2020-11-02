@@ -2,7 +2,7 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-
+import java.util.Random;
 
 import org.junit.Assert;
 
@@ -81,7 +81,9 @@ class gameSetupTests {
 	/*
 	 * Tests that all cards are dealt once the deck is shuffled, then tests
 	 * that each player gets the correct number of cards for the order they
-	 * are dealt. All players should get 3 cards
+	 * are dealt. All players should get 3 cards. Then pick a random card
+	 * from the first players hand and test no other player's hand has
+	 * that card.
 	 */
 	@Test
 	public void testDeal() {
@@ -94,8 +96,18 @@ class gameSetupTests {
 		assertEquals(3, playerList.get(3).getHandSize());
 		assertEquals(3, playerList.get(5).getHandSize());
 		
+		Random rand = new Random();
+		Card randCard = playerList.get(0).getCard(rand.nextInt(playerList.get(0).getHandSize()));
+		
+		assertFalse(playerList.get(1).getHand().contains(randCard));
+		assertFalse(playerList.get(2).getHand().contains(randCard));
+		assertFalse(playerList.get(3).getHand().contains(randCard));
+		assertFalse(playerList.get(4).getHand().contains(randCard));
+		assertFalse(playerList.get(5).getHand().contains(randCard));
 		
 	}
+
+	
 	
 	
 
