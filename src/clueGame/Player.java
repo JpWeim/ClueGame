@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Player {
@@ -8,7 +9,7 @@ public abstract class Player {
 	private Color color;
 	protected int startRow, startCol;
 	protected int row, column;
-	protected Set<Card> cards;
+	protected List<Card> cards;
 	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;

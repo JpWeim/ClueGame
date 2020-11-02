@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -21,12 +22,12 @@ public class Board {
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private Set<Player> players = new HashSet<Player>();//TODO initialize these in code rather than at start
-	private Set<String> weapons = new HashSet<String>();
-	private Set<Card> deck = new HashSet<Card>();
-	private Set<Card> totalRooms = new HashSet<Card>();
-	private Set<Card> totalWeapons = new HashSet<Card>();
-	private Set<Card> totalPlayers = new HashSet<Card>();
+	private List<Player> players = new ArrayList<Player>();//TODO initialize these in code rather than at start
+	private List<String> weapons = new ArrayList<String>();
+	private List<Card> deck = new ArrayList<Card>();
+	private List<Card> totalRooms = new ArrayList<Card>();
+	private List<Card> totalWeapons = new ArrayList<Card>();
+	private List<Card> totalPlayers = new ArrayList<Card>();
 	private static int numColumns;
 	private static int numRows;
 	private String layoutConfigFile;
@@ -526,20 +527,20 @@ public class Board {
 		return targets;
 	}
 	
-	public Set<Player> getPlayers(){
+	public List<Player> getPlayers(){
 		return players;
 	}
 	
-	public Set<Card> getDeck() {
+	public List<Card> getDeck() {
 		return deck;
 	}
-	public Set<Card> getPlayerCards(){
+	public List<Card> getPlayerCards(){
 		return totalPlayers;
 	}
-	public Set<Card> getWeaponCards(){
+	public List<Card> getWeaponCards(){
 		return totalWeapons;
 	}
-	public Set<Card> getRoomCards(){
+	public List<Card> getRoomCards(){
 		return totalRooms;
 	}
 

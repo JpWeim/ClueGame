@@ -1,6 +1,7 @@
 package tests;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -31,13 +32,13 @@ class gameSetupTests {
 
 	@Test
 	public void testPlayers() {
-		Set<Player> testList = board.getPlayers();
+		List<Player> testList = board.getPlayers();
 		assertEquals(6, testList.size());
 	}
 	
 	@Test
 	public void testDeck() {
-		Set<Card> testDeck = board.getDeck();
+		List<Card> testDeck = board.getDeck();
 		Assert.assertEquals(21, testDeck.size());
 		Assert.assertEquals(6, board.getPlayerCards().size());
 		Assert.assertEquals(9, board.getRoomCards().size());
