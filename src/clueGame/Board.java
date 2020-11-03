@@ -37,7 +37,7 @@ public class Board {
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
 	private Solution solution;
-
+	private static final int TOT_PLAYERS = 6;
 
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
@@ -63,7 +63,10 @@ public class Board {
 	public void initialize() {
 		//clear to allow tests to work because we are using one instance of the board
 		deck.clear();
+		players.clear();
 		totalRooms.clear();
+		totalPlayers.clear();
+		totalWeapons.clear();
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
 
@@ -549,7 +552,7 @@ public class Board {
 		
 		int totalCards = shuffledDeck.size();
 		for (int i = 0; i < totalCards; i++) {
-			Player currPlayer = players.get(i%6);
+			Player currPlayer = players.get(i%TOT_PLAYERS);
 			Card nextCard = shuffledDeck.get(0);
 			currPlayer.updateHand(nextCard);
 			shuffledDeck.remove(nextCard);
@@ -580,6 +583,18 @@ public class Board {
 		totalWeapons.remove(weaponCard);
 	}
 
+	public boolean checkAccusation(Card person, Card room, Card weapon) {
+		if (solution.getPerson().equals(person) && solution.getRoom().equals(room) && solution.getWeapon().equals(weapon)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void handleSuggestion(Card person, Card room, Card weapon) {
+		
+	}
 	
 /*
  * *************************************************************************************************************************************************

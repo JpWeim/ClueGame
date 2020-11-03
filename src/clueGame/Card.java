@@ -9,7 +9,12 @@ public class Card {
 		this.type = type;
 	}
 	public boolean equals(Card target) {
-		return true;
+		if (target.getCardName() == cardName && target.getCardType() == type) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	

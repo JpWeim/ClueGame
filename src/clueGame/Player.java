@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.BooleanSupplier;
 
 
@@ -13,6 +14,7 @@ public abstract class Player {
 	protected int row, column;
 	protected boolean isHuman;
 	protected List<Card> cards = new ArrayList<Card>();
+	protected List<Card> possibleDisproveCards = new ArrayList<Card>();
 	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;
@@ -23,6 +25,27 @@ public abstract class Player {
 	
 	public void updateHand(Card card) {
 		cards.add(card);
+	}
+	
+	public Card disproveSuggestion(Card player, Card room, Card weapon) {
+		possibleDisproveCards.clear();
+		if (cards.contains(player) || cards.contains(room) || cards.contains(weapon)) {
+			if(cards.contains(player)) {
+				possibleDisproveCards.add(player);
+			} 
+			if(cards.contains(room)) {
+				possibleDisproveCards.add(room);
+			} 
+			if(cards.contains(weapon)) {
+				possibleDisproveCards.add(weapon);
+			} 
+			
+			Random r = new Random();
+			return possibleDisproveCards.get(r.nextInt(possibleDisproveCards.size()));
+		}
+		else {
+			return null;
+		}
 	}
 	
 	

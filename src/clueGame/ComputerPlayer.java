@@ -14,6 +14,12 @@ public class ComputerPlayer extends Player{
 		return isHuman;
 	}
 	
+	public void createSuggestion() {
+		
+	}
 	
+	public void selectMove() {
+		
+	}
 
 }
