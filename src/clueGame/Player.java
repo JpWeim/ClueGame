@@ -11,10 +11,11 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	protected int startRow, startCol;
-	protected int row, column;
+	protected int row, col;
 	protected boolean isHuman;
 	protected List<Card> cards = new ArrayList<Card>();
 	protected List<Card> possibleDisproveCards = new ArrayList<Card>();
+	protected List<Card> seenCards = new ArrayList<Card>();
 	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;
@@ -25,6 +26,7 @@ public abstract class Player {
 	
 	public void updateHand(Card card) {
 		cards.add(card);
+		seenCards.add(card);
 	}
 	
 	public Card disproveSuggestion(Card player, Card room, Card weapon) {
@@ -48,6 +50,9 @@ public abstract class Player {
 		}
 	}
 	
+	public void clearHand() {
+		cards.clear();
+	}
 	
 	/* 
 	 * ------------------------------------------------------------------------------------------------------------------------------------------
@@ -95,11 +100,11 @@ public abstract class Player {
 	}
 
 	public int getColumn() {
-		return column;
+		return col;
 	}
 
 	public void setColumn(int column) {
-		this.column = column;
+		this.col = column;
 	}
 
 	public int getHandSize() {

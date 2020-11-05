@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import clueGame.Board;
 import clueGame.Card;
 import clueGame.CardType;
+import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
@@ -115,6 +116,51 @@ class GameSolutionTest {
 		if (wCard < 1) {
 			fail("Not random");
 		}
+	}
+	
+	@Test
+	public void testSuggestion() {
+		
+		List<Player> playerObjects = board.getPlayers();
+		
+		Player human = playerObjects.get(0);
+		Player comp1 = playerObjects.get(1);
+		Player comp2 = playerObjects.get(2);
+		Player comp3 = playerObjects.get(3);
+		
+		human.clearHand();
+		comp1.clearHand();
+		comp2.clearHand();
+		comp3.clearHand();
+		playerObjects.get(4).clearHand();
+		playerObjects.get(5).clearHand();
+		
+		List<Card> players = board.getPlayerCards();
+		List<Card> rooms = board.getRoomCards();
+		List<Card> weapons = board.getWeaponCards();
+		
+		human.updateHand(players.get(0));
+		human.updateHand(rooms.get(0));
+		human.updateHand(weapons.get(0));
+		
+		comp1.updateHand(players.get(1));
+		comp1.updateHand(rooms.get(1));
+		comp1.updateHand(weapons.get(1));
+		
+		comp2.updateHand(players.get(2));
+		comp2.updateHand(rooms.get(2));
+		comp2.updateHand(weapons.get(2));
+		
+		comp3.updateHand(players.get(3));
+		comp3.updateHand(rooms.get(3));
+		comp3.updateHand(weapons.get(3));
+
+		Assert.assertNull(board.handleSuggestion(human, players.get(4), rooms.get(4), weapons.get(4)));
+		Assert.assertNull(board.handleSuggestion(human, players.get(0), rooms.get(0), weapons.get(0)));
+		Assert.assertEquals(weapons.get(1), board.handleSuggestion(human, players.get(0), rooms.get(0), weapons.get(1)));
+		Assert.assertEquals(rooms.get(3), board.handleSuggestion(human, players.get(0), rooms.get(3), weapons.get(0)));
+		Assert.assertEquals(players.get(2), board.handleSuggestion(comp1, players.get(2), rooms.get(1), weapons.get(1)));
+		Assert.assertEquals(weapons.get(2), board.handleSuggestion(comp1, players.get(1), rooms.get(3), weapons.get(2)));
 	}
 	
 	

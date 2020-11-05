@@ -24,13 +24,16 @@ public class Board {
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private List<Player> players = new ArrayList<Player>();//TODO initialize these in code rather than at start
+	private List<Player> players = new ArrayList<Player>();//TODO initialize these in code rather than at start maybe
 	private List<String> weapons = new ArrayList<String>();
 	private List<Card> deck = new ArrayList<Card>();
 	private List<Card> shuffledDeck;
-	private List<Card> totalRooms = new ArrayList<Card>();
-	private List<Card> totalWeapons = new ArrayList<Card>();
-	private List<Card> totalPlayers = new ArrayList<Card>();
+	private List<Card> suggestibleWeapons = new ArrayList<Card>();
+	private List<Card> suggestiblePlayers = new ArrayList<Card>();
+	private List<Card> suggestibleRooms = new ArrayList<Card>();
+	private List<Card> roomsInPlay = new ArrayList<Card>();
+	private List<Card> weaponsInPlay = new ArrayList<Card>();
+	private List<Card> playersInPlay = new ArrayList<Card>();
 	private static int numColumns;
 	private static int numRows;
 	private String layoutConfigFile;
@@ -64,13 +67,13 @@ public class Board {
 		//clear to allow tests to work because we are using one instance of the board
 		deck.clear();
 		players.clear();
-		totalRooms.clear();
-		totalPlayers.clear();
-		totalWeapons.clear();
+		roomsInPlay.clear();
+		playersInPlay.clear();
+		weaponsInPlay.clear();
 		roomRows = new ArrayList<String[]>();
 		loadConfigFiles();
 
-		if (!totalPlayers.isEmpty()) {
+		if (!playersInPlay.isEmpty()) { //to allow for 306 tests to run
 			deal();
 		}
 	}
@@ -152,9 +155,9 @@ public class Board {
 					
 					if (letter != 'W' && letter != 'X') {
 						Card card = new Card(roomInfo[1],CardType.ROOM);
-						totalRooms.add(card);
+						roomsInPlay.add(card);
 						deck.add(card);
-						
+						suggestibleRooms.add(card);
 					}
 				}
 				else if (line.startsWith("Player")) {
@@ -163,17 +166,17 @@ public class Board {
 						players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
 						
 						Card card = new Card(playerInfo[1],CardType.PERSON);
-						totalPlayers.add(card);
+						playersInPlay.add(card);
 						deck.add(card);
-						
+						suggestiblePlayers.add(card);
 					}
 					else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
 						players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
 						
 						Card card = new Card(playerInfo[1],CardType.PERSON);
-						totalPlayers.add(card);
+						playersInPlay.add(card);
 						deck.add(card);
-						
+						suggestiblePlayers.add(card);
 					}
 				}
 				else if (line.startsWith("Weapon")) {
@@ -181,9 +184,9 @@ public class Board {
 					weapons.add(weapon[1]);
 					
 					Card card = new Card(weapon[1],CardType.WEAPON);
-					totalWeapons.add(card);
+					weaponsInPlay.add(card);
 					deck.add(card);
-					
+					suggestibleWeapons.add(card);
 				}
 				else {
 					throw new BadConfigFormatException("Error, invalid layout");
@@ -567,22 +570,27 @@ public class Board {
 	 */
 	private void pickSolutionCards() {
 		Random rand = new Random();
-		int playerCard = rand.nextInt(totalPlayers.size());
-		int roomCard = rand.nextInt(totalRooms.size());
-		int weaponCard = rand.nextInt(totalWeapons.size());
+		int playerCard = rand.nextInt(playersInPlay.size());
+		int roomCard = rand.nextInt(roomsInPlay.size());
+		int weaponCard = rand.nextInt(weaponsInPlay.size());
 
-		solution = new Solution(totalPlayers.get(playerCard), totalRooms.get(roomCard), totalWeapons.get(weaponCard));
+		solution = new Solution(playersInPlay.get(playerCard), roomsInPlay.get(roomCard), weaponsInPlay.get(weaponCard));
 		
-		deck.remove(totalPlayers.get(playerCard));
-		totalPlayers.remove(playerCard);
+		deck.remove(playersInPlay.get(playerCard));
+		playersInPlay.remove(playerCard);
 
-		deck.remove(totalRooms.get(roomCard));
-		totalRooms.remove(roomCard);
+		deck.remove(roomsInPlay.get(roomCard));
+		roomsInPlay.remove(roomCard);
 
-		deck.remove(totalWeapons.get(weaponCard));
-		totalWeapons.remove(weaponCard);
+		deck.remove(weaponsInPlay.get(weaponCard));
+		weaponsInPlay.remove(weaponCard);
 	}
 
+/*
+ * *************************************************************************************************************************************************
+ * Player methods
+ * *************************************************************************************************************************************************
+ */
 	public boolean checkAccusation(Card person, Card room, Card weapon) {
 		if (solution.getPerson().equals(person) && solution.getRoom().equals(room) && solution.getWeapon().equals(weapon)) {
 			return true;
@@ -592,8 +600,19 @@ public class Board {
 		}
 	}
 	
-	public void handleSuggestion(Card person, Card room, Card weapon) {
+	public Card handleSuggestion(Player suggestor, Card person, Card room, Card weapon) {
+		int start = players.indexOf(suggestor);
 		
+		for (int i = start +1; i < players.size() - 1 + start; i++) {
+			Player currentPlayer = players.get(i%players.size());
+			if (currentPlayer.disproveSuggestion(person, room, weapon) == null) {
+				
+			}
+			else {
+				return currentPlayer.disproveSuggestion(person, room, weapon);
+			}
+		}
+		return null;
 	}
 	
 /*
@@ -616,16 +635,24 @@ public class Board {
 		return shuffledDeck;
 	}
 	public List<Card> getPlayerCards(){
-		return totalPlayers;
+		return playersInPlay;
 	}
 	public List<Card> getWeaponCards(){
 
-		return totalWeapons;
+		return weaponsInPlay;
 	}
 	public List<Card> getRoomCards(){
-		return totalRooms;
+		return roomsInPlay;
 	}
-
+	public List<Card> getSuggestiblePlayerCards(){
+		return suggestiblePlayers;
+	}
+	public List<Card> getSuggestibleWeaponCards(){
+		return suggestibleWeapons;
+	}
+	public List<Card> getSuggestibleRoomCards(){
+		return suggestibleRooms;
+	}
 	public Solution getSolution() {
 		return solution;
 	}
