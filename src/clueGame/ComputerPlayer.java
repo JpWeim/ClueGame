@@ -19,6 +19,12 @@ public class ComputerPlayer extends Player{
 		return isHuman;
 	}
 	
+	/*
+	 * First checks to see if the current cell is a room, and if it is, gets all possible cards
+	 * Goes through the cards in seenCards list and removes from correct list
+	 * After that, chooses a random player and weapon card that it has not seen,
+	 * creates a new solution using the chosen player, weapon, and current room cards and returns
+	 */
 	public Solution createSuggestion() {
 		Board board = Board.getInstance();
 		if (board.getCell(row, col).isRoom()) {
@@ -57,23 +63,20 @@ public class ComputerPlayer extends Player{
 		}
 	}
 	
+	/*
+	 * Gets the target set from board and iterates through it
+	 * If the cell is a room center, it adds the respective card
+	 * to a list if it has not seen it yet
+	 * If there are possible rooms to enter that it has not seen,
+	 * it will randomly choose from one of those rooms,
+	 * else, it will pick a random board cell from the targets
+	 */
 	public BoardCell selectTargets() {
 		Board board = Board.getInstance();
 		Set<BoardCell> targets = board.getTargets();
 		List<BoardCell> possibleRooms = new ArrayList<BoardCell>();
 		for (BoardCell x : targets) {
-			if (x.isRoomCenter()) {
-				Room currentRoom = board.getRoom(x);
-				boolean seen = false;
-				for (Card y : seenCards) {
-					if (currentRoom.getName().equals(y.getCardName())) {
-						seen = true;
-					}
-				}
-				if (seen == false) {
-					possibleRooms.add(x);
-				}
-			}
+			checkSeenRoom(board, possibleRooms, x);
 		}
 		if (!possibleRooms.isEmpty()) {
 			Random rand = new Random();
@@ -91,6 +94,21 @@ public class ComputerPlayer extends Player{
 			}
 		}
 		return null;
+	}
+
+	private void checkSeenRoom(Board board, List<BoardCell> possibleRooms, BoardCell x) {
+		if (x.isRoomCenter()) {
+			Room currentRoom = board.getRoom(x);
+			boolean seen = false;
+			for (Card y : seenCards) {
+				if (currentRoom.getName().equals(y.getCardName())) {
+					seen = true;
+				}
+			}
+			if (seen == false) {
+				possibleRooms.add(x);
+			}
+		}
 	}
 
 }

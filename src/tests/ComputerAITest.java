@@ -36,6 +36,14 @@ class ComputerAITest {
 			
 		}
 		
+		/*
+		 * The first test creates a computer player just to the south of Hill and has a move of 3.
+		 * This allows the computer to enter the room, so it does.
+		 * The second test is the same as the first, but the player has Hill in its hand, so it does
+		 * not move into Hill, and instead chooses a different spot.
+		 * The third test puts a new player in the middle of a walkway with a move of 2. It cannot 
+		 * reach any rooms, so it chooses a new cell randomly.
+		 */
 		@Test
 		public void computerTargetTest() {
 			board.calcTargets(board.getCell(4, 5), 3);
