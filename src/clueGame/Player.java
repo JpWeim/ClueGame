@@ -120,6 +120,10 @@ public abstract class Player {
 	}
 	public abstract boolean getIsHuman();
 
+	public abstract Solution createSuggestion();
+
+	public abstract BoardCell selectTargets();
+
 	
 	
 }

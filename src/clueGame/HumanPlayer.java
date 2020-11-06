@@ -14,6 +14,16 @@ public class HumanPlayer extends Player{
 	public boolean getIsHuman() {
 		return isHuman;
 	}
+
+	@Override
+	public Solution createSuggestion() {
+		return null;
+	}
+
+	@Override
+	public BoardCell selectTargets() {
+		return null;
+	}
 	
 
 }

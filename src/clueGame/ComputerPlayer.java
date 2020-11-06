@@ -1,8 +1,11 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class ComputerPlayer extends Player{
 	private boolean isHuman = false; 
@@ -54,8 +57,40 @@ public class ComputerPlayer extends Player{
 		}
 	}
 	
-	public void selectMove() {
-		
+	public BoardCell selectTargets() {
+		Board board = Board.getInstance();
+		Set<BoardCell> targets = board.getTargets();
+		List<BoardCell> possibleRooms = new ArrayList<BoardCell>();
+		for (BoardCell x : targets) {
+			if (x.isRoomCenter()) {
+				Room currentRoom = board.getRoom(x);
+				boolean seen = false;
+				for (Card y : seenCards) {
+					if (currentRoom.getName().equals(y.getCardName())) {
+						seen = true;
+					}
+				}
+				if (seen == false) {
+					possibleRooms.add(x);
+				}
+			}
+		}
+		if (!possibleRooms.isEmpty()) {
+			Random rand = new Random();
+			return possibleRooms.get(rand.nextInt(possibleRooms.size()));
+		}
+		else {
+			Random rand = new Random();
+			int item = rand.nextInt(targets.size());
+			int i = 0;
+			for (BoardCell x : targets) {
+				if (i == item) {
+					return x;
+				}
+				i++;
+			}
+		}
+		return null;
 	}
 
 }
