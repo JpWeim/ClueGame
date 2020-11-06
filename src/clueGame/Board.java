@@ -24,16 +24,16 @@ public class Board {
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private List<Player> players = new ArrayList<Player>();//TODO initialize these in code rather than at start maybe
-	private List<String> weapons = new ArrayList<String>();
-	private List<Card> deck = new ArrayList<Card>();
+	private List<Player> players = new ArrayList<>();
+	private List<String> weapons = new ArrayList<>();
+	private List<Card> deck = new ArrayList<>();
 	private List<Card> shuffledDeck;
-	private List<Card> suggestibleWeapons = new ArrayList<Card>();
-	private List<Card> suggestiblePlayers = new ArrayList<Card>();
-	private List<Card> suggestibleRooms = new ArrayList<Card>();
-	private List<Card> roomsInPlay = new ArrayList<Card>();
-	private List<Card> weaponsInPlay = new ArrayList<Card>();
-	private List<Card> playersInPlay = new ArrayList<Card>();
+	private List<Card> suggestibleWeapons = new ArrayList<>();
+	private List<Card> suggestiblePlayers = new ArrayList<>();
+	private List<Card> suggestibleRooms = new ArrayList<>();
+	private List<Card> roomsInPlay = new ArrayList<>();
+	private List<Card> weaponsInPlay = new ArrayList<>();
+	private List<Card> playersInPlay = new ArrayList<>();
 	private static int numColumns;
 	private static int numRows;
 	private String layoutConfigFile;
@@ -70,7 +70,7 @@ public class Board {
 		roomsInPlay.clear();
 		playersInPlay.clear();
 		weaponsInPlay.clear();
-		roomRows = new ArrayList<String[]>();
+		roomRows = new ArrayList<>();
 		loadConfigFiles();
 
 		if (!playersInPlay.isEmpty()) { //to allow for 306 tests to run
@@ -85,33 +85,33 @@ public class Board {
 		try {
 			loadSetupConfig();
 		} catch (FileNotFoundException e1) {
-			// TODO Custom exception
+			System.err.println("Error: file not found");
 			e1.printStackTrace();
 		} catch (BadConfigFormatException e1) {
-			// TODO Custom exception
+			System.err.println("Error: bad config format");
 			e1.printStackTrace();
 		}
 		try {
 			loadLayoutConfig();
-		} catch (FileNotFoundException e) {
-			// TODO Custom exception
-			e.printStackTrace();
-		} catch (BadConfigFormatException e) {
-			// TODO Custom exception
-			e.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			System.err.println("Error: file not found");
+			e1.printStackTrace();
+		} catch (BadConfigFormatException e1) {
+			System.err.println("Error: bad config format");
+			e1.printStackTrace();
 		}
 		
 	}
 
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
-		roomMap = new HashMap<Character, Room>();
+		roomMap = new HashMap<>();
 		File file = new File(setupConfigFile);
 		try {
 			Scanner sc = new Scanner(file);
 			scanSetupFile(sc);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Error: file not found");
 			e.printStackTrace();
 		}
 
@@ -147,46 +147,13 @@ public class Board {
 			String line = sc.nextLine();
 			if(!line.startsWith("/")) {
 				if (line.startsWith("Room") || line.startsWith("Space")) {
-					String[] roomInfo = line.split(", ");
-					Room room = new Room();
-					room.setName(roomInfo[1]);
-					Character letter = roomInfo[2].charAt(0);
-					roomMap.put(letter, room);
-					
-					if (letter != 'W' && letter != 'X') {
-						Card card = new Card(roomInfo[1],CardType.ROOM);
-						roomsInPlay.add(card);
-						deck.add(card);
-						suggestibleRooms.add(card);
-					}
+					createRoomAndCard(line);
 				}
 				else if (line.startsWith("Player")) {
-					String[] playerInfo = line.split(", ");
-					if (playerInfo[3].equalsIgnoreCase("Computer")) {
-						players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
-						
-						Card card = new Card(playerInfo[1],CardType.PERSON);
-						playersInPlay.add(card);
-						deck.add(card);
-						suggestiblePlayers.add(card);
-					}
-					else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
-						players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
-						
-						Card card = new Card(playerInfo[1],CardType.PERSON);
-						playersInPlay.add(card);
-						deck.add(card);
-						suggestiblePlayers.add(card);
-					}
+					createCompAndHumanCard(line);
 				}
 				else if (line.startsWith("Weapon")) {
-					String[] weapon = line.split(", ");
-					weapons.add(weapon[1]);
-					
-					Card card = new Card(weapon[1],CardType.WEAPON);
-					weaponsInPlay.add(card);
-					deck.add(card);
-					suggestibleWeapons.add(card);
+					createWeaponCard(line);
 				}
 				else {
 					throw new BadConfigFormatException("Error, invalid layout");
@@ -194,6 +161,51 @@ public class Board {
 			}    
 		}
 
+	}
+
+	private void createRoomAndCard(String line) {
+		String[] roomInfo = line.split(", ");
+		Room room = new Room();
+		room.setName(roomInfo[1]);
+		Character letter = roomInfo[2].charAt(0);
+		roomMap.put(letter, room);
+		
+		if (letter != 'W' && letter != 'X') {
+			Card card = new Card(roomInfo[1],CardType.ROOM);
+			roomsInPlay.add(card);
+			deck.add(card);
+			suggestibleRooms.add(card);
+		}
+	}
+	
+	private void createWeaponCard(String line) {
+		String[] weapon = line.split(", ");
+		weapons.add(weapon[1]);
+		
+		Card card = new Card(weapon[1],CardType.WEAPON);
+		weaponsInPlay.add(card);
+		deck.add(card);
+		suggestibleWeapons.add(card);
+	}
+	
+	private void createCompAndHumanCard(String line) {
+		String[] playerInfo = line.split(", ");
+		if (playerInfo[3].equalsIgnoreCase("Computer")) {
+			players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+			
+			Card card = new Card(playerInfo[1],CardType.PERSON);
+			playersInPlay.add(card);
+			deck.add(card);
+			suggestiblePlayers.add(card);
+		}
+		else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
+			players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+			
+			Card card = new Card(playerInfo[1],CardType.PERSON);
+			playersInPlay.add(card);
+			deck.add(card);
+			suggestiblePlayers.add(card);
+		}
 	}
 
 	/*
@@ -262,31 +274,35 @@ public class Board {
 						centerCell.addAdj(roomMap.get(adjCell.getSecretPassage()).getCenterCell());
 					}
 
-					if (adjCell.isDoorway()) {
-						if (adjCell.getDoorDirection() == DoorDirection.UP) {
-							if(getCell(k-1,l).getInitial() == centerCell.getInitial()) {
-								centerCell.addAdj(adjCell);
-							}
-						}
+					addDoorToAdjList(centerCell, k, l, adjCell);
+				}
+			}
+		}
+	}
 
-						if (adjCell.getDoorDirection() == DoorDirection.DOWN) {
-							if(getCell(k+1,l).getInitial() == centerCell.getInitial()) {
-								centerCell.addAdj(adjCell);
-							}
-						}
+	private void addDoorToAdjList(BoardCell centerCell, int k, int l, BoardCell adjCell) {
+		if (adjCell.isDoorway()) {
+			if (adjCell.getDoorDirection() == DoorDirection.UP) {
+				if(getCell(k-1,l).getInitial() == centerCell.getInitial()) {
+					centerCell.addAdj(adjCell);
+				}
+			}
 
-						if (adjCell.getDoorDirection() == DoorDirection.RIGHT) {
-							if(getCell(k,l+1).getInitial() == centerCell.getInitial()) {
-								centerCell.addAdj(adjCell);
-							}
-						}
+			if (adjCell.getDoorDirection() == DoorDirection.DOWN) {
+				if(getCell(k+1,l).getInitial() == centerCell.getInitial()) {
+					centerCell.addAdj(adjCell);
+				}
+			}
 
-						if (adjCell.getDoorDirection() == DoorDirection.LEFT) {
-							if(getCell(k,l-1).getInitial() == centerCell.getInitial()) {
-								centerCell.addAdj(adjCell);
-							}
-						}
-					}
+			if (adjCell.getDoorDirection() == DoorDirection.RIGHT) {
+				if(getCell(k,l+1).getInitial() == centerCell.getInitial()) {
+					centerCell.addAdj(adjCell);
+				}
+			}
+
+			if (adjCell.getDoorDirection() == DoorDirection.LEFT) {
+				if(getCell(k,l-1).getInitial() == centerCell.getInitial()) {
+					centerCell.addAdj(adjCell);
 				}
 			}
 		}
@@ -496,8 +512,8 @@ public class Board {
 	 * findAllTargets
 	 */
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		visited = new HashSet<BoardCell>();
-		targets = new HashSet<BoardCell>();
+		visited = new HashSet<>();
+		targets = new HashSet<>();
 		visited.add(startCell);
 		findAllTargets(startCell, pathLength);
 	}
@@ -525,10 +541,10 @@ public class Board {
 	private void addCorrectCells(int pathLength, BoardCell adjCell) {
 		if(visited.contains(adjCell)) {
 		}
-		else if (adjCell.isRoomCenter() == true) {
+		else if (adjCell.isRoomCenter()) {
 			targets.add(adjCell);
 		}
-		else if (adjCell.getOccupied() == true) {
+		else if (adjCell.getOccupied()) {
 		}
 		else {
 		visited.add(adjCell);
@@ -550,7 +566,7 @@ public class Board {
 	public void deal() {
 		pickSolutionCards();
 		
-		shuffledDeck = new ArrayList<Card>(deck);
+		shuffledDeck = new ArrayList<>(deck);
 		Collections.shuffle(shuffledDeck);
 		
 		int totalCards = shuffledDeck.size();
