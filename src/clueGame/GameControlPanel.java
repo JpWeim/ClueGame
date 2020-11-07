@@ -25,6 +25,7 @@ public class GameControlPanel extends JPanel{
 
 	  public static void main(String[] args) {
           GameControlPanel panel = new GameControlPanel();  // create the panel
+          panel.setLayout(new GridLayout(2,0));
           JFrame frame = new JFrame();  // create the frame
           frame.setContentPane(panel); // put the panel in the frame
           frame.setSize(750, 180);  // size the frame
@@ -32,24 +33,31 @@ public class GameControlPanel extends JPanel{
           frame.setVisible(true); // make it visible
 
           
-       // test filling in the data
-          JPanel playerInfo = panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5);
-          
+      //TODO rewrite so don't return panels for guess stuff
+          /*
+           * Right now, the methods below return panels. The player info panels
+           * are combined into one larger panel in its own method, and the guess info
+           * panels are combined here. Then, both those panels are added to
+           * the panel already in the frame.
+           */
+          panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5);
           JPanel guess = panel.setGuess( "I have no guess!");
           JPanel guessResult = panel.setGuessResult( "So you have nothing?");
+          
           JPanel guessInfo = new JPanel();
           guessInfo.setLayout(new GridLayout(0,2));
           guessInfo.add(guess);
           guessInfo.add(guessResult);
           
-          
-          JPanel GameControlPanel = new JPanel();
-          GameControlPanel.setLayout(new GridLayout(2,0));
-          GameControlPanel.add(playerInfo, BorderLayout.NORTH);
-          GameControlPanel.add(guessInfo, BorderLayout.SOUTH);
-          panel.add(GameControlPanel);
+          panel.setLayout(new GridLayout(2,0));
+          panel.add(guessInfo, BorderLayout.SOUTH);
+    
    }
-  private JPanel setTurn(ComputerPlayer computerPlayer, int i) {
+	  /*
+	   * Creates a 1x4 panel and adds panels containing current player label and name,
+	   * roll label and result, and two buttons to make an accusation and next turn
+	   */
+  private void setTurn(ComputerPlayer computerPlayer, int i) {
 	  	JPanel playerInfo = new JPanel();
 	  	playerInfo.setLayout(new GridLayout(1,4));
 	  	
@@ -76,7 +84,7 @@ public class GameControlPanel extends JPanel{
 		playerInfo.add(accuseButton);
 		playerInfo.add(nextTurn);
 		
-		return playerInfo;
+		add(playerInfo, BorderLayout.NORTH);
 	}
 
   private JPanel setGuess(String string) {
