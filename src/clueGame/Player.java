@@ -118,11 +118,24 @@ public abstract class Player {
 	public List<Card> getHand() {
 		return cards;
 	}
+	
+	public List<Card> getSeenCards() {
+		return seenCards;
+	}
+	
+	public void clearSeenCards() {
+		seenCards.clear();
+	}
 	public abstract boolean getIsHuman();
 
 	public abstract Solution createSuggestion();
 
 	public abstract BoardCell selectTargets();
+
+	public void addSeenCard(Card card) {
+		seenCards.add(card);
+		
+	}
 
 	
 	

@@ -29,4 +29,6 @@ public class Room {
 	public BoardCell getCenterCell() {
 		return centerCell;
 	}
+
+	
 }

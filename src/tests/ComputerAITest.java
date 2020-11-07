@@ -14,6 +14,7 @@ import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.Player;
+import clueGame.Room;
 import clueGame.Solution;
 
 class ComputerAITest {
@@ -31,8 +32,39 @@ class ComputerAITest {
 			board.initialize();
 		}
 		
-		//@Test
+		@Test
 		public void computerSuggestionTest() {
+			Player comp1 = new ComputerPlayer("Mrs. White", Color.WHITE, 20, 12);
+			
+			board.clearSuggestionsForTesting();
+			
+			List<Card> players = board.getPlayerCards();
+			List<Card> weapons = board.getWeaponCards();
+			
+			Room currentRoom = board.getRoom(board.getCell(comp1.getRow(), comp1.getColumn()));
+			String roomName = currentRoom.getName();
+			Card room = board.getCardFromRoom(roomName);
+			
+			comp1.clearSeenCards();
+			int playerMax = players.size() - 1;
+			int weaponMax = weapons.size() - 1;
+			
+			for(int i = 0; i < playerMax; i++) {
+				comp1.addSeenCard(players.get(0));
+				players.remove(0);
+			}
+			for(int i = 0; i < weaponMax; i++) {
+				comp1.addSeenCard(weapons.get(0));
+				weapons.remove(0);
+			}
+			board.addSuggestiblePlayer(players.get(0));
+			board.addSuggestibleWeapon(weapons.get(0));
+			
+			Solution suggestion = comp1.createSuggestion();
+			
+			Assert.assertEquals(suggestion.getRoom(), room);
+			Assert.assertEquals(suggestion.getPerson(), players.get(0));
+			Assert.assertEquals(suggestion.getWeapon(), weapons.get(0));
 			
 		}
 		

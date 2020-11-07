@@ -39,6 +39,7 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
+	private Map<String, Card> roomNameToCardMap;
 	private Solution solution;
 	private static final int TOT_PLAYERS = 6;
 
@@ -106,6 +107,7 @@ public class Board {
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		roomMap = new HashMap<>();
+		roomNameToCardMap = new HashMap<>();
 		File file = new File(setupConfigFile);
 		try {
 			Scanner sc = new Scanner(file);
@@ -168,13 +170,14 @@ public class Board {
 		Room room = new Room();
 		room.setName(roomInfo[1]);
 		Character letter = roomInfo[2].charAt(0);
-		roomMap.put(letter, room);
+		roomMap.put(letter, room); 
 		
 		if (letter != 'W' && letter != 'X') {
 			Card card = new Card(roomInfo[1],CardType.ROOM);
 			roomsInPlay.add(card);
 			deck.add(card);
 			suggestibleRooms.add(card);
+			roomNameToCardMap.put(room.getName(), card);
 		}
 	}
 	
@@ -669,6 +672,22 @@ public class Board {
 	public List<Card> getSuggestibleRoomCards(){
 		return suggestibleRooms;
 	}
+	
+	public void addSuggestiblePlayer(Card c){
+		suggestiblePlayers.add(c);
+	}
+	public void addSuggestibleRoom(Card c){
+		suggestibleRooms.add(c);
+	}
+	public void addSuggestibleWeapon(Card c){
+		suggestibleWeapons.add(c);
+	}
+	
+	public void clearSuggestionsForTesting() {
+		suggestiblePlayers.clear();
+		suggestibleWeapons.clear();
+		suggestibleRooms.clear();
+	}
 	public Solution getSolution() {
 		return solution;
 	}
@@ -684,6 +703,10 @@ public class Board {
 		return numColumns;
 	}
 
+	public Card getCardFromRoom(String n) {
+		return roomNameToCardMap.get(n);
+	}
+	
 	public Room getRoom(char c) {
 		return roomMap.get(c);
 	}

@@ -30,7 +30,7 @@ public class ComputerPlayer extends Player{
 		if (board.getCell(row, col).isRoom()) {
 			List<Card> notSeenPlayers = board.getSuggestiblePlayerCards();
 			List<Card> notSeenWeapons = board.getSuggestibleWeaponCards();
-			List<Card> rooms = board.getSuggestibleRoomCards();
+			List<Card> rooms = board.getRoomCards();
 			
 			for (Card x : seenCards) {
 				if (notSeenPlayers.contains(x)) {
@@ -46,14 +46,7 @@ public class ComputerPlayer extends Player{
 			Card weaponInQuestion = notSeenWeapons.get(r.nextInt(notSeenWeapons.size()));
 			Room currentRoom = board.getRoom(board.getCell(row, col));
 			String roomName = currentRoom.getName();
-			
-			Card roomInQuestion = null;
-			
-			for (Card x : rooms) {
-				if (x.getCardName() == roomName) {
-					roomInQuestion = x;
-				}
-			}
+			Card roomInQuestion = board.getCardFromRoom(roomName);
 			
 			Solution guess = new Solution (playerInQuestion, roomInQuestion, weaponInQuestion);
 			return guess;
