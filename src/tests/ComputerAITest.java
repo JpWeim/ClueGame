@@ -32,6 +32,16 @@ class ComputerAITest {
 			board.initialize();
 		}
 		
+		/*
+		 * First made a new player that starts in the room Brown.
+		 * Clears suggestible cards in board so I can choose which ones to test with.
+		 * Players can only make suggestions for the rooms they are in, so the room suggestion
+		 * must be the room of the player's current position. Clear the computer's seen cards
+		 * so I can specify that the player has seen each of the possible cards except the last in
+		 * the list. Then the only player/weapon left to suggest are not randomly selected so we can see
+		 * that the test passes using the correct lists and logic. The room suggestion is tested against
+		 * the current room, which should both always be the current room.
+		 */
 		@Test
 		public void computerSuggestionTest() {
 			Player comp1 = new ComputerPlayer("Mrs. White", Color.WHITE, 20, 12);
