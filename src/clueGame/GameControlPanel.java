@@ -13,6 +13,11 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel{
+	private JTextField player = new JTextField();
+	private JTextField rollResult = new JTextField();
+	private JTextField playerGuess = new JTextField();
+	private JTextField playerGuessResult = new JTextField();
+
 	
 	public GameControlPanel() {
 		
@@ -50,7 +55,7 @@ public class GameControlPanel extends JPanel{
 	  	
 		JPanel turn = new JPanel();
 		JLabel label = new JLabel("Who's turn?");
-		JTextField player = new JTextField(computerPlayer.getName());
+		player.setText(computerPlayer.getName());;
 		player.setEditable(false);
 		player.setBackground(computerPlayer.getColor());
 		turn.add(label);
@@ -58,7 +63,7 @@ public class GameControlPanel extends JPanel{
 		
 		JPanel roll = new JPanel();
 		JLabel rollLabel = new JLabel("Roll:");
-		JTextField rollResult = new JTextField(Integer.toString(i));
+		rollResult.setText(Integer.toString(i));
 		rollResult.setEditable(false);
 		roll.add(rollLabel);
 		roll.add(rollResult);
@@ -78,7 +83,7 @@ public class GameControlPanel extends JPanel{
 	  JPanel guess = new JPanel();
 	  guess.setLayout(new GridLayout(1,0));
 	  guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
-	  JTextField playerGuess = new JTextField(string);
+	  playerGuess.setText(string);
 	  playerGuess.setEditable(false);
 	  guess.add(playerGuess);
 	  
@@ -88,7 +93,7 @@ public class GameControlPanel extends JPanel{
 		JPanel result = new JPanel();
 		result.setLayout(new GridLayout(1,0));
 		result.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
-		JTextField playerGuessResult = new JTextField(string);
+		playerGuessResult.setText(string);
 		playerGuessResult.setEditable(false);
 		result.add(playerGuessResult);
 		  
