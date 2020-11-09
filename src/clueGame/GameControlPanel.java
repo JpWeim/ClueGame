@@ -49,16 +49,17 @@ public class GameControlPanel extends JPanel{
 		List<Card> rooms = board.getRoomCards();
 		List<Card> weapons = board.getWeaponCards();
 		
-		Player currPlayer = new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0);
+		Player currPlayer = new HumanPlayer("Miss Scarlett", Color.RED, 0, 0);
+		Player compPlayer = new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0);
 		currPlayer.updateHand(players.get(0));
 		currPlayer.addSeenCard(players.get(2));
 		currPlayer.addSeenCard(players.get(4));
 		
 		currPlayer.updateHand(rooms.get(0));
 		
-		currPlayer.updateHand(weapons.get(0));
 		currPlayer.addSeenCard(weapons.get(2));
 		currPlayer.addSeenCard(weapons.get(4));
+		currPlayer.addSeenCard(weapons.get(1));
 		
 		panel.setTurn(currPlayer, 5);
 		JPanel guess = panel.setGuess( "I have no guess!");
@@ -218,6 +219,7 @@ public class GameControlPanel extends JPanel{
 				card.setText(x.getCardName());
 				card.setEditable(false);
 				seen.add(card);
+				foundCard = true;
 			}
 		}
 		
