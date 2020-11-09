@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel{
+	private static Board board;
 	private JTextField player = new JTextField();
 	private JTextField rollResult = new JTextField();
 	private JTextField playerGuess = new JTextField();
@@ -40,7 +42,27 @@ public class GameControlPanel extends JPanel{
 		 * panels are combined here. Then, both those panels are added to
 		 * the panel already in the frame.
 		 */
-		panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5);
+		board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
+		board.initialize();
+		List<Card> players = board.getPlayerCards();
+		List<Card> rooms = board.getRoomCards();
+		List<Card> weapons = board.getWeaponCards();
+		
+		Player currPlayer = new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0);
+		currPlayer.updateHand(players.get(0));
+		currPlayer.addSeenCard(players.get(2));
+		currPlayer.addSeenCard(players.get(4));
+		
+		currPlayer.updateHand(rooms.get(0));
+		currPlayer.addSeenCard(rooms.get(2));
+		currPlayer.addSeenCard(rooms.get(4));
+		
+		currPlayer.updateHand(weapons.get(0));
+		currPlayer.addSeenCard(weapons.get(2));
+		currPlayer.addSeenCard(weapons.get(4));
+		
+		panel.setTurn(currPlayer, 5);
 		JPanel guess = panel.setGuess( "I have no guess!");
 		JPanel guessResult = panel.setGuessResult( "So you have nothing?");
 
@@ -51,9 +73,9 @@ public class GameControlPanel extends JPanel{
 
 		JPanel knownCards = new JPanel();
 		knownCards.setLayout(new GridLayout(3,1));
-		JPanel knownPeople = panel.setPeople();
-		JPanel knownRooms = panel.setRooms();
-		JPanel knownWeapons = panel.setWeapons();
+		JPanel knownPeople = panel.setPeople(currPlayer);
+		JPanel knownRooms = panel.setRooms(currPlayer);
+		JPanel knownWeapons = panel.setWeapons(currPlayer);
 		knownCards.add(knownPeople);
 		knownCards.add(knownRooms);
 		knownCards.add(knownWeapons);
@@ -69,15 +91,15 @@ public class GameControlPanel extends JPanel{
 	 * Creates a 1x4 panel and adds panels containing current player label and name,
 	 * roll label and result, and two buttons to make an accusation and next turn
 	 */
-	private void setTurn(ComputerPlayer computerPlayer, int i) {
+	private void setTurn(Player currPlayer, int i) {
 		JPanel playerInfo = new JPanel();
 		playerInfo.setLayout(new GridLayout(1,4));
 
 		JPanel turn = new JPanel();
 		JLabel label = new JLabel("Who's turn?");
-		player.setText(computerPlayer.getName());;
+		player.setText(currPlayer.getName());;
 		player.setEditable(false);
-		player.setBackground(computerPlayer.getColor());
+		player.setBackground(currPlayer.getColor());
 		turn.add(label);
 		turn.add(player);
 
@@ -88,7 +110,7 @@ public class GameControlPanel extends JPanel{
 		roll.add(rollLabel);
 		roll.add(rollResult);
 
-		JButton accuseButton = new JButton("Make Accuestion");
+		JButton accuseButton = new JButton("Make Accusation");
 		JButton nextTurn = new JButton("NEXT!");
 
 		playerInfo.add(turn);
@@ -120,47 +142,87 @@ public class GameControlPanel extends JPanel{
 		return result;
 	}
 
-	private JPanel setPeople() {
+	private JPanel setPeople(Player currPlayer) {
 		JPanel people = new JPanel();
 		people.setLayout(new GridLayout(2,1));
 		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 
-		addSubSections(people);
+		CardType cardType = CardType.PERSON;
 
+		JPanel inHand = getHandPanel(currPlayer, cardType);
+		JPanel seen = getSeenPanel(currPlayer, cardType);
+		
+		people.add(inHand);
+		people.add(seen);
+		
 		return people;
 	}
+	
 
-	private JPanel setRooms() {
+	private JPanel setRooms(Player currPlayer) {
 		JPanel rooms = new JPanel();
 		rooms.setLayout(new GridLayout(2,1));
 		rooms.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
 		
-		addSubSections(rooms);
+		CardType cardType = CardType.ROOM;
+
+		JPanel inHand = getHandPanel(currPlayer, cardType);
+		JPanel seen = getSeenPanel(currPlayer, cardType);
+		
+		rooms.add(inHand);
+		rooms.add(seen);
 		
 		return rooms;
 	}
 
-	private JPanel setWeapons() {
+	private JPanel setWeapons(Player currPlayer) {
 		JPanel weapons = new JPanel();
 		weapons.setLayout(new GridLayout(2,1));
 		weapons.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
 
-		addSubSections(weapons);
+		CardType cardType = CardType.WEAPON;
+
+		JPanel inHand = getHandPanel(currPlayer, cardType);
+		JPanel seen = getSeenPanel(currPlayer, cardType);
+		
+		weapons.add(inHand);
+		weapons.add(seen);
 		
 		return weapons;
 	}
 
-	private void addSubSections(JPanel currPanel) {
-
+	private JPanel getHandPanel(Player currPlayer, CardType type) {
 		JPanel inHand = new JPanel();
+		inHand.setLayout(new GridLayout());
 		inHand.setBorder(new TitledBorder(new EtchedBorder(), "In hand: "));
-
+		
+		for (Card x : currPlayer.getHand()) {
+			if(x.getCardType() == type) {
+				JTextField card = new JTextField();
+				card.setText(x.getCardName());
+				card.setEditable(false);
+				card.setBackground(currPlayer.getColor());
+				inHand.add(card);
+			}
+		}
+		return inHand;
+	}
+	
+	private JPanel getSeenPanel(Player currPlayer, CardType type) {
 		JPanel seen = new JPanel();
+		seen.setLayout(new GridLayout());
 		seen.setBorder(new TitledBorder(new EtchedBorder(), "Seen: "));
 
-		currPanel.add(inHand);
-		currPanel.add(seen);
-
+		for (Card x : currPlayer.getSeenCards()) {
+			if(x.getCardType() == type && !currPlayer.getHand().contains(x)) {
+				JTextField card = new JTextField();
+				card.setText(x.getCardName());
+				card.setEditable(false);
+				seen.add(card);
+			}
+		}
+		return seen;
 	}
+	
 
 }
