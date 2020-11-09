@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,7 +24,7 @@ public class CardPanel extends JPanel{
 		panel.setLayout(new GridLayout());
 		JFrame frame = new JFrame();  // create the frame
 		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(180, 750);  // size the frame
+		frame.setSize(500, 800);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 
@@ -51,7 +52,7 @@ public class CardPanel extends JPanel{
 
 
 		JPanel knownCards = new JPanel();
-		knownCards.setLayout(new GridLayout(3,1));
+		knownCards.setLayout(new BoxLayout(knownCards, BoxLayout.Y_AXIS));
 		knownCards.setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		JPanel knownPeople = panel.setCardSection(currPlayer, CardType.PERSON);
 		JPanel knownRooms = panel.setCardSection(currPlayer, CardType.ROOM);
@@ -101,7 +102,7 @@ public class CardPanel extends JPanel{
 	 */
 	private JPanel getHandPanel(Player currPlayer, CardType type) {
 		JPanel inHand = new JPanel();
-		inHand.setLayout(new GridLayout());
+		inHand.setLayout(new BoxLayout(inHand, BoxLayout.Y_AXIS));
 		inHand.setBorder(new TitledBorder("In Hand:"));
 
 		boolean foundCard = false;
@@ -132,7 +133,7 @@ public class CardPanel extends JPanel{
 	 */
 	private JPanel getSeenPanel(Player currPlayer, CardType type) {
 		JPanel seen = new JPanel();
-		seen.setLayout(new GridLayout());
+		seen.setLayout(new BoxLayout(seen, BoxLayout.Y_AXIS));
 		seen.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
 
 		boolean foundCard = false;
