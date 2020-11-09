@@ -55,8 +55,6 @@ public class GameControlPanel extends JPanel{
 		currPlayer.addSeenCard(players.get(4));
 		
 		currPlayer.updateHand(rooms.get(0));
-		currPlayer.addSeenCard(rooms.get(2));
-		currPlayer.addSeenCard(rooms.get(4));
 		
 		currPlayer.updateHand(weapons.get(0));
 		currPlayer.addSeenCard(weapons.get(2));
@@ -73,9 +71,10 @@ public class GameControlPanel extends JPanel{
 
 		JPanel knownCards = new JPanel();
 		knownCards.setLayout(new GridLayout(3,1));
-		JPanel knownPeople = panel.setPeople(currPlayer);
-		JPanel knownRooms = panel.setRooms(currPlayer);
-		JPanel knownWeapons = panel.setWeapons(currPlayer);
+		knownCards.setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
+		JPanel knownPeople = panel.setCardSection(currPlayer, CardType.PERSON);
+		JPanel knownRooms = panel.setCardSection(currPlayer, CardType.ROOM);
+		JPanel knownWeapons = panel.setCardSection(currPlayer, CardType.WEAPON);
 		knownCards.add(knownPeople);
 		knownCards.add(knownRooms);
 		knownCards.add(knownWeapons);
@@ -142,60 +141,46 @@ public class GameControlPanel extends JPanel{
 		return result;
 	}
 
-	private JPanel setPeople(Player currPlayer) {
-		JPanel people = new JPanel();
-		people.setLayout(new GridLayout(2,1));
-		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
-
-		CardType cardType = CardType.PERSON;
-
-		JPanel inHand = getHandPanel(currPlayer, cardType);
-		JPanel seen = getSeenPanel(currPlayer, cardType);
+	/*
+	 * Makes a card type section within known cards and populates with cards of that type
+	 * in the player's hand and seen cards.
+	 */
+	private JPanel setCardSection(Player currPlayer, CardType type) {
+		JPanel cardSection = new JPanel();
+		cardSection.setLayout(new GridLayout(2,1));
 		
-		people.add(inHand);
-		people.add(seen);
+		String section = "";
+		switch(type) {
+		case PERSON:
+			section = "People";
+			break;
+		case ROOM:
+			section = "Rooms";
+			break;
+		case WEAPON:
+			section = "Weapons";
+			break;
+		}
+		cardSection.setBorder(new TitledBorder(new EtchedBorder(), section));
 		
-		return people;
+		JPanel inHand = getHandPanel(currPlayer, type);
+		JPanel seen = getSeenPanel(currPlayer, type);
+		
+		cardSection.add(inHand);
+		cardSection.add(seen);
+		
+		return cardSection;
 	}
 	
-
-	private JPanel setRooms(Player currPlayer) {
-		JPanel rooms = new JPanel();
-		rooms.setLayout(new GridLayout(2,1));
-		rooms.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
-		
-		CardType cardType = CardType.ROOM;
-
-		JPanel inHand = getHandPanel(currPlayer, cardType);
-		JPanel seen = getSeenPanel(currPlayer, cardType);
-		
-		rooms.add(inHand);
-		rooms.add(seen);
-		
-		return rooms;
-	}
-
-	private JPanel setWeapons(Player currPlayer) {
-		JPanel weapons = new JPanel();
-		weapons.setLayout(new GridLayout(2,1));
-		weapons.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
-
-		CardType cardType = CardType.WEAPON;
-
-		JPanel inHand = getHandPanel(currPlayer, cardType);
-		JPanel seen = getSeenPanel(currPlayer, cardType);
-		
-		weapons.add(inHand);
-		weapons.add(seen);
-		
-		return weapons;
-	}
-
+	/*
+	 * Adds cards in player's hand to "In Hand:" section of their known cards
+	 */
 	private JPanel getHandPanel(Player currPlayer, CardType type) {
 		JPanel inHand = new JPanel();
 		inHand.setLayout(new GridLayout());
-		inHand.setBorder(new TitledBorder(new EtchedBorder(), "In hand: "));
+		inHand.setBorder(new TitledBorder("In Hand:"));
 		
+		boolean foundCard = false;
 		for (Card x : currPlayer.getHand()) {
 			if(x.getCardType() == type) {
 				JTextField card = new JTextField();
@@ -203,16 +188,30 @@ public class GameControlPanel extends JPanel{
 				card.setEditable(false);
 				card.setBackground(currPlayer.getColor());
 				inHand.add(card);
+				foundCard = true;
 			}
+			
+		}
+		
+		if(!foundCard) {
+			JTextField noCard = new JTextField();
+			noCard.setText("None");
+			noCard.setEditable(false);
+			inHand.add(noCard);
 		}
 		return inHand;
 	}
 	
+
+	/*
+	 * Adds cards in player's seenCards to "Seen:" section of their known cards
+	 */
 	private JPanel getSeenPanel(Player currPlayer, CardType type) {
 		JPanel seen = new JPanel();
 		seen.setLayout(new GridLayout());
-		seen.setBorder(new TitledBorder(new EtchedBorder(), "Seen: "));
-
+		seen.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
+		
+		boolean foundCard = false;
 		for (Card x : currPlayer.getSeenCards()) {
 			if(x.getCardType() == type && !currPlayer.getHand().contains(x)) {
 				JTextField card = new JTextField();
@@ -221,6 +220,14 @@ public class GameControlPanel extends JPanel{
 				seen.add(card);
 			}
 		}
+		
+		if(!foundCard) {
+			JTextField noCard = new JTextField();
+			noCard.setText("None");
+			noCard.setEditable(false);
+			seen.add(noCard);
+		}
+		
 		return seen;
 	}
 	
