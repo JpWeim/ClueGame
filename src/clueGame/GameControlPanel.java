@@ -41,18 +41,22 @@ public class GameControlPanel extends JPanel{
            * the panel already in the frame.
            */
           panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5);
-          JPanel guess = panel.setGuess( "I have no guess!");
-          JPanel guessResult = panel.setGuessResult( "So you have nothing?");
-          
-          JPanel guessInfo = new JPanel();
-          guessInfo.setLayout(new GridLayout(0,2));
-          guessInfo.add(guess);
-          guessInfo.add(guessResult);
-          
-          panel.setLayout(new GridLayout(2,0));
-          panel.add(guessInfo, BorderLayout.SOUTH);
+          totalGuess(panel);
     
    }
+
+	private static void totalGuess(GameControlPanel panel, String guess, String guessResult) {
+		JPanel guess = panel.setGuess(guess);
+		JPanel guessResult = panel.setGuessResult(guessResult);
+      
+      	JPanel guessInfo = new JPanel();
+      	guessInfo.setLayout(new GridLayout(0,2));
+      	guessInfo.add(guess);
+      	guessInfo.add(guessResult);
+      
+      	panel.setLayout(new GridLayout(2,0));
+      	panel.add(guessInfo, BorderLayout.SOUTH);
+}
 	  /*
 	   * Creates a 1x4 panel and adds panels containing current player label and name,
 	   * roll label and result, and two buttons to make an accusation and next turn
