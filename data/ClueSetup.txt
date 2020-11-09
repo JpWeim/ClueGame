@@ -1,0 +1,27 @@
+//Rooms and room cards
+Room, Market, M
+Room, Brown, B
+Room, Alderson, A
+Room, CLTM, C
+Room, Periodic Table, P
+Room, Elm, E
+Room, Trads, T
+Room, Hill, H
+Room, Green, G
+//other spaces
+Space, Unused, X
+Space, Walkway, W
+//Players
+Player, Miss Scarlett, Red, Human, 0, 7
+Player, Colonel Mustard, Yellow, Computer, 0, 18
+Player, Mrs. White, White, Computer, 7, 24
+Player, Mr. Green, Green, Computer, 17, 24
+Player, Mrs. Peacock, Blue, Computer, 25, 14
+Player, Professor Plum, Purple, Computer, 25, 9
+//Weapons
+Weapon, Revolver
+Weapon, Dagger
+Weapon, Lead Pipe
+Weapon, Rope
+Weapon, Candlestick
+Weapon, Wrench 

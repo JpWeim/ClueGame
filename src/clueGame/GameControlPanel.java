@@ -49,14 +49,15 @@ public class GameControlPanel extends JPanel{
 		List<Card> rooms = board.getRoomCards();
 		List<Card> weapons = board.getWeaponCards();
 		
+		/*
+		 * Sets up player and their cards for testing
+		 */
 		Player currPlayer = new HumanPlayer("Miss Scarlett", Color.RED, 0, 0);
 		Player compPlayer = new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0);
 		currPlayer.updateHand(players.get(0));
 		currPlayer.addSeenCard(players.get(2));
 		currPlayer.addSeenCard(players.get(4));
-		
 		currPlayer.updateHand(rooms.get(0));
-		
 		currPlayer.addSeenCard(weapons.get(2));
 		currPlayer.addSeenCard(weapons.get(4));
 		currPlayer.addSeenCard(weapons.get(1));
@@ -82,7 +83,7 @@ public class GameControlPanel extends JPanel{
 
 
 		panel.setLayout(new GridLayout(2,1));
-		panel.add(knownCards, BorderLayout.NORTH);
+		panel.add(knownCards, BorderLayout.EAST);
 		panel.add(guessInfo, BorderLayout.SOUTH);
 
 
