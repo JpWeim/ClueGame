@@ -6,6 +6,8 @@
 package clueGame; 
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,8 +20,10 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
 
-public class Board {
+
+public class Board extends JPanel{
 	private BoardCell[][] grid;
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
@@ -462,6 +466,7 @@ public class Board {
 					case '#':
 						cell.setRoomLabel(true);
 						roomMap.get(cellIcon.charAt(0)).setLabelCell(cell);
+						cell.setRoomName(roomMap.get(cellIcon.charAt(0)).getName());
 						break;
 					default:
 						cell.setSecretPassage(cellIcon.charAt(1));
@@ -634,6 +639,20 @@ public class Board {
 		return null;
 	}
 	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int frameWidth = super.getWidth();
+		int frameHeight = super.getHeight();
+		int cellWidth = frameWidth/33;
+		int cellHeight = frameHeight/33;
+		
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				grid[i][j].draw(cellWidth, cellHeight, g);
+			}
+		}
+	}
 /*
  * *************************************************************************************************************************************************
  * Getters and setters 

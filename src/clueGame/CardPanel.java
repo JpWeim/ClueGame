@@ -14,12 +14,16 @@ import javax.swing.border.TitledBorder;
 
 public class CardPanel extends JPanel{
 	private static Board board;
+	
 
 	public CardPanel() {
+		
+		
 
 	}
 
 	public static void main(String[] args) {
+		
 		CardPanel panel = new CardPanel();  // create the panel
 		panel.setLayout(new GridLayout());
 		JFrame frame = new JFrame();  // create the frame
@@ -27,7 +31,6 @@ public class CardPanel extends JPanel{
 		frame.setSize(500, 800);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
-
 		/*
 		 * Creates a board in order to get all types of cards easily for testing
 		 */

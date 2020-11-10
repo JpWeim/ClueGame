@@ -1,378 +1,59 @@
-Pair programmed
+commit b645a918cb6694c54d94db65450b754b935bddeb
+Author: JpWeim <jpwalter@mines.edu>
+Date:   Mon Nov 9 20:13:49 2020 -0700
 
-commit 2893a0f1e821abf2269ef590e2d3acfba9df8310
+    changed comments, final commit for c21A-1
+
+commit ef25327eed6db2d282c26ddebe8c221e073f53ae
+Merge: 41312a7 b61fc11
+Author: JpWeim <jpwalter@mines.edu>
+Date:   Mon Nov 9 16:27:14 2020 -0700
+
+    Merge to fix conflicts
+
+commit 41312a74855da57618bfc62c50e63bfcae21f01b
+Author: JpWeim <jpwalter@mines.edu>
+Date:   Mon Nov 9 15:46:25 2020 -0700
+
+    Update
+
+commit b61fc11d985385701391edac4c060c34cca8dfe3
 Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Fri Nov 6 21:08:50 2020 -0700
+Date:   Mon Nov 9 14:37:10 2020 -0700
 
-    Added comments
+    Changed CardPanel layout to BoxLayout so cards can be displayed vertically stacked
 
-commit ab2a533dc44923dab39837352256ee0f54261200
+commit 89ce750ceb961e793cea44aef8b403405884db63
 Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Fri Nov 6 21:04:01 2020 -0700
+Date:   Mon Nov 9 14:30:50 2020 -0700
 
-    Wrote computerSuggestionTests and code to ensure tests pass
+    Added CardPanel.java
 
-commit 5721c6cc1d968316448d4c8711d57b91bdfe20b8
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Nov 6 16:06:40 2020 -0700
-
-    Refactored board slightly using SonarLint
-
-commit 809eb41ad0e15eda3201db0aa76b893dd7b38a23
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Nov 6 15:52:04 2020 -0700
-
-    Added comments and refactored
-
-commit 37887471c3a375fec058ab6bab7b387e12b72a1a
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Nov 6 15:47:01 2020 -0700
-
-    Added test for comptuter selecting targets, wrote code to pass tests, code passes
-
-commit 097642b0a76b90f79c948648271603e469a6ad77
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Nov 5 12:37:47 2020 -0700
-
-    Completed coding and testing for testSuggestion, and GameSolutionTest as a whole, moving on to working on ComputerAITest tests
-
-commit eebee35c1c6251c3f06960c37ec23ad31438ce4f
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Tue Nov 3 12:21:52 2020 -0700
-
-    Added and passed tests for testAccusation, testDisprove
-
-commit 82603df15d6a4b769a7f97b499c7c1b2fc8db949
+commit 8cf7dab18a8641030ddbe3cd5ef76b84de526bb0
 Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Mon Nov 2 16:55:37 2020 -0700
+Date:   Mon Nov 9 14:28:52 2020 -0700
 
-    Added tests to check no duplicate cards between player hands, tests pass
+    Separated CardPanel and Game Control Panel into separate classes, returned GameControlPanel to previous state
 
-commit 6376b3e4929d9c89743d7cbc0682c68866743cb2
+commit 44eb28d2d55226b44fa7a28c2003f61aab272273
+Merge: 6d21bcb 79b8bc1
 Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Nov 2 16:18:54 2020 -0700
+Date:   Mon Nov 9 14:08:25 2020 -0700
 
-    Double check push
+    Trying to figure out conflicts
 
-commit 3ba0a416d6f51c366aac3832a40ffee2c0859470
+commit 6d21bcb660f020a8ebc94f181c84e94100fa0747
 Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Nov 2 15:36:21 2020 -0700
+Date:   Mon Nov 9 14:01:02 2020 -0700
 
-    Removed syso code used for debugging
+    slight mod to control panel
 
-commit c07a35c0956affea50074208ce351d76d51a91eb
+commit 5d03141e8de97d21e1071d4bfc67508606f3d291
 Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Nov 2 15:35:28 2020 -0700
+Date:   Mon Nov 9 13:40:25 2020 -0700
 
-    Added code to clear lists to allow for tests to work
+    Save before pull
 
-commit 8e1d586edfc0ed3dd2171a93a45ce49e500ae780
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Nov 2 14:27:16 2020 -0700
-
-    Added code to check if players were present in the setup to allow for previous tests to run
-
-commit 214cf2b1c88c42140c1173a627e70def241a9a94
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Nov 2 14:21:31 2020 -0700
-
-    Tweaked the deal method slightly to keep deck intact
-
-commit 9d46a7dec2ccc189cafad7247e29ca416a63a5a4
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Mon Nov 2 13:56:36 2020 -0700
-
-    Experimenting with getting old tests back working
-
-commit 2cf6be113855d4d1070530407ab93c7304a8e9fa
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Mon Nov 2 13:39:25 2020 -0700
-
-    testPlayers passes
-
-commit 163c6ac0a2ecfb22ff40c4fb507c1e7af6b6d25a
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Mon Nov 2 13:37:59 2020 -0700
-
-    Added tests in testPlayers to check whether players are being declared human or computer correctly
-
-commit b47ae0eee86fdebc883187db30e063204fb92bd3
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Mon Nov 2 13:31:47 2020 -0700
-
-    Added dealing tests, implemented code to shuffle and deal cards to players
-
-commit 0e99fc9c758fe0f167001a0aa9c5815db3c0c0a8
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 22:12:05 2020 -0700
-
-    Added comments, refactored, and moved some methods around to make reading easier
-
-commit 453b4e9863e581034635b9d4d51131ece9582eb1
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 22:05:38 2020 -0700
-
-    Created and passed tests for the solution and the deck state after the solution cards are taken out
-
-commit 02e4edcd58edbb446455f0840e24ec3b104d3a4d
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 21:33:03 2020 -0700
-
-    Changed sets involving cards to lists, feel like they are better
-
-commit 97d23a23ed62640375304f5c8fb101cd187fc384
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 21:28:01 2020 -0700
-
-    Added additional code and tests to make sure we are getting the correct amount of player, room, and weapon cards
-
-commit 162a754ae9286793ec36058c64783ba0798986cb
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 21:06:35 2020 -0700
-
-    Added test for deck size, passes
-
-commit 000e194761100e2b5320a933b4c00b2505c8cb7b
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 17:53:19 2020 -0700
-
-    Added testPlayers test, right now just makes sure there are 6, test succeeds. As of now, there is no difference between human and computer players
-
-commit 11426129c5bc6d52640ee235d8dd38db2c0f963e
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 17:39:23 2020 -0700
-
-    Recommit just to be safe
-
-commit 18d64fe2e3e14d24b5542cb8d4c612d71f44a93c
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 17:38:10 2020 -0700
-
-    Missed this file in previous commit
-
-commit 2a7efb9432424fc41a183b71886ac473692e01a3
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 17:37:26 2020 -0700
-
-    Added code to scanSetupIntoMap to account for setup.txt now having player information, as well as a list of weapons. Created new lists to put that data into. Added deck to be created as well, and created cards for rooms/people/weapons that were added into the deck
-
-commit 3ea289459fa169aabbdfc461766cbe25af849cb8
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Nov 1 16:37:48 2020 -0700
-
-    Created Player, Card, CardType, HumanPlayer, and ComputerPlayer classes
-
-commit 9b1d1b96793ac057410972e3760a5cd6c3f22f9b
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 12:00:36 2020 -0600
-
-    Added code to check if adjacent cell to door is a door as well and if so, add it to adjList. Was not there before
-
-commit dc26cddf2fa1d41c9b17865a39177de1411aafc6
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:53:32 2020 -0600
-
-    Applied isWalkway to doorAdj instead of looking at cell initial to improve readability
-
-commit fe782dd7ab5050098ee5ba2b87208d29ab297689
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:50:43 2020 -0600
-
-    Added isWalkway to BoardCell
-
-commit d4b4efdede84806469b62030ab58870b041e4fec
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:47:07 2020 -0600
-
-    Changed if else blocks in cellSetup to switch statement
-
-commit 08e0cf127dc0a4887bff24c6895b38009d365115
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:42:13 2020 -0600
-
-    Cleaned up walkwayAdj by using variable name for cell in question to make it more readable
-
-commit d4c773849e5b73825d31594f000bd9bb685855d8
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:40:31 2020 -0600
-
-    Cleaned up doorAdj by using variable names for the cell in question to make it more readable
-
-commit da8844523e70f2ac4eb9ad5eb1db8f59fdc01b4e
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:38:36 2020 -0600
-
-    Cleaned up centerRoomAdj by using variable names for cells to make it more readable
-
-commit ab3f359f438585940ba53844bc3405cba4fc1256
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:35:00 2020 -0600
-
-    After feedback, implemented loadConfigFiles instead of calling loadSetupConfig and loadLayoutConfig in initialize
-
-commit 609983b4400aa2a77095f7295442f665270e393f
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 29 11:32:07 2020 -0600
-
-    Save before refactoring
-
-commit 5a2583b553503334d9ca8ef637f8305d9e8ca197
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 16 15:48:16 2020 -0600
-
-    Refactored findAllTargets
-
-commit 2edd3ed9b1b105e2ce36879486541f9e6e9c6e19
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 16 15:43:40 2020 -0600
-
-    All tests pass
-
-commit 8fb017e44c5e83e2e64410f9d08968c607aee085
-Merge: 5cd8db8 be15a42
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 16 15:37:22 2020 -0600
-
-    Tweaking errors in personal tests
-
-commit 5cd8db8137a97e2e544f4f447cb22224d988ae9b
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 16 15:01:01 2020 -0600
-
-    Temp code
-
-commit be15a42eec7b987677304068dad8b5a5cd95d7a7
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Fri Oct 16 14:45:20 2020 -0600
-
-    Returned 306 tests back to normal. Added code to mark rooms as such. All 306 tests now pass
-
-commit 5adcdd834fe48c5a4d1c172d789183303a96d6ff
-Merge: f6d7cb6 67b0411
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Fri Oct 16 14:24:22 2020 -0600
-
-    Edited 306 tests as logic did not make sense
-
-commit f6d7cb68c9e05879248aad951b52279a6874056b
-Author: hcsitki <hcsitki@mymail.mines.edu>
-Date:   Fri Oct 16 13:47:18 2020 -0600
-
-    Added calcTargets and findAllTargets methods, first target test working
-
-commit 67b0411651eba05035b713f7cee17298877ccf54
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Tue Oct 13 12:30:48 2020 -0600
-
-    Added code to create adj lists for every cell and refactored to create methods for getting room adj lists, door adj lists, and walkway adj lists
-
-commit 5c3dbde1b055237f9acbd638cd169403b99936ca
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Oct 12 21:59:37 2020 -0600
-
-    Changed the allocation of roomRows to be when initialize() is called to avoid errors. All tests pass when run together
-
-commit f37809188bf14ad906d3e86c0394fb14aea33e4e
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Oct 12 21:45:24 2020 -0600
-
-    Refactored some methods, added additional comments
-
-commit 033cd5510fb92e924595114d7193e5de1e8f5371
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Oct 12 21:30:43 2020 -0600
-
-    Finished coding for 306 tests and our BoardTestsExp and FileInitTest, passed every test, moving onto refactoring
-
-commit 40d23183d29c636f041a0d3f88f220e9645231d2
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Oct 12 16:37:09 2020 -0600
-
-    Wrote code for loadLayoutConfig, setConfigFiles, and loadSetupConfig to pass ExceptionTests306
-
-commit 5db4ed880aa74fe4d3d30cb184b23ee936f43f26
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 11 15:11:00 2020 -0600
-
-    Created BoardAdjTargetTest and created 7 various tests for movement and adjacency lists for walkways, doors, and rooms. All tests fail. All BoardAdjTargetTest306 tests fail as well
-
-commit ea65e07bf8c7f09ac2a180dec2d3e71a82fd283f
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 9 14:28:26 2020 -0600
-
-    Added small comments
-
-commit 46d3e2ac235b457d114ec74e48853f5c895ae8c6
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 9 14:22:36 2020 -0600
-
-    Finished class stubs for Board, Room, and BoardCell. Ensured FileInitTest306 and ExceptionTest306 failed across the board. Wrote and ensured the failure of FileInitTest which applies to our personal board
-
-commit b9c2827babb35962b5e489e6f161e3c0037d9506
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Fri Oct 9 13:11:08 2020 -0600
-
-    Added data directory, added clueGame package along with Board, BoardCell, DoorDirection, and Room classes
-
-commit e0b6c8d147010935ee3c0d5111171b81bed1d5e5
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Thu Oct 8 14:00:04 2020 -0600
-
-    Added calcTargets code and succeeded in all tests
-
-commit 21e811f59bea9ec9d853d21448e90d4503818a55
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Tue Oct 6 12:20:48 2020 -0600
-
-    Filled out constructors for TestBoardCell and TestBoard, added instance variables to each, created functions and code to fill adjList for each cell. First five tests testing adjacency were successful
-
-commit c07a3bb75139c78b3e14a98b4527c41a8cb7d0f3
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Mon Oct 5 13:35:29 2020 -0600
-
-    Redid classes after stopping by office hours and understood the project better. Made methods stubs and return objects empty. Modified tests to better fit grading standards
-
-commit a8209f6cad4e262493c6b93653e48a21e2275569
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 4 17:55:27 2020 -0600
-
-    Final tests added
-
-commit 3a18425882167d9bbee449e983886bf0f5c2e6ca
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 4 17:21:31 2020 -0600
-
-    Added testOccupied, testRoom, and testMove
-
-commit bb7b0f81bb226fd0575a00a47a76f47eadfdfd92
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 4 17:07:35 2020 -0600
-
-    Added tests for adjacency, and began test for empty board
-
-commit c4f31d2abeae92dd295a7da2d14597c6921c0d27
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 4 16:38:29 2020 -0600
-
-    Fixed bugs with junit, classes now work
-
-commit 9943ce444c5ce52ce9604671089500f920919cd5
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 4 16:19:18 2020 -0600
-
-    Created packages and classes
-
-commit 7949b714d5d7a065b2627a0dd5aba2062199a30b
-Author: JpWeim <jpwalter@mines.edu>
-Date:   Sun Oct 4 16:10:49 2020 -0600
-
-    Initial commit
-
-commit 560fbfb5a9e7cf133363c9d5148c98cdb73b2ba3
-Author: JpWeim <70927525+JpWeim@users.noreply.github.com>
-Date:   Sun Oct 4 16:08:24 2020 -0600
-
-    Initial commit
 commit 79b8bc13036d3bb8808c0d96179000844d6f21d3
 Author: hcsitki <hcsitki@mymail.mines.edu>
 Date:   Mon Nov 9 12:30:08 2020 -0700
