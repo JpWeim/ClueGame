@@ -33,9 +33,9 @@ public class GameControlPanel extends JPanel{
           frame.setVisible(true); // make it visible
 
           
-      //TODO rewrite so don't return panels for guess stuff
+     
           /*
-           * Right now, the methods below return panels. The player info panels
+           * Right now, the guess methods below return panels. The player info panels
            * are combined into one larger panel in its own method, and the guess info
            * panels are combined here. Then, both those panels are added to
            * the panel already in the frame.
