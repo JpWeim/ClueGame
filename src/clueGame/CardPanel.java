@@ -46,54 +46,6 @@ public class CardPanel extends JPanel{
 
 	}
 
-	/**
-	public static void main(String[] args) {
-
-		CardPanel panel = new CardPanel();  // create the panel
-		panel.setLayout(new GridLayout());
-		JFrame frame = new JFrame();  // create the frame
-		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(500, 800);  // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-		/*
-	 * Creates a board in order to get all types of cards easily for testing
-	 *//*
-		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
-		board.initialize();
-		List<Card> players = board.getPlayerCards();
-		List<Card> rooms = board.getRoomCards();
-		List<Card> weapons = board.getWeaponCards();
-
-		/*
-	  * Sets up player and their cards for testing
-	  *//*
-		Player currPlayer = new HumanPlayer("Miss Scarlett", Color.RED, 0, 0);
-		currPlayer.updateHand(players.get(0));
-		currPlayer.addSeenCard(players.get(2));
-		currPlayer.addSeenCard(players.get(4));
-		currPlayer.updateHand(rooms.get(0));
-		currPlayer.addSeenCard(weapons.get(2));
-		currPlayer.addSeenCard(weapons.get(4));
-		currPlayer.addSeenCard(weapons.get(1));
-
-
-		JPanel knownCards = new JPanel();
-		knownCards.setLayout(new BoxLayout(knownCards, BoxLayout.Y_AXIS));
-		knownCards.setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
-		JPanel knownPeople = panel.setCardSection(currPlayer, CardType.PERSON);
-		JPanel knownRooms = panel.setCardSection(currPlayer, CardType.ROOM);
-		JPanel knownWeapons = panel.setCardSection(currPlayer, CardType.WEAPON);
-		knownCards.add(knownPeople);
-		knownCards.add(knownRooms);
-		knownCards.add(knownWeapons);
-
-
-		panel.setLayout(new GridLayout(2,1));
-		panel.add(knownCards, BorderLayout.EAST);
-	}*/
-
 	/*
 	 * Makes a card type section within known cards and populates with cards of that type
 	 * in the player's hand and seen cards.
@@ -122,7 +74,6 @@ public class CardPanel extends JPanel{
 		cardSection.add(handPanel);
 		cardSection.add(seenPanel);
 
-		//this.cardSection = cardSection;
 		return cardSection;
 	}
 
@@ -155,7 +106,6 @@ public class CardPanel extends JPanel{
 		}
 
 		handPanel = inHand;
-		//return inHand;
 	}
 
 
@@ -186,7 +136,6 @@ public class CardPanel extends JPanel{
 		}
 
 		seenPanel = seen;
-		//return seen;
 	}
 
 	public void setCurrPlayer(Player p) {

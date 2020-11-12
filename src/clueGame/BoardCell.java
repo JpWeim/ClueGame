@@ -50,7 +50,7 @@ public class BoardCell {
 		if (hasSecretPassage()) {
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, width, height);
-			g.setColor(Color.GREEN);
+			g.setColor(BROWN);
 			g.fillRect(x, y, width, height);
 		} else if (isRoom()) {
 			g.setColor(Color.LIGHT_GRAY);

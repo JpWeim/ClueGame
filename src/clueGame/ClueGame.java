@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,7 +12,7 @@ public class ClueGame extends JFrame{
 	private static Board board;
 	
 	public ClueGame() {
-		setSize(800,800);
+		setSize(900,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
@@ -27,7 +28,7 @@ public class ClueGame extends JFrame{
 		add(gcp, BorderLayout.SOUTH);
 		
 		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
-		add(cardPanel, BorderLayout.EAST);
+		add(cardPanel, BorderLayout.WEST);
 		
 	}
 	

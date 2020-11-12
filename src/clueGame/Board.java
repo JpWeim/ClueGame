@@ -674,6 +674,13 @@ public class Board extends JPanel{
 		int frameHeight = super.getHeight();
 		int cellWidth = frameWidth/numColumns;
 		int cellHeight = frameHeight/numRows;
+		
+		//Will keep the boardcells square
+		if(cellWidth < cellHeight) {
+			cellHeight = cellWidth;
+		} else if (cellHeight < cellWidth) {
+			cellWidth = cellHeight;
+		}
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
