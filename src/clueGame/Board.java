@@ -644,8 +644,8 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 		int frameWidth = super.getWidth();
 		int frameHeight = super.getHeight();
-		int cellWidth = frameWidth/33;
-		int cellHeight = frameHeight/33;
+		int cellWidth = frameWidth/numColumns;
+		int cellHeight = frameHeight/numRows;
 		
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {

@@ -105,7 +105,7 @@ public class GameControlPanel extends JPanel{
 	   * roll label and result, and two buttons to make an accusation and next turn
 	   */
  
-	public void setTurn(ComputerPlayer currPlayer, int i) {
+	public void setTurn(Player currPlayer, int i) {
 	 
 		player.setText(currPlayer.getName());;
 		player.setEditable(false);
