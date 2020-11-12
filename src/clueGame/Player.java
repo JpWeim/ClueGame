@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,11 +18,14 @@ public abstract class Player {
 	protected List<Card> possibleDisproveCards = new ArrayList<Card>();
 	protected List<Card> seenCards = new ArrayList<Card>();
 	
+	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;
 		this.color = color;
 		this.startRow = startRow;
+		this.row = startRow;
 		this.startCol = startCol;
+		this.col = startCol;
 	}
 	
 	public void updateHand(Card card) {
@@ -50,6 +54,19 @@ public abstract class Player {
 		}
 	}
 	
+	public void draw(int width, int height, Graphics g) {
+		int x = col*width;
+		int y = row*height;
+		System.out.println(width);
+		
+		int a = width/6;
+		int b = height/6;
+		
+		g.setColor(Color.BLACK);
+		g.fillOval(x, y, width, height);
+		g.setColor(color);
+		g.fillOval(x + (a/2), y + (b/2), width - a, height - b);
+	}
 	public void clearHand() {
 		cards.clear();
 	}

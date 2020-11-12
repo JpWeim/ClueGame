@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,6 +47,8 @@ public class Board extends JPanel{
 	private Map<String, Card> roomNameToCardMap;
 	private Solution solution;
 	private static final int TOT_PLAYERS = 6;
+	public static final Color PURPLE = new Color(102,0,153);
+	public static final Color LIGHT_ORANGE = new Color (255,153,0);
 
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
@@ -198,7 +201,7 @@ public class Board extends JPanel{
 	private void createCompAndHumanCard(String line) {
 		String[] playerInfo = line.split(", ");
 		if (playerInfo[3].equalsIgnoreCase("Computer")) {
-			players.add(new ComputerPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+			players.add(new ComputerPlayer(playerInfo[1], convertColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
 			
 			Card card = new Card(playerInfo[1],CardType.PERSON);
 			playersInPlay.add(card);
@@ -206,13 +209,38 @@ public class Board extends JPanel{
 			suggestiblePlayers.add(card);
 		}
 		else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
-			players.add(new HumanPlayer(playerInfo[1], Color.getColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
+			players.add(new HumanPlayer(playerInfo[1], convertColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
 			
 			Card card = new Card(playerInfo[1],CardType.PERSON);
 			playersInPlay.add(card);
 			deck.add(card);
 			suggestiblePlayers.add(card);
 		}
+	}
+	
+	public Color convertColor(String strColor) {
+		Color c = Color.BLACK;
+		switch(strColor) {
+		case "Yellow":
+			c = LIGHT_ORANGE;
+			break;
+		case "Red":
+			c = Color.RED;
+			break;
+		case "White":
+			c = Color.WHITE;
+			break;
+		case "Green":
+			c = Color.GREEN;
+			break;
+		case "Blue":
+			c = Color.BLUE;
+			break;
+		case "Purple":
+			c = PURPLE;
+			break;
+		}
+		return c;
 	}
 
 	/*
@@ -646,11 +674,15 @@ public class Board extends JPanel{
 		int frameHeight = super.getHeight();
 		int cellWidth = frameWidth/numColumns;
 		int cellHeight = frameHeight/numRows;
-		
+
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				grid[i][j].draw(cellWidth, cellHeight, g);
 			}
+		}
+		
+		for(int i = 0; i < players.size(); i++) {
+			players.get(i).draw(cellWidth, cellHeight, g);
 		}
 	}
 /*

@@ -42,72 +42,72 @@ public class BoardCell {
 		return adjList;
 	}
 	
-	public void draw(int width, int height, Graphics o) {
+	public void draw(int width, int height, Graphics g) {
 		int y = row*height;
 		int x = col*width;
 		
 		
 		if (hasSecretPassage()) {
-			o.setColor(Color.BLACK);
-			o.drawRect(x, y, width, height);
-			o.setColor(Color.GREEN);
-			o.fillRect(x, y, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+			g.setColor(Color.GREEN);
+			g.fillRect(x, y, width, height);
 		} else if (isRoom()) {
-			o.setColor(Color.LIGHT_GRAY);
-			o.fillRect(x, y, width, height);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(x, y, width, height);
 			
 			if (isLabel()) {
-				o.setColor(Color.BLACK);
-				o.setFont(new Font("TimesRoman", Font.BOLD, 15));
-				o.drawString(roomName, x, y);
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("TimesRoman", Font.BOLD, 15));
+				g.drawString(roomName, x, y);
 			}
 		}
 		else if (isWalkway()) {
-			o.setColor(Color.BLACK);
-			o.drawRect(x, y, width, height);
-			o.fillRect(x, y, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+			g.fillRect(x, y, width, height);
 			
-			o.setColor(Color.YELLOW);
-			o.drawRect(x+2, y+2, width-2, height-2);
-			o.fillRect(x+2, y+2, width-2, height-2);
+			g.setColor(Color.YELLOW);
+			g.drawRect(x+2, y+2, width-2, height-2);
+			g.fillRect(x+2, y+2, width-2, height-2);
 		} else if (isDoorway()) {
-			o.setColor(Color.BLACK);
-			o.drawRect(x, y, width, height);
-			o.fillRect(x, y, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+			g.fillRect(x, y, width, height);
 			
-			o.setColor(Color.YELLOW);
-			o.drawRect(x+2, y+2, width-2, height-2);
-			o.fillRect(x+2, y+2, width-2, height-2);
+			g.setColor(Color.YELLOW);
+			g.drawRect(x+2, y+2, width-2, height-2);
+			g.fillRect(x+2, y+2, width-2, height-2);
 			
-			o.setColor(BROWN);
+			g.setColor(BROWN);
 			switch (doorDirection) {
 			case LEFT:
-				o.drawLine(x+1, y, x+1, y+height);
-				o.drawLine(x+2, y, x+2, y+height);
-				o.drawLine(x+3, y, x+3, y+height);
+				g.drawLine(x+1, y, x+1, y+height);
+				g.drawLine(x+2, y, x+2, y+height);
+				g.drawLine(x+3, y, x+3, y+height);
 				break;
 			case RIGHT:
-				o.drawLine(x+width-1, y, x+width-1, y+height);
-				o.drawLine(x+width-2, y, x+width-2, y+height);
-				o.drawLine(x+width-3, y, x+width-3, y+height);
+				g.drawLine(x+width-1, y, x+width-1, y+height);
+				g.drawLine(x+width-2, y, x+width-2, y+height);
+				g.drawLine(x+width-3, y, x+width-3, y+height);
 				break;
 			case UP:
-				o.drawLine(x, y+1, x+width, y+1);
-				o.drawLine(x, y+2, x+width, y+2);
-				o.drawLine(x, y+3, x+width, y+3);
+				g.drawLine(x, y+1, x+width, y+1);
+				g.drawLine(x, y+2, x+width, y+2);
+				g.drawLine(x, y+3, x+width, y+3);
 				break;
 			case DOWN:
-				o.drawLine(x, y-1 + height, x+width, y-1+ height);
-				o.drawLine(x, y-2 + height, x+width, y-2+ height);
-				o.drawLine(x, y-3 + height, x+width, y-3+ height);
+				g.drawLine(x, y-1 + height, x+width, y-1+ height);
+				g.drawLine(x, y-2 + height, x+width, y-2+ height);
+				g.drawLine(x, y-3 + height, x+width, y-3+ height);
 				break;
 			}
 		}
 		else {
-			o.setColor(Color.BLACK);
-			o.drawRect(x, y, width, height);
-			o.setColor(Color.BLACK);
-			o.fillRect(x, y, width, height);
+			g.setColor(Color.BLACK);
+			g.drawRect(x, y, width, height);
+			g.setColor(Color.BLACK);
+			g.fillRect(x, y, width, height);
 		}
 
 		
