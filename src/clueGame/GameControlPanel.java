@@ -20,10 +20,52 @@ public class GameControlPanel extends JPanel{
 
 
 	public GameControlPanel() {
+		setLayout(new GridLayout(2,0));
+		JPanel playerInfo = new JPanel();
+	  	playerInfo.setLayout(new GridLayout(1,4));
+	  	JPanel turn = new JPanel();
+		JLabel label = new JLabel("Who's turn?");
+		turn.add(label);
+		turn.add(player);
+		
+		JPanel roll = new JPanel();
+		JLabel rollLabel = new JLabel("Roll:");
+		rollResult.setEditable(false);
+		rollResult.setEditable(false);
+		roll.add(rollLabel);
+		roll.add(rollResult);
+		
+		JButton accuseButton = new JButton("Make Accusation");
+		JButton nextTurn = new JButton("NEXT!");
+		
+		playerInfo.add(turn);
+		playerInfo.add(roll);
+		playerInfo.add(accuseButton);
+		playerInfo.add(nextTurn);
 
+		add(playerInfo, BorderLayout.NORTH);
+		
+		JPanel guess = new JPanel();
+		guess.setLayout(new GridLayout(1,0));
+		guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+		guess.add(playerGuess);
+		playerGuess.setEditable(false);
+
+		JPanel result = new JPanel();
+		result.setLayout(new GridLayout(1,0));
+		result.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
+		result.add(playerGuessResult);
+		playerGuessResult.setEditable(false);
+		
+		JPanel guessInfo = new JPanel();
+      	guessInfo.setLayout(new GridLayout(0,2));
+      	guessInfo.add(guess);
+      	guessInfo.add(result);
+      	
+      	add(guessInfo, BorderLayout.SOUTH);
 	}
 
-	  public static void main(String[] args) {
+	/* public static void main(String[] args) {
           GameControlPanel panel = new GameControlPanel();  // create the panel
           panel.setLayout(new GridLayout(2,0));
           JFrame frame = new JFrame();  // create the frame
@@ -34,83 +76,57 @@ public class GameControlPanel extends JPanel{
 
           
      
-          /*
+          
            * Right now, the guess methods below return panels. The player info panels
            * are combined into one larger panel in its own method, and the guess info
            * panels are combined here. Then, both those panels are added to
            * the panel already in the frame.
-           */
-          panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5);
-          totalGuess(panel, "I have no guess!", "So you have nothing?");
+           
+         // panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5);
+         // totalGuess(panel, "I have no guess!", "So you have nothing?");
     
    }
+*/
 
 	private static void totalGuess(GameControlPanel panel, String guess, String guessResult) {
-		JPanel guessPanel = panel.setGuess(guess);
-		JPanel guessResultPanel = panel.setGuessResult(guessResult);
+		//JPanel guessPanel = panel.setGuess(guess);
+		//JPanel guessResultPanel = panel.setGuessResult(guessResult);
       
-      	JPanel guessInfo = new JPanel();
-      	guessInfo.setLayout(new GridLayout(0,2));
-      	guessInfo.add(guessPanel);
-      	guessInfo.add(guessResultPanel);
+      	//JPanel guessInfo = new JPanel();
+      	//guessInfo.setLayout(new GridLayout(0,2));
+      	//guessInfo.add(guessPanel);
+      	//guessInfo.add(guessResultPanel);
       
-      	panel.setLayout(new GridLayout(2,0));
-      	panel.add(guessInfo, BorderLayout.SOUTH);
+      //	panel.setLayout(new GridLayout(2,0));
+      //	panel.add(guessInfo, BorderLayout.SOUTH);
 }
 	  /*
 	   * Creates a 1x4 panel and adds panels containing current player label and name,
 	   * roll label and result, and two buttons to make an accusation and next turn
 	   */
  
-	private void setTurn(ComputerPlayer currPlayer, int i) {
-	  	JPanel playerInfo = new JPanel();
-	  	playerInfo.setLayout(new GridLayout(1,4));
-
-		JPanel turn = new JPanel();
-		JLabel label = new JLabel("Who's turn?");
+	public void setTurn(ComputerPlayer currPlayer, int i) {
+	 
 		player.setText(currPlayer.getName());;
 		player.setEditable(false);
 		player.setBackground(currPlayer.getColor());
-		turn.add(label);
-		turn.add(player);
-
-		JPanel roll = new JPanel();
-		JLabel rollLabel = new JLabel("Roll:");
+		
 		rollResult.setText(Integer.toString(i));
-		rollResult.setEditable(false);
-		roll.add(rollLabel);
-		roll.add(rollResult);
-
-		JButton accuseButton = new JButton("Make Accusation");
-		JButton nextTurn = new JButton("NEXT!");
-
-		playerInfo.add(turn);
-		playerInfo.add(roll);
-		playerInfo.add(accuseButton);
-		playerInfo.add(nextTurn);
-
-		add(playerInfo, BorderLayout.NORTH);
 	}
-	private JPanel setGuess(String string) {
-		JPanel guess = new JPanel();
-		guess.setLayout(new GridLayout(1,0));
-		guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+	public void setGuess(String string) {
+		//JPanel guess = new JPanel();
+		//guess.setLayout(new GridLayout(1,0));
+		//guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		playerGuess.setText(string);
-		playerGuess.setEditable(false);
-		guess.add(playerGuess);
-
-		return guess;
+		//playerGuess.setEditable(false);
+	
 	}
-	private JPanel setGuessResult(String string) {
-		JPanel result = new JPanel();
-		result.setLayout(new GridLayout(1,0));
-		result.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
+	public void setGuessResult(String string) {
+		//JPanel result = new JPanel();
+		//result.setLayout(new GridLayout(1,0));
+		//result.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		playerGuessResult.setText(string);
 		playerGuessResult.setEditable(false);
-		result.add(playerGuessResult);
 
-		return result;
-	
-	
 	}
 }

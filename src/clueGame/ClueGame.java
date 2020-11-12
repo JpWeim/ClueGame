@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 
@@ -16,6 +17,12 @@ public class ClueGame extends JFrame{
 		board.initialize();
 		
 		add(board, BorderLayout.CENTER);
+		
+		GameControlPanel gcp = new GameControlPanel();
+		gcp.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5); //for testing
+		gcp.setGuess("I have no guess");
+		gcp.setGuessResult("So you have nothing?");
+		add(gcp, BorderLayout.SOUTH);
 	}
 	
 	public static void main(String[] args) {
