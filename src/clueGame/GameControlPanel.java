@@ -110,7 +110,9 @@ public class GameControlPanel extends JPanel{
 	 * 	make suggestion? for computer
 	 * if yes:
 	 * 	display targets
-	 * 	flag unfinished
+	 * 	flag unfinished, need something for this maybe boolean? 
+	 * 
+	 * also need board clicked on in Board
 	 */
 	private class NextListener implements ActionListener{
 		@Override
@@ -139,7 +141,8 @@ public class GameControlPanel extends JPanel{
 					}
 					board.repaint();
 					
-					//for cleanup after the player has chosen a move
+					//for cleanup after the player has chosen a move, might be implemented
+					//in HumanPlayer rather than here maybe? not sure
 					/*for (BoardCell y : targets) {
 						y.setTarget(false);
 					}
