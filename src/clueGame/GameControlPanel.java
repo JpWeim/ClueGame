@@ -2,7 +2,12 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,16 +17,19 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel{
-
+	private Board board;
 	private JTextField player = new JTextField();
 	private JTextField rollResult = new JTextField();
 	private JTextField playerGuess = new JTextField();
 	private JTextField playerGuessResult = new JTextField();
+	private JButton accuseButton = new JButton("Make Accusation");
+	private JButton nextTurn= new JButton("NEXT!");
+	private JPanel playerInfo = new JPanel();
 
-
-	public GameControlPanel() {
+	public GameControlPanel(Board board) {
+		this.board = board;
 		setLayout(new GridLayout(2,0));
-		JPanel playerInfo = new JPanel();
+		
 	  	playerInfo.setLayout(new GridLayout(1,4));
 	  	JPanel turn = new JPanel();
 		JLabel label = new JLabel("Who's turn?");
@@ -35,13 +43,15 @@ public class GameControlPanel extends JPanel{
 		roll.add(rollLabel);
 		roll.add(rollResult);
 		
-		JButton accuseButton = new JButton("Make Accusation");
-		JButton nextTurn = new JButton("NEXT!");
 		
+		NextListener next = new NextListener();
+		nextTurn.addActionListener(next);
+      	
 		playerInfo.add(turn);
 		playerInfo.add(roll);
 		playerInfo.add(accuseButton);
 		playerInfo.add(nextTurn);
+		
 
 		add(playerInfo, BorderLayout.NORTH);
 		
@@ -63,6 +73,8 @@ public class GameControlPanel extends JPanel{
       	guessInfo.add(result);
       	
       	add(guessInfo, BorderLayout.SOUTH);
+      	
+      	
 	}
 
 	  /*
@@ -86,5 +98,29 @@ public class GameControlPanel extends JPanel{
 		playerGuessResult.setText(string);
 		playerGuessResult.setEditable(false);
 
+	}
+	
+	private class NextListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+				//if (board.getCurrentPlayer().getIsHuman()){
+					board.nextPlayer();
+					int roll = roll();
+					Player currentPlayer = board.getCurrentPlayer();
+					setTurn(currentPlayer, roll);
+					
+					
+				//}
+				//else {
+					//System.out.println("Error");
+				//}
+				playerInfo.revalidate();
+		}
+		
+	}
+	public int roll() {
+		Random r = new Random();
+		int roll = r.nextInt(6) + 1;
+		return roll;
 	}
 }

@@ -49,7 +49,10 @@ public class Board extends JPanel{
 	private static final int TOT_PLAYERS = 6;
 	public static final Color PURPLE = new Color(102,0,153);
 	public static final Color LIGHT_ORANGE = new Color (255,153,0);
-
+	private int currentPlayer = 0;
+	private int cellWidth;
+	private int cellHeight;
+	
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
 	private Board() {
@@ -672,8 +675,8 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 		int frameWidth = super.getWidth();
 		int frameHeight = super.getHeight();
-		int cellWidth = frameWidth/numColumns;
-		int cellHeight = frameHeight/numRows;
+		cellWidth = frameWidth/numColumns;
+		cellHeight = frameHeight/numRows;
 		
 		//Will keep the boardcells square
 		if(cellWidth < cellHeight) {
@@ -776,6 +779,19 @@ public class Board extends JPanel{
 
 	public Set<BoardCell> getAdjList(int i, int j) {
 		return (getCell(i,j).adjList);
+	}
+	public Player getCurrentPlayer() {
+		return players.get(currentPlayer);
+	}
+	public void nextPlayer() {
+		currentPlayer += 1;
+		currentPlayer = currentPlayer % 6;
+	}
+	public int getCellWidth() {
+		return cellWidth;
+	}
+	public int getCellHeight() {
+		return cellHeight;
 	}
 	
 }

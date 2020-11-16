@@ -210,7 +210,13 @@ public class BoardCell {
 	
 	public void setRoomName(String name) {
 		roomName = name;
-	};
+	}
+	public int getRow() {
+		return row;
+	}
+	public int getCol() {
+		return col;
+	}
 }
 
 

@@ -17,7 +17,7 @@ public class ClueGame extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JOptionPane.showMessageDialog(null, "You are Miss Scarlett. Can you find the solution before"
-				+ "the computer players?");
+				+ " the computer players?");
 		
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
@@ -25,11 +25,11 @@ public class ClueGame extends JFrame{
 		
 		add(board, BorderLayout.CENTER);
 		
-		GameControlPanel gcp = new GameControlPanel();
+		GameControlPanel gcp = new GameControlPanel(board);
 		
-		gcp.setTurn(new ComputerPlayer( "Col. Mustard", Color.YELLOW, 0, 0), 5); //for testing
-		gcp.setGuess("I have no guess");
-		gcp.setGuessResult("So you have nothing?");
+		gcp.setTurn(board.getCurrentPlayer(), gcp.roll()); //for testing
+		gcp.setGuess("");
+		gcp.setGuessResult("");
 		add(gcp, BorderLayout.SOUTH);
 		
 		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
