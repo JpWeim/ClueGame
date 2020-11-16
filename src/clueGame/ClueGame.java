@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClueGame extends JFrame{
@@ -14,6 +15,10 @@ public class ClueGame extends JFrame{
 	public ClueGame() {
 		setSize(900,900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JOptionPane.showMessageDialog(null, "You are Miss Scarlett. Can you find the solution before"
+				+ "the computer players?");
+		
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();

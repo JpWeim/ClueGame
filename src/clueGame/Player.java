@@ -57,7 +57,7 @@ public abstract class Player {
 	public void draw(int width, int height, Graphics g) {
 		int x = col*width;
 		int y = row*height;
-		System.out.println(width);
+		//System.out.println(width);
 		
 		int a = width/6;
 		int b = height/6;
