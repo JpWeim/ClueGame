@@ -26,6 +26,7 @@ public class GameControlPanel extends JPanel{
 	private JButton accuseButton = new JButton("Make Accusation");
 	private JButton nextTurn= new JButton("NEXT!");
 	private JPanel playerInfo = new JPanel();
+	private boolean humanFinished = false;
 
 	public GameControlPanel(Board board) {
 		this.board = board;

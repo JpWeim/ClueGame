@@ -60,7 +60,12 @@ public class BoardCell {
 			}
 			g.fillRect(x, y, width, height);
 		} else if (isRoom()) {
-			g.setColor(Color.LIGHT_GRAY);
+			if (target == true) {
+				g.setColor(Color.GREEN);
+			}
+			else{
+				g.setColor(Color.LIGHT_GRAY);
+			}
 			g.fillRect(x, y, width, height);
 			
 			if (isLabel()) {
@@ -87,7 +92,12 @@ public class BoardCell {
 			g.drawRect(x, y, width, height);
 			g.fillRect(x, y, width, height);
 			
-			g.setColor(Color.YELLOW);
+			if (target == true) {
+				g.setColor(Color.GREEN);
+			}
+			else{
+				g.setColor(Color.YELLOW);
+			}
 			g.drawRect(x+2, y+2, width-2, height-2);
 			g.fillRect(x+2, y+2, width-2, height-2);
 			
