@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class CardPanel extends JPanel{
 		this.currPlayer = currPlayer;
 		setLayout(new GridLayout(1,1));
 		JPanel knownCards = new JPanel();
+		setPreferredSize(new Dimension(150,0));
 		knownCards.setLayout(new BoxLayout(knownCards, BoxLayout.Y_AXIS));
 		knownCards.setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		JPanel knownPeople = new JPanel();

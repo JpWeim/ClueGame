@@ -20,11 +20,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
 
-public class Board extends JPanel{
+public class Board extends JPanel implements MouseListener{
 	private BoardCell[][] grid;
 	ArrayList<String[]> roomRows;
 	private Set<BoardCell> targets;
@@ -39,10 +43,8 @@ public class Board extends JPanel{
 	private List<Card> roomsInPlay = new ArrayList<>();
 	private List<Card> weaponsInPlay = new ArrayList<>();
 	private List<Card> playersInPlay = new ArrayList<>();
-	private static int numColumns;
-	private static int numRows;
-	private String layoutConfigFile;
-	private String setupConfigFile;
+	private static int numColumns, numRows, totalCells;
+	private String layoutConfigFile, setupConfigFile;
 	private Map<Character, Room> roomMap;
 	private Map<String, Card> roomNameToCardMap;
 	private Solution solution;
@@ -52,7 +54,7 @@ public class Board extends JPanel{
 	private int currentPlayer = 0;
 	private int cellWidth;
 	private int cellHeight;
-	
+
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
 	private Board() {
@@ -64,12 +66,12 @@ public class Board extends JPanel{
 		return theInstance;
 	}
 
-	
-/*
- * *************************************************************************************************************************************************
- * Initialize methods
- * *************************************************************************************************************************************************
- */
+
+	/*
+	 * *************************************************************************************************************************************************
+	 * Initialize methods
+	 * *************************************************************************************************************************************************
+	 */
 
 	/*
 	 * Calls loadSetupConfig and loadLayoutConfig with try/catch
@@ -88,7 +90,7 @@ public class Board extends JPanel{
 			deal();
 		}
 	}
-	
+
 	/*
 	 * Calls loadSetupConfig and loadLayoutConfig
 	 */
@@ -111,7 +113,7 @@ public class Board extends JPanel{
 			System.err.println("Error: bad config format");
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 
@@ -128,7 +130,7 @@ public class Board extends JPanel{
 		}
 
 	}
-	
+
 	/*
 	 * Sets variables to file names, needed to add "data/"
 	 * for the program to find the correct path 
@@ -181,7 +183,7 @@ public class Board extends JPanel{
 		room.setName(roomInfo[1]);
 		Character letter = roomInfo[2].charAt(0);
 		roomMap.put(letter, room); 
-		
+
 		if (letter != 'W' && letter != 'X') {
 			Card card = new Card(roomInfo[1],CardType.ROOM);
 			roomsInPlay.add(card);
@@ -190,22 +192,22 @@ public class Board extends JPanel{
 			roomNameToCardMap.put(room.getName(), card);
 		}
 	}
-	
+
 	private void createWeaponCard(String line) {
 		String[] weapon = line.split(", ");
 		weapons.add(weapon[1]);
-		
+
 		Card card = new Card(weapon[1],CardType.WEAPON);
 		weaponsInPlay.add(card);
 		deck.add(card);
 		suggestibleWeapons.add(card);
 	}
-	
+
 	private void createCompAndHumanCard(String line) {
 		String[] playerInfo = line.split(", ");
 		if (playerInfo[3].equalsIgnoreCase("Computer")) {
 			players.add(new ComputerPlayer(playerInfo[1], convertColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
-			
+
 			Card card = new Card(playerInfo[1],CardType.PERSON);
 			playersInPlay.add(card);
 			deck.add(card);
@@ -213,14 +215,14 @@ public class Board extends JPanel{
 		}
 		else if (playerInfo[3].equalsIgnoreCase("Human")) {	//No difference right now between human and computer
 			players.add(new HumanPlayer(playerInfo[1], convertColor(playerInfo[2]), Integer.parseInt(playerInfo[4]), Integer.parseInt(playerInfo[5])));
-			
+
 			Card card = new Card(playerInfo[1],CardType.PERSON);
 			playersInPlay.add(card);
 			deck.add(card);
 			suggestiblePlayers.add(card);
 		}
 	}
-	
+
 	public Color convertColor(String strColor) {
 		Color c = Color.BLACK;
 		switch(strColor) {
@@ -279,6 +281,7 @@ public class Board extends JPanel{
 		numRows = roomRows.size();
 
 		grid = new BoardCell[numRows][numColumns];
+		totalCells = numRows * numColumns;
 		cellSetup();
 
 		for (int i = 0; i < numRows; i++) {
@@ -290,19 +293,19 @@ public class Board extends JPanel{
 		}
 	}
 
-	
-/*
- * *************************************************************************************************************************************************
- * Adjacent methods
- * *************************************************************************************************************************************************
- */
+
+	/*
+	 * *************************************************************************************************************************************************
+	 * Adjacent methods
+	 * *************************************************************************************************************************************************
+	 */
 	/*
 	 * Loops through board adding secret passage (if applicable) and doorways to 
 	 * the center room adj list
 	 */
 	private void centerRoomAdj(int i, int j) {
 		BoardCell centerCell = getCell(i,j);
-		
+
 		if (centerCell.isRoomCenter()) {
 			for(int k = 0; k < numRows; k++) {
 				for(int l = 0; l < numColumns; l++) {
@@ -345,15 +348,15 @@ public class Board extends JPanel{
 			}
 		}
 	}
-	
+
 	/*
 	 * Adds cells around doorway
 	 * Makes sure the cell being added is also a walkway or doorway
 	 */
-	
+
 	private void doorAdj(int i, int j) {
 		BoardCell doorCell = getCell(i,j);
-		
+
 		if (doorCell.isDoorway()) {
 			if (doorCell.getDoorDirection() == DoorDirection.UP) {
 				doorCell.addAdj(roomMap.get(getCell(i-1,j).getInitial()).getCenterCell());
@@ -420,14 +423,14 @@ public class Board extends JPanel{
 			}
 		}
 	}
-	
+
 	/*
 	 * Added cells around a walkway cell to its adjacency list, making sure
 	 * they are walkways
 	 */
 	private void walkwayAjd(int i, int j) {
 		BoardCell walkwayCell = getCell(i,j);
-		
+
 		if (walkwayCell.isWalkway()) {
 			if(i-1 >= 0) {
 				if (getCell(i-1, j).getInitial() != 'X' && getCell(i-1,j).getInitial() == 'W') {
@@ -453,12 +456,12 @@ public class Board extends JPanel{
 		}
 	}
 
-	
-/*
- * *************************************************************************************************************************************************
- * Cell methods
- * *************************************************************************************************************************************************
- */
+
+	/*
+	 * *************************************************************************************************************************************************
+	 * Cell methods
+	 * *************************************************************************************************************************************************
+	 */
 	/*
 	 * Two for loops to iterate through the 2d board. Sets the cell's initial, checks to see
 	 * if the cell is a door, a center cell, a label cell, or a secret passageway, and assigns
@@ -472,7 +475,7 @@ public class Board extends JPanel{
 				String cellIcon = roomRows.get(i)[j];
 				cell.setInitial(cellIcon.charAt(0));
 				if (cellIcon.length() == 2) {
-					
+
 					switch(cellIcon.charAt(1)) {
 					case '<':
 						cell.setDoorway(true);
@@ -503,7 +506,7 @@ public class Board extends JPanel{
 						cell.setSecretPassage(cellIcon.charAt(1));
 						cell.setHasSecretPassage(true);
 					}
-					
+
 				}
 				if (!(cellIcon.contains("W")) && !(cellIcon.contains("X"))) {
 					cell.setIsRoom(true);
@@ -511,7 +514,7 @@ public class Board extends JPanel{
 				if (cellIcon.contains("W") && cellIcon.length() == 1) {
 					cell.setIsWalkway(true);
 				}
-			
+
 				grid[i][j] = cell;
 			}
 		}
@@ -538,12 +541,12 @@ public class Board extends JPanel{
 
 
 
-	
-/*
- * *************************************************************************************************************************************************
- * Target methods
- * *************************************************************************************************************************************************
- */
+
+	/*
+	 * *************************************************************************************************************************************************
+	 * Target methods
+	 * *************************************************************************************************************************************************
+	 */
 	/*
 	 * Sets up for recursive findAllTargets
 	 * Instantiates the sets and adds the starting cell
@@ -556,10 +559,10 @@ public class Board extends JPanel{
 		visited.add(startCell);
 		findAllTargets(startCell, pathLength);
 	}
-	
+
 	/*
-	* Iterates through every adjacent cell to the current cell
-	* */
+	 * Iterates through every adjacent cell to the current cell
+	 * */
 	private void findAllTargets(BoardCell startCell, int pathLength) {
 		for(BoardCell adjCell : startCell.getAdjList()) {
 			addCorrectCells(pathLength, adjCell);
@@ -586,28 +589,29 @@ public class Board extends JPanel{
 		else if (adjCell.getOccupied()) {
 		}
 		else {
-		visited.add(adjCell);
-		if(pathLength == 1) {
-			targets.add(adjCell);
-		} 
-		else {
-			findAllTargets(adjCell, pathLength-1);
-		}
-		visited.remove(adjCell);
+			visited.add(adjCell);
+			if(pathLength == 1) {
+				targets.add(adjCell);
+
+			} 
+			else {
+				findAllTargets(adjCell, pathLength-1);
+			}
+			visited.remove(adjCell);
 		}
 	}
-	
-/*
- * *************************************************************************************************************************************************
- * Card methods
- * *************************************************************************************************************************************************
- */
+
+	/*
+	 * *************************************************************************************************************************************************
+	 * Card methods
+	 * *************************************************************************************************************************************************
+	 */
 	public void deal() {
 		pickSolutionCards();
-		
+
 		shuffledDeck = new ArrayList<>(deck);
 		Collections.shuffle(shuffledDeck);
-		
+
 		int totalCards = shuffledDeck.size();
 		for (int i = 0; i < totalCards; i++) {
 			Player currPlayer = players.get(i%TOT_PLAYERS);
@@ -616,7 +620,7 @@ public class Board extends JPanel{
 			shuffledDeck.remove(nextCard);
 		}
 
-		
+
 	}
 
 	/*
@@ -630,7 +634,7 @@ public class Board extends JPanel{
 		int weaponCard = rand.nextInt(weaponsInPlay.size());
 
 		solution = new Solution(playersInPlay.get(playerCard), roomsInPlay.get(roomCard), weaponsInPlay.get(weaponCard));
-		
+
 		deck.remove(playersInPlay.get(playerCard));
 		playersInPlay.remove(playerCard);
 
@@ -641,11 +645,11 @@ public class Board extends JPanel{
 		weaponsInPlay.remove(weaponCard);
 	}
 
-/*
- * *************************************************************************************************************************************************
- * Player methods
- * *************************************************************************************************************************************************
- */
+	/*
+	 * *************************************************************************************************************************************************
+	 * Player methods
+	 * *************************************************************************************************************************************************
+	 */
 	public boolean checkAccusation(Card person, Card room, Card weapon) {
 		if (solution.getPerson().equals(person) && solution.getRoom().equals(room) && solution.getWeapon().equals(weapon)) {
 			return true;
@@ -654,14 +658,14 @@ public class Board extends JPanel{
 			return false;
 		}
 	}
-	
+
 	public Card handleSuggestion(Player suggestor, Card person, Card room, Card weapon) {
 		int start = players.indexOf(suggestor);
-		
+
 		for (int i = start +1; i < players.size() - 1 + start; i++) {
 			Player currentPlayer = players.get(i%players.size());
 			if (currentPlayer.disproveSuggestion(person, room, weapon) == null) {
-				
+
 			}
 			else {
 				return currentPlayer.disproveSuggestion(person, room, weapon);
@@ -669,7 +673,7 @@ public class Board extends JPanel{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -677,37 +681,91 @@ public class Board extends JPanel{
 		int frameHeight = super.getHeight();
 		cellWidth = frameWidth/numColumns;
 		cellHeight = frameHeight/numRows;
-		
+
 		//Will keep the boardcells square
 		if(cellWidth < cellHeight) {
 			cellHeight = cellWidth;
 		} else if (cellHeight < cellWidth) {
 			cellWidth = cellHeight;
 		}
+		
 
+		// Draw the Board squares
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				grid[i][j].draw(cellWidth, cellHeight, g);
 			}
 		}
-		
+
+		// Draw the Players
 		for(int i = 0; i < players.size(); i++) {
 			players.get(i).draw(cellWidth, cellHeight, g);
 		}
 	}
-/*
- * *************************************************************************************************************************************************
- * Getters and setters 
- * *************************************************************************************************************************************************
- */
+
+	/*
+	 * Mouse event listeners
+	 */
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		BoardCell selectedTarget = null;
+		
+		//testing variables
+		int tempX = 0;
+		int tempY = 0;
+		
+		for (int i=0; i<numRows; i++) {
+			for(int j=0; j<numColumns; j++) {
+				
+				//testing varibales
+				tempX = i*numRows;
+				tempY = j*numColumns;
+				
+				//Can get correct row and column, still can't recognize if a cell is actually a 
+				// target or not
+				if (grid[i][j].containsClick(e.getX(), e.getY()) /*&& grid[i][j].isTarget()*/) {
+					selectedTarget = grid[i][j];
+					
+					//System.out.println(grid[i][j].getRow() + " " + grid[i][j].getCol() + " " + grid[i][j].isWalkway());
+					break;
+				}
+			}
+		}
+
+		if(selectedTarget != null) {
+			System.out.println("Yay");
+		} else {
+			System.out.println(tempX + " " + tempY);
+		}
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	/*
+	 * *************************************************************************************************************************************************
+	 * Getters and setters 
+	 * *************************************************************************************************************************************************
+	 */
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-	
+
 	public List<Player> getPlayers(){
 		return players;
 	}
-	
+
 	public List<Card> getDeck() {
 		return deck;
 	}
@@ -733,7 +791,7 @@ public class Board extends JPanel{
 	public List<Card> getSuggestibleRoomCards(){
 		return suggestibleRooms;
 	}
-	
+
 	public void addSuggestiblePlayer(Card c){
 		suggestiblePlayers.add(c);
 	}
@@ -743,7 +801,7 @@ public class Board extends JPanel{
 	public void addSuggestibleWeapon(Card c){
 		suggestibleWeapons.add(c);
 	}
-	
+
 	public void clearSuggestionsForTesting() {
 		suggestiblePlayers.clear();
 		suggestibleWeapons.clear();
@@ -767,7 +825,7 @@ public class Board extends JPanel{
 	public Card getCardFromRoom(String n) {
 		return roomNameToCardMap.get(n);
 	}
-	
+
 	public Room getRoom(char c) {
 		return roomMap.get(c);
 	}
@@ -794,4 +852,7 @@ public class Board extends JPanel{
 		return cellHeight;
 	}
 	
+	
+	
+
 }

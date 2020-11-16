@@ -9,6 +9,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +18,7 @@ import java.util.Set;
 public class BoardCell {
 	Set<BoardCell> adjList = new HashSet<BoardCell>();
 	private boolean isRoom, isOccupied, isDoorway, isWalkway;
-	private int row, col;
+	private int row, col, x, y, width, height;
 	private char initial;
 	private DoorDirection doorDirection;
 	private boolean roomLabel;
@@ -43,11 +45,29 @@ public class BoardCell {
 		return adjList;
 	}
 	
+	public boolean containsClick(int mouseX, int mouseY) {
+		int col1 = mouseX/width;
+		int row1 = mouseY/height -1;
+		//System.out.println(row1 + " " + col1);
+		
+		x = col1*width;
+		y = row1*height + height;
+		//System.out.println(x + " " + y);
+		Rectangle rect = new Rectangle(x, y, width, height);
+	
+		//if(!target) return false;
+		System.out.println(rect);
+		System.out.println(new Point(mouseX, mouseY));
+		System.out.println(rect.contains(new Point(mouseX, mouseY)));
+		return rect.contains(new Point(mouseX, mouseY));
+	}
+	
 	public void draw(int width, int height, Graphics g) {
-		int y = row*height;
-		int x = col*width;
 		
-		
+		this.width = width;
+		this.height = height;
+		x = col*width;
+		y = row*height;
 		
 		if (hasSecretPassage()) {
 			g.setColor(Color.BLACK);
@@ -241,6 +261,10 @@ public class BoardCell {
 	}
 	public void setTarget(boolean t) {
 		target = t;
+	}
+	
+	public boolean isTarget() {
+		return target;
 	}
 }
 

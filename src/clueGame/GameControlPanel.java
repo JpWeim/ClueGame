@@ -31,32 +31,32 @@ public class GameControlPanel extends JPanel{
 	public GameControlPanel(Board board) {
 		this.board = board;
 		setLayout(new GridLayout(2,0));
-		
-	  	playerInfo.setLayout(new GridLayout(1,4));
-	  	JPanel turn = new JPanel();
+
+		playerInfo.setLayout(new GridLayout(1,4));
+		JPanel turn = new JPanel();
 		JLabel label = new JLabel("Who's turn?");
 		turn.add(label);
 		turn.add(player);
-		
+
 		JPanel roll = new JPanel();
 		JLabel rollLabel = new JLabel("Roll:");
 		rollResult.setEditable(false);
 		rollResult.setEditable(false);
 		roll.add(rollLabel);
 		roll.add(rollResult);
-		
-		
+
+
 		NextListener next = new NextListener();
 		nextTurn.addActionListener(next);
-      	
+
 		playerInfo.add(turn);
 		playerInfo.add(roll);
 		playerInfo.add(accuseButton);
 		playerInfo.add(nextTurn);
-		
+
 
 		add(playerInfo, BorderLayout.NORTH);
-		
+
 		JPanel guess = new JPanel();
 		guess.setLayout(new GridLayout(1,0));
 		guess.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
@@ -68,40 +68,40 @@ public class GameControlPanel extends JPanel{
 		result.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		result.add(playerGuessResult);
 		playerGuessResult.setEditable(false);
-		
+
 		JPanel guessInfo = new JPanel();
-      	guessInfo.setLayout(new GridLayout(0,2));
-      	guessInfo.add(guess);
-      	guessInfo.add(result);
-      	
-      	add(guessInfo, BorderLayout.SOUTH);
-      	
-      	
+		guessInfo.setLayout(new GridLayout(0,2));
+		guessInfo.add(guess);
+		guessInfo.add(result);
+
+		add(guessInfo, BorderLayout.SOUTH);
+
+
 	}
 
-	  /*
-	   * Creates a 1x4 panel and adds panels containing current player label and name,
-	   * roll label and result, and two buttons to make an accusation and next turn
-	   */
- 
+	/*
+	 * Creates a 1x4 panel and adds panels containing current player label and name,
+	 * roll label and result, and two buttons to make an accusation and next turn
+	 */
+
 	public void setTurn(Player currPlayer, int i) {
-	 
+
 		player.setText(currPlayer.getName());;
 		player.setEditable(false);
 		player.setBackground(currPlayer.getColor());
-		
+
 		rollResult.setText(Integer.toString(i));
 	}
 	public void setGuess(String string) {
 		playerGuess.setText(string);
-		
+
 	}
 	public void setGuessResult(String string) {
 		playerGuessResult.setText(string);
 		playerGuessResult.setEditable(false);
 
 	}
-	
+
 	/*TODO: 
 	 * implement current human player finished y/n
 	 * is new player human? y/n
@@ -117,42 +117,41 @@ public class GameControlPanel extends JPanel{
 	private class NextListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-				board.nextPlayer();
-				int roll = roll();
-				Player currentPlayer = board.getCurrentPlayer();
-				setTurn(currentPlayer, roll);
-				BoardCell currentCell = board.getCell(currentPlayer.getRow(), currentPlayer.getColumn());
-				board.calcTargets(currentCell, roll);
-				
-				if (!currentPlayer.getIsHuman()) {
-					
-					
-					//computer chooses to move
-					BoardCell target = currentPlayer.selectTargets();
-					currentPlayer.setRow(target.getRow());
-					currentPlayer.setColumn(target.getCol());
-					
-					board.repaint();
+			board.nextPlayer();
+			int roll = roll();
+			Player currentPlayer = board.getCurrentPlayer();
+			setTurn(currentPlayer, roll);
+			BoardCell currentCell = board.getCell(currentPlayer.getRow(), currentPlayer.getColumn());
+			board.calcTargets(currentCell, roll);
+
+			if (!currentPlayer.getIsHuman()) {
+
+
+				//computer chooses to move
+				BoardCell target = currentPlayer.selectTargets();
+				currentPlayer.setRow(target.getRow());
+				currentPlayer.setColumn(target.getCol());
+
+				board.repaint();
+			} else {
+				Set<BoardCell> targets = board.getTargets();
+				for (BoardCell x : targets) {
+					x.setTarget(true);
 				}
-				else {
-					Set<BoardCell> targets = board.getTargets();
-					for (BoardCell x : targets) {
-						x.setTarget(true);
-					}
-					board.repaint();
-					
-					//for cleanup after the player has chosen a move, might be implemented
-					//in HumanPlayer rather than here maybe? not sure
-					/*for (BoardCell y : targets) {
+				board.repaint();
+
+				//for cleanup after the player has chosen a move, might be implemented
+				//in HumanPlayer rather than here maybe? not sure
+				/*for (BoardCell y : targets) {
 						y.setTarget(false);
 					}
 					board.repaint();
-					*/
-				}
-				
-				playerInfo.revalidate();
+				 */
+			}
+
+			playerInfo.revalidate();
 		}
-		
+
 	}
 	public int roll() {
 		Random r = new Random();

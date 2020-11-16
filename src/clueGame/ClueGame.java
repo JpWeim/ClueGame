@@ -22,7 +22,7 @@ public class ClueGame extends JFrame{
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();
-		
+		addMouseListener(board);
 		add(board, BorderLayout.CENTER);
 		
 		GameControlPanel gcp = new GameControlPanel(board);
@@ -33,7 +33,7 @@ public class ClueGame extends JFrame{
 		add(gcp, BorderLayout.SOUTH);
 		
 		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
-		add(cardPanel, BorderLayout.WEST);
+		add(cardPanel, BorderLayout.EAST);
 		
 	}
 	
