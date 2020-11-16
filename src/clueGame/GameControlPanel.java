@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -100,20 +101,51 @@ public class GameControlPanel extends JPanel{
 
 	}
 	
+	/*TODO: 
+	 * implement current human player finished y/n
+	 * is new player human? y/n
+	 * if no:
+	 * 	do accusation? for computer
+	 * 	make suggestion? for computer
+	 * if yes:
+	 * 	display targets
+	 * 	flag unfinished
+	 */
 	private class NextListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-				//if (board.getCurrentPlayer().getIsHuman()){
-					board.nextPlayer();
-					int roll = roll();
-					Player currentPlayer = board.getCurrentPlayer();
-					setTurn(currentPlayer, roll);
+				board.nextPlayer();
+				int roll = roll();
+				Player currentPlayer = board.getCurrentPlayer();
+				setTurn(currentPlayer, roll);
+				BoardCell currentCell = board.getCell(currentPlayer.getRow(), currentPlayer.getColumn());
+				board.calcTargets(currentCell, roll);
+				
+				if (!currentPlayer.getIsHuman()) {
 					
 					
-				//}
-				//else {
-					//System.out.println("Error");
-				//}
+					//computer chooses to move
+					BoardCell target = currentPlayer.selectTargets();
+					currentPlayer.setRow(target.getRow());
+					currentPlayer.setColumn(target.getCol());
+					
+					board.repaint();
+				}
+				else {
+					Set<BoardCell> targets = board.getTargets();
+					for (BoardCell x : targets) {
+						x.setTarget(true);
+					}
+					board.repaint();
+					
+					//for cleanup after the player has chosen a move
+					/*for (BoardCell y : targets) {
+						y.setTarget(false);
+					}
+					board.repaint();
+					*/
+				}
+				
 				playerInfo.revalidate();
 		}
 		

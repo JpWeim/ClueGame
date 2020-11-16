@@ -5,6 +5,7 @@ import java.util.function.BooleanSupplier;
 
 public class HumanPlayer extends Player{
 	private boolean isHuman = true;
+	private boolean isFinished;
 
 	public HumanPlayer(String name, Color color, int startRow, int startCol) {
 		super(name, color, startRow, startCol);

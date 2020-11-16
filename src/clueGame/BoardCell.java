@@ -24,6 +24,7 @@ public class BoardCell {
 	private char secretPassage;
 	private boolean hasPassage;
 	private String roomName;
+	private boolean target = false;
 	
 	public static final Color BROWN = new Color(102,51,0);
 
@@ -47,10 +48,16 @@ public class BoardCell {
 		int x = col*width;
 		
 		
+		
 		if (hasSecretPassage()) {
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, width, height);
-			g.setColor(BROWN);
+			if (target == true) {
+				g.setColor(Color.GREEN);
+			}
+			else{
+				g.setColor(BROWN);
+			}
 			g.fillRect(x, y, width, height);
 		} else if (isRoom()) {
 			g.setColor(Color.LIGHT_GRAY);
@@ -67,7 +74,12 @@ public class BoardCell {
 			g.drawRect(x, y, width, height);
 			g.fillRect(x, y, width, height);
 			
-			g.setColor(Color.YELLOW);
+			if (target == true) {
+				g.setColor(Color.GREEN);
+			}
+			else{
+				g.setColor(Color.YELLOW);
+			}
 			g.drawRect(x+2, y+2, width-2, height-2);
 			g.fillRect(x+2, y+2, width-2, height-2);
 		} else if (isDoorway()) {
@@ -216,6 +228,9 @@ public class BoardCell {
 	}
 	public int getCol() {
 		return col;
+	}
+	public void setTarget(boolean t) {
+		target = t;
 	}
 }
 
