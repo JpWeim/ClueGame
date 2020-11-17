@@ -46,22 +46,41 @@ public class BoardCell {
 	}
 	
 	public boolean containsClick(int mouseX, int mouseY) {
+		
 		int col1 = mouseX/width;
 		int row1 = mouseY/height -1;
+		
 		//System.out.println(row1 + " " + col1);
 		
+		if (col1 == col && row1 == row) {
+			System.out.println("True");
+			return true;
+		} else {
+			System.out.println("False");
+			return false;
+		}
+		
+		
+		
+		/*
 		x = col1*width;
 		y = row1*height + height;
-		//System.out.println(x + " " + y);
-		Rectangle rect = new Rectangle(x, y, width, height);
+		//Rectangle rect = new Rectangle(x, y, width, height);
 	
-		//if(!target) return false;
-		System.out.println(rect);
-		System.out.println(new Point(mouseX, mouseY));
-		System.out.println(rect.contains(new Point(mouseX, mouseY)));
-		return rect.contains(new Point(mouseX, mouseY));
+		if(mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
+			return true;
+		} else {
+			return false;
+		}
+		*/
+		//return rect.contains(new Point(mouseX, mouseY));
 	}
 	
+	@Override
+	public String toString() {
+		return"(" + getRow() + ", " + getCol() + ")";
+	}
+
 	public void draw(int width, int height, Graphics g) {
 		
 		this.width = width;

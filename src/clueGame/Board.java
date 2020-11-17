@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -43,6 +44,7 @@ public class Board extends JPanel implements MouseListener{
 	private List<Card> roomsInPlay = new ArrayList<>();
 	private List<Card> weaponsInPlay = new ArrayList<>();
 	private List<Card> playersInPlay = new ArrayList<>();
+	private List<BoardCell> allCells = new ArrayList<>();
 	private static int numColumns, numRows, totalCells;
 	private String layoutConfigFile, setupConfigFile;
 	private Map<Character, Room> roomMap;
@@ -516,6 +518,7 @@ public class Board extends JPanel implements MouseListener{
 				}
 
 				grid[i][j] = cell;
+				allCells.add(grid[i][j]);
 			}
 		}
 	}
@@ -688,7 +691,7 @@ public class Board extends JPanel implements MouseListener{
 		} else if (cellHeight < cellWidth) {
 			cellWidth = cellHeight;
 		}
-		
+
 
 		// Draw the Board squares
 		for (int i = 0; i < numRows; i++) {
@@ -706,7 +709,7 @@ public class Board extends JPanel implements MouseListener{
 	/*
 	 * Mouse event listeners
 	 */
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
@@ -719,33 +722,23 @@ public class Board extends JPanel implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		BoardCell selectedTarget = null;
-		
-		//testing variables
-		int tempX = 0;
-		int tempY = 0;
-		
-		for (int i=0; i<numRows; i++) {
-			for(int j=0; j<numColumns; j++) {
-				
-				//testing varibales
-				tempX = i*numRows;
-				tempY = j*numColumns;
-				
-				//Can get correct row and column, still can't recognize if a cell is actually a 
-				// target or not
-				if (grid[i][j].containsClick(e.getX(), e.getY()) /*&& grid[i][j].isTarget()*/) {
-					selectedTarget = grid[i][j];
-					
-					//System.out.println(grid[i][j].getRow() + " " + grid[i][j].getCol() + " " + grid[i][j].isWalkway());
+
+		if(getCurrentPlayer().getIsHuman()) {
+			
+			for (BoardCell x : allCells) {
+				if (x.isTarget() && x.containsClick(e.getX(), e.getY())) {
+					selectedTarget = x;
+					getCurrentPlayer().setRow(x.getRow());
+					getCurrentPlayer().setColumn(x.getCol());
+					removeTargets();
 					break;
+				} else if (!x.isTarget() && x.containsClick(e.getX(), e.getY())){
+					JOptionPane.showMessageDialog(null, "Please select a highlighted target");
 				}
 			}
-		}
+		
 
-		if(selectedTarget != null) {
-			System.out.println("Yay");
-		} else {
-			System.out.println(tempX + " " + tempY);
+			repaint();
 		}
 
 	}
@@ -851,8 +844,28 @@ public class Board extends JPanel implements MouseListener{
 	public int getCellHeight() {
 		return cellHeight;
 	}
-	
-	
-	
+
+	public void removeTargets() {
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				grid[i][j].setTarget(false);
+			}
+		}
+	}
+
+	public void flagTargets() {
+		for(BoardCell x : targets) {
+
+			for(int i = 0; i < numRows; i++) {
+				for(int j = 0; j < numColumns; j++) {
+					if(x.getRow() == grid[i][j].getRow() && x.getCol() == grid[i][j].getCol()) {
+						grid[i][j].setTarget(true);
+					}
+				}
+			}
+
+		}
+	}
+
 
 }

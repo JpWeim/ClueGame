@@ -134,10 +134,13 @@ public class GameControlPanel extends JPanel{
 
 				board.repaint();
 			} else {
+				board.flagTargets();
+				
+				/*
 				Set<BoardCell> targets = board.getTargets();
 				for (BoardCell x : targets) {
 					x.setTarget(true);
-				}
+				}*/
 				board.repaint();
 
 				//for cleanup after the player has chosen a move, might be implemented
