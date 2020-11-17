@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -117,6 +118,12 @@ public class GameControlPanel extends JPanel{
 	private class NextListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			boolean done = board.getPlayerDone();
+			
+			if (!done) {
+				JOptionPane.showMessageDialog(null, "Turn not done");
+			}
+			else {
 			board.nextPlayer();
 			int roll = roll();
 			Player currentPlayer = board.getCurrentPlayer();
@@ -126,7 +133,6 @@ public class GameControlPanel extends JPanel{
 
 			if (!currentPlayer.getIsHuman()) {
 
-
 				//computer chooses to move
 				BoardCell target = currentPlayer.selectTargets();
 				currentPlayer.setRow(target.getRow());
@@ -135,12 +141,13 @@ public class GameControlPanel extends JPanel{
 				board.repaint();
 			} else {
 				board.flagTargets();
-			
+				board.setPlayerDone(false);
 				board.repaint();
 
 			}
 
 			playerInfo.revalidate();
+			}
 		}
 
 	}

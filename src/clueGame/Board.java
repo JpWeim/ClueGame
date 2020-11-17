@@ -732,6 +732,7 @@ public class Board extends JPanel implements MouseListener{
 					getCurrentPlayer().setRow(x.getRow());
 					getCurrentPlayer().setColumn(x.getCol());
 					removeTargets();
+					playerDone = true;
 					break;
 				} else if (!x.isTarget() && x.containsClick(e.getX(), e.getY())){
 					JOptionPane.showMessageDialog(null, "Please select a highlighted target");
