@@ -855,7 +855,6 @@ public class Board extends JPanel implements MouseListener{
 
 	public void flagTargets() {
 		for(BoardCell x : targets) {
-
 			for(int i = 0; i < numRows; i++) {
 				for(int j = 0; j < numColumns; j++) {
 					if(x.getRow() == grid[i][j].getRow() && x.getCol() == grid[i][j].getCol()) {
