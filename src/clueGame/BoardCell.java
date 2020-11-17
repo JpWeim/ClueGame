@@ -72,14 +72,14 @@ public class BoardCell {
 		
 		if (hasSecretPassage()) {
 			g.setColor(Color.BLACK);
-			g.drawRect(x, y, width, height);
+			g.fillRect(x, y, width, height);
 			if (target == true) {
 				g.setColor(Color.GREEN);
 			}
 			else{
 				g.setColor(BROWN);
 			}
-			g.fillRect(x, y, width, height);
+			g.fillRect(x+width/6, y+height/6, width-width/3, height-height/3);
 		} else if (isRoom()) {
 			if (target == true) {
 				g.setColor(Color.GREEN);
