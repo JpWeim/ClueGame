@@ -27,10 +27,18 @@ public class ClueGame extends JFrame{
 		
 		GameControlPanel gcp = new GameControlPanel(board);
 		
-		gcp.setTurn(board.getCurrentPlayer(), gcp.roll()); //for testing
+		int roll = gcp.roll();
+		gcp.setTurn(board.getCurrentPlayer(), roll); //for testing
 		gcp.setGuess("");
 		gcp.setGuessResult("");
+		
 		add(gcp, BorderLayout.SOUTH);
+		
+		BoardCell currentCell = board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getColumn());
+		board.calcTargets(currentCell, roll);
+		board.flagTargets();
+		
+		board.repaint();
 		
 		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
 		add(cardPanel, BorderLayout.EAST);
