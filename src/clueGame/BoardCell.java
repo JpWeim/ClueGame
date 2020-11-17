@@ -50,30 +50,12 @@ public class BoardCell {
 		int col1 = mouseX/width;
 		int row1 = mouseY/height -1;
 		
-		//System.out.println(row1 + " " + col1);
-		
 		if (col1 == col && row1 == row) {
-			System.out.println("True");
-			return true;
-		} else {
-			System.out.println("False");
-			return false;
-		}
-		
-		
-		
-		/*
-		x = col1*width;
-		y = row1*height + height;
-		//Rectangle rect = new Rectangle(x, y, width, height);
-	
-		if(mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
 			return true;
 		} else {
 			return false;
 		}
-		*/
-		//return rect.contains(new Point(mouseX, mouseY));
+		
 	}
 	
 	@Override
