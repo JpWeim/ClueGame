@@ -132,11 +132,14 @@ public class GameControlPanel extends JPanel{
 			board.calcTargets(currentCell, roll);
 
 			if (!currentPlayer.getIsHuman()) {
-
+				//TODO: do accusation
+				
 				//computer chooses to move
 				BoardCell target = currentPlayer.selectTargets();
 				currentPlayer.setRow(target.getRow());
 				currentPlayer.setColumn(target.getCol());
+				
+				//TODO: make suggestion
 
 				board.repaint();
 			} else {
