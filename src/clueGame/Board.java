@@ -56,6 +56,7 @@ public class Board extends JPanel implements MouseListener{
 	private int currentPlayer = 0;
 	private int cellWidth;
 	private int cellHeight;
+	private boolean playerDone;
 
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
@@ -843,6 +844,12 @@ public class Board extends JPanel implements MouseListener{
 	}
 	public int getCellHeight() {
 		return cellHeight;
+	}
+	public boolean getPlayerDone() {
+		return playerDone;
+	}
+	public void setPlayerDone(boolean done) {
+		playerDone = done;
 	}
 
 	public void removeTargets() {
