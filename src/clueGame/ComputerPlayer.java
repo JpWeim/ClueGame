@@ -8,7 +8,9 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player{
-	private boolean isHuman = false; 
+	private boolean isHuman = false;
+	private Card finalPerson, finalWeapon, finalRoom;
+	
 
 	public ComputerPlayer(String name, Color color, int startRow, int startCol) {
 		super(name, color, startRow, startCol);
@@ -102,6 +104,46 @@ public class ComputerPlayer extends Player{
 				possibleRooms.add(x);
 			}
 		}
+	}
+	
+	public boolean checkCards() {
+		if (seenCards.size() == 18) {
+			Board board = Board.getInstance();
+			List<Card> notSeenPlayers = board.getSuggestiblePlayerCards();
+			List<Card> notSeenWeapons = board.getSuggestibleWeaponCards();
+			List<Card> notSeenRooms = board.getRoomCards();
+			
+			for (Card x : seenCards) {
+				if (notSeenPlayers.contains(x)) {
+					notSeenPlayers.remove(x);
+				}
+				if (notSeenWeapons.contains(x)) {
+					notSeenWeapons.remove(x);
+				}
+				if (notSeenRooms.contains(x)) {
+					notSeenRooms.remove(x);
+				}
+			}
+			finalPerson = notSeenPlayers.get(0);
+			finalWeapon = notSeenWeapons.get(0);
+			finalRoom = notSeenRooms.get(0);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public Card getFinalPerson() {
+		return finalPerson;
+	}
+
+	public Card getFinalWeapon() {
+		return finalWeapon;
+	}
+
+	public Card getFinalRoom() {
+		return finalRoom;
 	}
 
 }

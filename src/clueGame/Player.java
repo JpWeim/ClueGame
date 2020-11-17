@@ -180,6 +180,14 @@ public abstract class Player {
 		
 	}
 
+	protected abstract boolean checkCards();
+
+	protected abstract Card getFinalPerson();
+
+	protected abstract Card getFinalRoom();
+
+	protected abstract Card getFinalWeapon();
+
 	
 
 	

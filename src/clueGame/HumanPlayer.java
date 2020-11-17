@@ -25,6 +25,30 @@ public class HumanPlayer extends Player{
 	public BoardCell selectTargets() {
 		return null;
 	}
-	
+
+	@Override
+	protected boolean checkCards() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected Card getFinalPerson() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Card getFinalRoom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Card getFinalWeapon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

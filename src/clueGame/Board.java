@@ -57,6 +57,8 @@ public class Board extends JPanel implements MouseListener{
 	private int cellWidth;
 	private int cellHeight;
 	private boolean playerDone;
+	private String currentSuggestion;
+	private String suggestionResult;
 
 	private static Board theInstance = new Board();
 	//constructor is private to ensure only one can be created
@@ -664,14 +666,31 @@ public class Board extends JPanel implements MouseListener{
 	}
 
 	public Card handleSuggestion(Player suggestor, Card person, Card room, Card weapon) {
+		String playerInQuestion = person.getCardName();
+		
+		for (Player x : players) {
+			if (x.getName() == playerInQuestion) {
+				x.setRow(suggestor.getRow());
+				x.setColumn(suggestor.getColumn());
+			}
+		}
+		
+		currentSuggestion = (person.getCardName() + " in the " + room.getCardName() + ", with the " + weapon.getCardName());
+		
 		int start = players.indexOf(suggestor);
 
 		for (int i = start +1; i < players.size() - 1 + start; i++) {
 			Player currentPlayer = players.get(i%players.size());
 			if (currentPlayer.disproveSuggestion(person, room, weapon) == null) {
-
+				suggestionResult = "No disproves";
 			}
 			else {
+				if (suggestor.getIsHuman()) {
+					suggestionResult = currentPlayer.disproveSuggestion(person, room, weapon).getCardName() + " from " + currentPlayer.getName();
+				}
+				else {
+					suggestionResult = "Suggestion disproved by " + currentPlayer.getName();
+				}
 				return currentPlayer.disproveSuggestion(person, room, weapon);
 			}
 		}
@@ -738,8 +757,10 @@ public class Board extends JPanel implements MouseListener{
 			for (BoardCell x : allCells) {
 				if (x.isTarget() && x.containsClick(e.getX(), e.getY())) {
 					selectedTarget = x;
+					getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()).setOccupied(false);
 					getCurrentPlayer().setRow(x.getRow());
 					getCurrentPlayer().setColumn(x.getCol());
+					getCell(x.getRow(), x.getCol()).setOccupied(true);
 					removeTargets();
 					playerDone = true;
 					break;
@@ -881,6 +902,13 @@ public class Board extends JPanel implements MouseListener{
 			}
 
 		}
+	}
+	
+	public String getCurrentSuggestion() {
+		return currentSuggestion;
+	}
+	public String getSuggestionResult() {
+		return suggestionResult;
 	}
 
 

@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -119,6 +120,8 @@ public class GameControlPanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			boolean done = board.getPlayerDone();
+			setGuess("");
+			setGuessResult("");
 			
 			if (!done) {
 				JOptionPane.showMessageDialog(null, "Turn not done");
@@ -132,14 +135,31 @@ public class GameControlPanel extends JPanel{
 			board.calcTargets(currentCell, roll);
 
 			if (!currentPlayer.getIsHuman()) {
-				//TODO: do accusation
+				boolean accuse = currentPlayer.checkCards();
+				if (accuse) {
+					if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
+						JTextArea msg = new JTextArea(currentPlayer.getName() + "won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
+								+ " in the " + currentPlayer.getFinalWeapon().getCardName() + ", in the " + currentPlayer.getFinalRoom().getCardName());
+						msg.setLineWrap(true);
+						
+						JOptionPane.showMessageDialog(null, msg);
+					}
+				}
 				
 				//computer chooses to move
+				board.getCell(currentPlayer.getRow(), currentPlayer.getColumn()).setOccupied(false);
 				BoardCell target = currentPlayer.selectTargets();
 				currentPlayer.setRow(target.getRow());
 				currentPlayer.setColumn(target.getCol());
+				board.getCell(target.getRow(), target.getCol()).setOccupied(true);
 				
 				//TODO: make suggestion
+				if(target.isRoom()) {
+					Solution suggestion = currentPlayer.createSuggestion();
+					board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
+					setGuess(board.getCurrentSuggestion());
+					setGuessResult(board.getSuggestionResult());
+				}
 
 				board.repaint();
 			} else {
