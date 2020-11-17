@@ -14,6 +14,7 @@ public abstract class Player {
 	protected int startRow, startCol;
 	protected int row, col;
 	protected boolean isHuman;
+	protected boolean shifted = false;
 	protected List<Card> cards = new ArrayList<Card>();
 	protected List<Card> possibleDisproveCards = new ArrayList<Card>();
 	protected List<Card> seenCards = new ArrayList<Card>();
@@ -57,15 +58,32 @@ public abstract class Player {
 	public void draw(int width, int height, Graphics g) {
 		int x = col*width;
 		int y = row*height;
-		//System.out.println(width);
 		
 		int a = width/6;
 		int b = height/6;
+		
 		
 		g.setColor(Color.BLACK);
 		g.fillOval(x, y, width, height);
 		g.setColor(color);
 		g.fillOval(x + (a/2), y + (b/2), width - a, height - b);
+	}
+	
+	public void drawShifted(int width, int height, Graphics g) {
+		int x = col*width + width/2;
+		int y = row*height;
+		
+		int a = width/6;
+		int b = height/6;
+		
+		
+		g.setColor(Color.BLACK);
+		g.fillOval(x, y, width, height);
+		g.setColor(color);
+		g.fillOval(x + (a/2), y + (b/2), width - a, height - b);
+		
+		shifted = true;
+		
 	}
 	public void clearHand() {
 		cards.clear();
@@ -140,6 +158,14 @@ public abstract class Player {
 		return seenCards;
 	}
 	
+	public boolean shifted() {
+		return shifted;
+	}
+	
+	public void notShifted() {
+		shifted = false;
+	}
+	
 	public void clearSeenCards() {
 		seenCards.clear();
 	}
@@ -153,6 +179,8 @@ public abstract class Player {
 		seenCards.add(card);
 		
 	}
+
+	
 
 	
 	

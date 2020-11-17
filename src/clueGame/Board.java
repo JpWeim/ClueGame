@@ -703,8 +703,17 @@ public class Board extends JPanel implements MouseListener{
 
 		// Draw the Players
 		for(int i = 0; i < players.size(); i++) {
-			players.get(i).draw(cellWidth, cellHeight, g);
+			
+			for(Player p : players) {
+				if (p.getRow() == players.get(i).getRow() && p.getColumn() == players.get(i).getColumn() && !p.shifted() && players.get(i) != p) {
+					p.drawShifted(cellWidth, cellHeight, g);
+					p.notShifted();
+				} else {
+					players.get(i).draw(cellWidth, cellHeight, g);
+				}
+			}
 		}
+		
 	}
 
 	/*
