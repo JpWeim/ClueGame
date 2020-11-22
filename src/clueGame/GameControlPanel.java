@@ -133,6 +133,8 @@ public class GameControlPanel extends JPanel{
 			setTurn(currentPlayer, roll);
 			BoardCell currentCell = board.getCell(currentPlayer.getRow(), currentPlayer.getColumn());
 			board.calcTargets(currentCell, roll);
+			
+			
 
 			if (!currentPlayer.getIsHuman()) {
 				boolean accuse = currentPlayer.checkCards();
@@ -166,7 +168,6 @@ public class GameControlPanel extends JPanel{
 				board.flagTargets();
 				board.setPlayerDone(false);
 				board.repaint();
-
 			}
 
 			playerInfo.revalidate();

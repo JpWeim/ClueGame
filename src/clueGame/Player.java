@@ -18,7 +18,7 @@ public abstract class Player {
 	protected List<Card> cards = new ArrayList<Card>();
 	protected List<Card> possibleDisproveCards = new ArrayList<Card>();
 	protected List<Card> seenCards = new ArrayList<Card>();
-	
+	protected BoardCell previousCell = null;
 	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;
@@ -188,7 +188,12 @@ public abstract class Player {
 
 	protected abstract Card getFinalWeapon();
 
-	
+	public BoardCell getPreviousCell() {
+		return previousCell;
+	}
+	public void setPreviousCell(BoardCell cell) {
+		previousCell = cell;
+	}
 
 	
 	

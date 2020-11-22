@@ -605,6 +605,12 @@ public class Board extends JPanel implements MouseListener{
 			}
 			visited.remove(adjCell);
 		}
+		if (getCurrentPlayer().getPreviousCell() != null) {
+			if (getCurrentPlayer().getPreviousCell() != getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn())) {
+				targets.add(getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()));
+				getCurrentPlayer().setPreviousCell(getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()));
+			}
+		}
 	}
 
 	/*
@@ -667,6 +673,7 @@ public class Board extends JPanel implements MouseListener{
 
 	public Card handleSuggestion(Player suggestor, Card person, Card room, Card weapon) {
 		String playerInQuestion = person.getCardName();
+		
 		
 		for (Player x : players) {
 			if (x.getName() == playerInQuestion) {
@@ -757,9 +764,10 @@ public class Board extends JPanel implements MouseListener{
 			for (BoardCell x : allCells) {
 				if (x.isTarget() && x.containsClick(e.getX(), e.getY())) {
 					selectedTarget = x;
-					getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()).setOccupied(false);
+					getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()).setOccupied(false);			
 					getCurrentPlayer().setRow(x.getRow());
 					getCurrentPlayer().setColumn(x.getCol());
+					getCurrentPlayer().setPreviousCell(getCell(getCurrentPlayer().getRow(),getCurrentPlayer().getColumn()));
 					getCell(x.getRow(), x.getCol()).setOccupied(true);
 					removeTargets();
 					playerDone = true;

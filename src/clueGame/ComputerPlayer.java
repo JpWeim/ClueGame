@@ -83,6 +83,7 @@ public class ComputerPlayer extends Player{
 			int i = 0;
 			for (BoardCell x : targets) {
 				if (i == item) {
+					setPreviousCell(board.getCell(x.getRow(), x.getCol()));
 					return x;
 				}
 				i++;
