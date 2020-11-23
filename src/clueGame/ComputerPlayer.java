@@ -97,7 +97,7 @@ public class ComputerPlayer extends Player{
 			Room currentRoom = board.getRoom(x);
 			boolean seen = false;
 			for (Card y : seenCards) {
-				if (currentRoom.getName().equals(y.getCardName())) {
+				if (currentRoom.getName() == (y.getCardName())) {
 					seen = true;
 				}
 			}
@@ -108,9 +108,6 @@ public class ComputerPlayer extends Player{
 	}
 	
 	public boolean checkCards() {
-		System.out.println(getName());
-		System.out.println(seenCards.size());
-		System.out.println();
 		if (seenCards.size() == 18) {
 			Board board = Board.getInstance();
 			List<Card> notSeenPlayers = board.getSuggestiblePlayerCards();
@@ -138,14 +135,23 @@ public class ComputerPlayer extends Player{
 		}
 	}
 
+	public void setFinalPerson(Card card) {
+		finalPerson = card;
+	}
 	public Card getFinalPerson() {
 		return finalPerson;
 	}
 
+	public void setFinalWeapon(Card card) {
+		finalWeapon = card;
+	}
 	public Card getFinalWeapon() {
 		return finalWeapon;
 	}
 
+	public void setFinalRoom(Card card) {
+		finalRoom = card;
+	}
 	public Card getFinalRoom() {
 		return finalRoom;
 	}

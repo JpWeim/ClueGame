@@ -104,18 +104,6 @@ public class GameControlPanel extends JPanel{
 
 	}
 
-	/*TODO: 
-	 * implement current human player finished y/n
-	 * is new player human? y/n
-	 * if no:
-	 * 	do accusation? for computer
-	 * 	make suggestion? for computer
-	 * if yes:
-	 * 	display targets
-	 * 	flag unfinished, need something for this maybe boolean? 
-	 * 
-	 * also need board clicked on in Board
-	 */
 	private class NextListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -158,9 +146,29 @@ public class GameControlPanel extends JPanel{
 				//TODO: make suggestion
 				if(target.isRoom()) {
 					Solution suggestion = currentPlayer.createSuggestion();
-					
-					//TODO: figure out why this causes error
-					//currentPlayer.updateSeenCards((board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon())));
+
+					Card disprove = board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
+					if (disprove == null) {
+						currentPlayer.setFinalPerson(suggestion.getPerson());
+						currentPlayer.setFinalWeapon(suggestion.getWeapon());
+						currentPlayer.setFinalRoom(suggestion.getRoom());
+						
+						//TODO implement ending popup
+						if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
+							System.out.println("Computer player wins");
+						}
+						else {
+							System.out.println("Computer player loses");
+							System.out.println("real solution");
+							System.out.println(board.getSolution().getPerson().getCardName());
+							System.out.println(board.getSolution().getRoom().getCardName());
+							System.out.println(board.getSolution().getWeapon().getCardName());
+							
+						}
+					}
+					else {
+					currentPlayer.updateSeenCards(disprove);
+					}
 					setGuess(board.getCurrentSuggestion());
 					setGuessResult(board.getSuggestionResult());
 				}

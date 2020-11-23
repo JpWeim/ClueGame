@@ -8,14 +8,14 @@ public class Card {
 		this.cardName = cardName;
 		this.type = type;
 	}
-	public boolean equals(Card target) {
-		if (target.getCardName() == cardName && target.getCardType() == type) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+	//public boolean equals(Card target) {
+	//	if (target.getCardName().equalsIgnoreCase(cardName) && target.getCardType() == type) {
+	//		return true;
+	//	}
+	//	else {
+	//		return false;
+	//	}
+	//}
 	
 	
 	/* 

@@ -663,7 +663,7 @@ public class Board extends JPanel implements MouseListener{
 	 * *************************************************************************************************************************************************
 	 */
 	public boolean checkAccusation(Card person, Card room, Card weapon) {
-		if (solution.getPerson().equals(person) && solution.getRoom().equals(room) && solution.getWeapon().equals(weapon)) {
+		if (solution.getPerson().getCardName() == person.getCardName() && solution.getRoom().getCardName() == room.getCardName() && solution.getWeapon().getCardName() == weapon.getCardName()) {
 			return true;
 		}
 		else {
@@ -682,11 +682,11 @@ public class Board extends JPanel implements MouseListener{
 			}
 		}
 		
-		currentSuggestion = (person.getCardName() + " in the " + room.getCardName() + ", with the " + weapon.getCardName());
+		currentSuggestion = (person.getCardName() + " in " + room.getCardName() + ", with the " + weapon.getCardName());
 		
 		int start = players.indexOf(suggestor);
 
-		for (int i = start +1; i < players.size() - 1 + start; i++) {
+		for (int i = start +1; i < players.size() + start; i++) {
 			Player currentPlayer = players.get(i%players.size());
 			if (currentPlayer.disproveSuggestion(person, room, weapon) == null) {
 				suggestionResult = "No disproves";

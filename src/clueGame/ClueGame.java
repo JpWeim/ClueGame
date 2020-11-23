@@ -49,4 +49,9 @@ public class ClueGame extends JFrame{
 		ClueGame game = new ClueGame();
 		game.setVisible(true);
 	}
+	
+	//TODO implement player suggestion and accusation
+	//allow for player to have no moves, right now breaks it
+	//add ending screen/pop-up when game is over
+	
 }
