@@ -158,7 +158,9 @@ public class GameControlPanel extends JPanel{
 				//TODO: make suggestion
 				if(target.isRoom()) {
 					Solution suggestion = currentPlayer.createSuggestion();
-					board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
+					
+					//TODO: figure out why this causes error
+					//currentPlayer.updateSeenCards((board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon())));
 					setGuess(board.getCurrentSuggestion());
 					setGuessResult(board.getSuggestionResult());
 				}

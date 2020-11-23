@@ -154,6 +154,10 @@ public abstract class Player {
 		return cards;
 	}
 	
+	public void updateSeenCards(Card card) {
+		seenCards.add(card);
+	}
+	
 	public List<Card> getSeenCards() {
 		return seenCards;
 	}

@@ -32,7 +32,7 @@ public class ComputerPlayer extends Player{
 		if (board.getCell(row, col).isRoom()) {
 			List<Card> notSeenPlayers = board.getSuggestiblePlayerCards();
 			List<Card> notSeenWeapons = board.getSuggestibleWeaponCards();
-			List<Card> rooms = board.getRoomCards();
+			//List<Card> rooms = board.getRoomCards();
 			
 			for (Card x : seenCards) {
 				if (notSeenPlayers.contains(x)) {
@@ -108,6 +108,9 @@ public class ComputerPlayer extends Player{
 	}
 	
 	public boolean checkCards() {
+		System.out.println(getName());
+		System.out.println(seenCards.size());
+		System.out.println();
 		if (seenCards.size() == 18) {
 			Board board = Board.getInstance();
 			List<Card> notSeenPlayers = board.getSuggestiblePlayerCards();
