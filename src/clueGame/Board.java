@@ -33,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 
 
@@ -700,11 +701,15 @@ public class Board extends JPanel implements MouseListener{
 			}
 			else {
 				if (suggestor.getIsHuman()) {
-					suggestionResult = currentPlayer.disproveSuggestion(person, room, weapon).getCardName() + " from " + currentPlayer.getName();
+					JTextArea msg = new JTextArea(currentPlayer.disproveSuggestion(person, room, weapon).getCardName() + " from " + currentPlayer.getName());
+					msg.setLineWrap(true);
+					
+					JOptionPane.showMessageDialog(null, msg);
 				}
 				else {
 					suggestionResult = "Suggestion disproved by " + currentPlayer.getName();
 				}
+
 				return currentPlayer.disproveSuggestion(person, room, weapon);
 			}
 		}
@@ -764,13 +769,12 @@ public class Board extends JPanel implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		BoardCell selectedTarget = null;
 
 		if(getCurrentPlayer().getIsHuman()) {
 			
 			for (BoardCell x : allCells) {
 				if (x.isTarget() && x.containsClick(e.getX(), e.getY())) {
-					selectedTarget = x;
+					
 					getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()).setOccupied(false);			
 					getCurrentPlayer().setRow(x.getRow());
 					getCurrentPlayer().setColumn(x.getCol());
@@ -779,6 +783,7 @@ public class Board extends JPanel implements MouseListener{
 					removeTargets();
 					
 					if (x.isRoom()) {
+						
 						JFrame suggestionFrame = new JFrame("Make an suggestion");
 						suggestionFrame.setVisible(true);
 						suggestionFrame.setSize(400,200);
@@ -820,9 +825,9 @@ public class Board extends JPanel implements MouseListener{
 						panel.add(suggest);
 						panel.add(cancel);
 						
-						//SuggestListener suggestButton = new SuggestListener();
-						//suggest.addActionListener(suggestButton);
-						CancelListener cancelButton = new CancelListener();
+						SuggestListener suggestButton = new SuggestListener(choosePerson, getRoom(getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn())).getName(), chooseWeapon, suggestionFrame);
+						suggest.addActionListener(suggestButton);
+						CancelListener cancelButton = new CancelListener(suggestionFrame);
 						cancel.addActionListener(cancelButton);
 						
 					}
@@ -981,9 +986,59 @@ public class Board extends JPanel implements MouseListener{
 		return suggestionResult;
 	}
 	private class CancelListener implements ActionListener{
+		JFrame frame;
+		
+		public CancelListener(JFrame frame) {
+			this.frame = frame;
+		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("A");
+			frame.dispose();
+		}
+	}
+	
+	private class SuggestListener implements ActionListener{
+		JComboBox person;
+		String room;
+		JComboBox weapon;
+		JFrame frame;
+		Card sPerson;
+		Card sRoom;
+		Card sWeapon;
+
+		
+		public SuggestListener(JComboBox person, String room, JComboBox weapon, JFrame frame) {
+			this.person = person;
+			this.room = room;
+			this.weapon = weapon;
+			this.frame = frame;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			for (Card x : suggestiblePlayers) {
+				if ((String) person.getSelectedItem() == x.getCardName()) {
+					sPerson = x;
+				}
+			}
+			for (Card y : suggestibleRooms) {
+				if (room == y.getCardName()) {
+					sRoom = y;
+				}
+			}
+			
+			for (Card z : suggestibleWeapons) {
+				if ((String) weapon.getSelectedItem() == z.getCardName()) {
+					sWeapon = z;
+				}
+			}
+			
+			
+			
+			getCurrentPlayer().updateSeenCards((handleSuggestion(getCurrentPlayer(), sPerson, sRoom, sWeapon)));
+			
+			
+			frame.dispose();
 		}
 	}
 

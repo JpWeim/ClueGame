@@ -119,7 +119,7 @@ public class GameControlPanel extends JPanel{
 			} else {
 				JFrame frame = new JFrame("Make an Accusation");
 				frame.setVisible(true);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				frame.setSize(400,400);
 				
 				JPanel panel = new JPanel();
