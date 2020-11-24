@@ -70,6 +70,9 @@ public class ComputerPlayer extends Player{
 		Board board = Board.getInstance();
 		Set<BoardCell> targets = board.getTargets();
 		List<BoardCell> possibleRooms = new ArrayList<BoardCell>();
+		if (targets.isEmpty()) {
+			return null;
+		}
 		for (BoardCell x : targets) {
 			checkSeenRoom(board, possibleRooms, x);
 		}

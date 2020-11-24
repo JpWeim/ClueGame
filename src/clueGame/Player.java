@@ -19,6 +19,7 @@ public abstract class Player {
 	protected List<Card> possibleDisproveCards = new ArrayList<Card>();
 	public List<Card> seenCards = new ArrayList<Card>();
 	protected BoardCell previousCell = null;
+	protected boolean flag = false;
 	
 	public Player(String name, Color color, int startRow, int startCol) {
 		this.name = name;
@@ -205,6 +206,11 @@ public abstract class Player {
 
 	protected abstract void setFinalRoom(Card room);
 
-	
+	public boolean getFlag() {
+		return flag;
+	}
+	public void setFlag() {
+		flag = true;
+	}
 	
 }

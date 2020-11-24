@@ -179,7 +179,17 @@ public class GameControlPanel extends JPanel{
 				boolean accuse = currentPlayer.checkCards();
 				if (accuse) {
 					if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
-						JTextArea msg = new JTextArea(currentPlayer.getName() + "won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
+						JTextArea msg = new JTextArea(currentPlayer.getName() + " won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
+								+ " in the " + currentPlayer.getFinalWeapon().getCardName() + ", in the " + currentPlayer.getFinalRoom().getCardName());
+						msg.setLineWrap(true);
+						
+						JOptionPane.showMessageDialog(null, msg);
+					}
+				}
+				
+				if (currentPlayer.getFlag()) {
+					if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
+						JTextArea msg = new JTextArea(currentPlayer.getName() + " won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
 								+ " in the " + currentPlayer.getFinalWeapon().getCardName() + ", in the " + currentPlayer.getFinalRoom().getCardName());
 						msg.setLineWrap(true);
 						
@@ -188,13 +198,16 @@ public class GameControlPanel extends JPanel{
 				}
 				
 				//computer chooses to move
-				board.getCell(currentPlayer.getRow(), currentPlayer.getColumn()).setOccupied(false);
 				BoardCell target = currentPlayer.selectTargets();
+				if (target == null) {
+					
+				}
+				else {
+				board.getCell(currentPlayer.getRow(), currentPlayer.getColumn()).setOccupied(false);
 				currentPlayer.setRow(target.getRow());
 				currentPlayer.setColumn(target.getCol());
 				board.getCell(target.getRow(), target.getCol()).setOccupied(true);
 				
-				//TODO: make suggestion
 				if(target.isRoom()) {
 					Solution suggestion = currentPlayer.createSuggestion();
 
@@ -204,18 +217,7 @@ public class GameControlPanel extends JPanel{
 						currentPlayer.setFinalWeapon(suggestion.getWeapon());
 						currentPlayer.setFinalRoom(suggestion.getRoom());
 						
-						//TODO implement ending popup
-						if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
-							System.out.println("Computer player wins");
-						}
-						else {
-							System.out.println("Computer player loses");
-							System.out.println("real solution");
-							System.out.println(board.getSolution().getPerson().getCardName());
-							System.out.println(board.getSolution().getRoom().getCardName());
-							System.out.println(board.getSolution().getWeapon().getCardName());
-							
-						}
+						currentPlayer.setFlag();
 					}
 					else {
 					currentPlayer.updateSeenCards(disprove);
@@ -223,7 +225,7 @@ public class GameControlPanel extends JPanel{
 					setGuess(board.getCurrentSuggestion());
 					setGuessResult(board.getSuggestionResult());
 				}
-
+				}
 				board.repaint();
 			} else {
 				board.flagTargets();
