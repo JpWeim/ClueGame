@@ -8,6 +8,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
@@ -25,8 +26,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 
 public class Board extends JPanel implements MouseListener{
@@ -770,6 +777,57 @@ public class Board extends JPanel implements MouseListener{
 					getCurrentPlayer().setPreviousCell(getCell(getCurrentPlayer().getRow(),getCurrentPlayer().getColumn()));
 					getCell(x.getRow(), x.getCol()).setOccupied(true);
 					removeTargets();
+					
+					if (x.isRoom()) {
+						JFrame suggestionFrame = new JFrame("Make an suggestion");
+						suggestionFrame.setVisible(true);
+						suggestionFrame.setSize(400,200);
+						suggestionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						
+						JPanel panel = new JPanel();
+						panel.setLayout(new GridLayout(0,2));
+						suggestionFrame.add(panel);
+						
+						JLabel roomLabel = new JLabel("Current room:" );
+						panel.add(roomLabel);
+						JLabel currentRoom = new JLabel(getRoom(getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn())).getName());
+						currentRoom.setBorder(BorderFactory.createLineBorder(Color.black));
+						panel.add(currentRoom);
+						
+						JLabel personLabel = new JLabel("Person:" );
+						panel.add(personLabel);
+						String[] personChoices = new String[getPlayers().size()];
+						for(int i = 0; i < getPlayers().size(); i++) {
+							personChoices[i] = getPlayers().get(i).getName();
+						}
+						final JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
+						choosePerson.setBorder(BorderFactory.createLineBorder(Color.black));
+						panel.add(choosePerson);
+						
+						JLabel weaponLabel = new JLabel("Weapon:" );
+						panel.add(weaponLabel);
+						String[] weaponChoices = new String[getWeapons().size()];
+						for(int i = 0; i < getWeapons().size(); i++) {
+							weaponChoices[i] = getWeapons().get(i);
+						}
+						final JComboBox<String> chooseWeapon = new JComboBox<String>(weaponChoices);
+						chooseWeapon.setBorder(BorderFactory.createLineBorder(Color.black));
+						panel.add(chooseWeapon);
+						
+						JButton suggest = new JButton ("Suggest");
+						JButton cancel = new JButton ("Cancel");
+						
+						panel.add(suggest);
+						panel.add(cancel);
+						
+						//SuggestListener suggestButton = new SuggestListener();
+						//suggest.addActionListener(suggestButton);
+						CancelListener cancelButton = new CancelListener();
+						cancel.addActionListener(cancelButton);
+						
+					}
+					
+					
 					playerDone = true;
 					break;
 				} else if (!x.isTarget() && x.containsClick(e.getX(), e.getY())){
@@ -922,6 +980,11 @@ public class Board extends JPanel implements MouseListener{
 	public String getSuggestionResult() {
 		return suggestionResult;
 	}
-
+	private class CancelListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("A");
+		}
+	}
 
 }

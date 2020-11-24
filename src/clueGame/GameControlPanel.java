@@ -113,7 +113,7 @@ public class GameControlPanel extends JPanel{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			//TODO you can accuse from anywhere
 			if(!board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getColumn()).isRoom()) {
 				JOptionPane.showMessageDialog(null, "Can only accuse while in a room");
 			} else {
@@ -139,7 +139,7 @@ public class GameControlPanel extends JPanel{
 				
 				String[] weaponChoices = new String[board.getWeapons().size()];
 				for(int i = 0; i < board.getWeapons().size(); i++) {
-					personChoices[i] = board.getWeapons().get(i);
+					weaponChoices[i] = board.getWeapons().get(i);
 				}
 				final JComboBox<String> chooseWeapon = new JComboBox<String>(personChoices);
 				
