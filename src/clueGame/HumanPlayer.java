@@ -50,5 +50,23 @@ public class HumanPlayer extends Player{
 		return null;
 	}
 
+	@Override
+	protected void setFinalPerson(Card person) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setFinalWeapon(Card weapon) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setFinalRoom(Card room) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
