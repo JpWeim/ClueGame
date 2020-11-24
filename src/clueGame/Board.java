@@ -798,6 +798,10 @@ public class Board extends JPanel implements MouseListener{
 	public List<Player> getPlayers(){
 		return players;
 	}
+	
+	public List<String> getWeapons() {
+		return weapons;
+	}
 
 	public List<Card> getDeck() {
 		return deck;
