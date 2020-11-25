@@ -207,6 +207,21 @@ public class GameControlPanel extends JPanel{
 				board.getCurrentPlayer().setFlag();
 
 				frame.dispose();
+				
+				if(board.getPlayers().get(0).getFlag() ) {
+					if(board.checkAccusation(board.getPlayers().get(0).getFinalPerson(), board.getPlayers().get(0).getFinalRoom(), board.getPlayers().get(0).getFinalWeapon())) {
+						JTextArea msg = new JTextArea(board.getPlayers().get(0).getName() + " won! The correct answer was " + board.getPlayers().get(0).getFinalPerson()
+								+ " with the " + board.getPlayers().get(0).getFinalWeapon() + ", in " + board.getPlayers().get(0).getFinalRoom());
+						msg.setLineWrap(true);
+
+						JOptionPane.showMessageDialog(null, msg);
+						System.exit(0);
+					} else if (!board.checkAccusation(board.getPlayers().get(0).getFinalPerson(), board.getPlayers().get(0).getFinalRoom(), board.getPlayers().get(0).getFinalWeapon())){
+						JOptionPane.showMessageDialog(null, "You got the accusation wrong! The correct answer was " + board.getPlayers().get(0).getFinalPerson() + " with the " + board.getPlayers().get(0).getFinalWeapon() + ", in " + board.getPlayers().get(0).getFinalRoom());
+						System.exit(0);
+					}
+				}
+				
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "You can only accuse at the beginning of your turn.");
@@ -236,20 +251,6 @@ public class GameControlPanel extends JPanel{
 			boolean done = board.getPlayerDone();
 			setGuess("");
 			setGuessResult("");
-
-			if(board.getPlayers().get(0).getFlag() ) {
-				if(board.checkAccusation(board.getPlayers().get(0).getFinalPerson(), board.getPlayers().get(0).getFinalRoom(), board.getPlayers().get(0).getFinalWeapon())) {
-					JTextArea msg = new JTextArea(board.getPlayers().get(0).getName() + " won! The correct answer was " + board.getPlayers().get(0).getFinalPerson()
-							+ " with the " + board.getPlayers().get(0).getFinalWeapon() + ", in " + board.getPlayers().get(0).getFinalRoom());
-					msg.setLineWrap(true);
-
-					JOptionPane.showMessageDialog(null, msg);
-					System.exit(0);
-				} else if (!board.checkAccusation(board.getPlayers().get(0).getFinalPerson(), board.getPlayers().get(0).getFinalRoom(), board.getPlayers().get(0).getFinalWeapon())){
-					JOptionPane.showMessageDialog(null, "You got the accusation wrong! The correct answer was " + board.getPlayers().get(0).getFinalPerson() + " with the " + board.getPlayers().get(0).getFinalWeapon() + ", in " + board.getPlayers().get(0).getFinalRoom());
-					System.exit(0);
-				}
-			}
 
 			if (!done) {
 				JOptionPane.showMessageDialog(null, "Turn not done");
