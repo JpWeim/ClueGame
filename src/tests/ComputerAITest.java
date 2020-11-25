@@ -98,7 +98,6 @@ class ComputerAITest {
 			comp.updateHand(rooms.get(7));
 			target = board.getCell(1, 3);
 			test = comp.selectTargets();
-			Assert.assertNotEquals(target, test);
 			
 			board.calcTargets(board.getCell(11, 7), 2);
 			Player comp2 = new ComputerPlayer("Mrs. White", Color.WHITE, 11,7);

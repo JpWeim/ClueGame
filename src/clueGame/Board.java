@@ -1050,6 +1050,22 @@ public class Board extends JPanel implements MouseListener{
 			frame.dispose();
 		}
 	}
+	
+	public void clearSuggestionsForTesting() {
+		suggestiblePlayers.clear();
+		suggestibleWeapons.clear();
+		suggestibleRooms.clear();
+	}
+	
+	public void addSuggestiblePlayer(Card c){
+		suggestiblePlayers.add(c);
+	}
+	public void addSuggestibleRoom(Card c){
+		suggestibleRooms.add(c);
+	}
+	public void addSuggestibleWeapon(Card c){
+		suggestibleWeapons.add(c);
+	}
 }
 
 

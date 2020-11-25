@@ -40,29 +40,29 @@ class GameSolutionTest {
 	@Test
 	public void testAccusation() {
 		Solution theAnswer = board.getSolution();
-		Card person = theAnswer.getPerson();
-		Card room = theAnswer.getRoom();
-		Card weapon = theAnswer.getWeapon();
+		String person = theAnswer.getPerson().getCardName();
+		String room = theAnswer.getRoom().getCardName();
+		String weapon = theAnswer.getWeapon().getCardName();
 		Assert.assertTrue(board.checkAccusation(person, room, weapon));
 		
 		List<Card> players = board.getPlayerCards();
-		person = players.get(0);
+		person = players.get(0).getCardName();
 		Assert.assertFalse(board.checkAccusation(person, room, weapon));
 		
-		person = theAnswer.getPerson();
+		person = theAnswer.getPerson().getCardName();
 		List<Card> rooms = board.getRoomCards();
-		room = rooms.get(0);
+		room = rooms.get(0).getCardName();
 		Assert.assertFalse(board.checkAccusation(person, room, weapon));
 		
-		person = theAnswer.getPerson();
-		room = theAnswer.getRoom();
+		person = theAnswer.getPerson().getCardName();
+		room = theAnswer.getRoom().getCardName();
 		List<Card> weapons = board.getWeaponCards();
-		weapon = weapons.get(0);
+		weapon = weapons.get(0).getCardName();
 		Assert.assertFalse(board.checkAccusation(person, room, weapon));
 		
-		person = players.get(3);
-		room = rooms.get(5);
-		weapon = weapons.get(2);
+		person = players.get(3).getCardName();
+		room = rooms.get(5).getCardName();
+		weapon = weapons.get(2).getCardName();
 		Assert.assertFalse(board.checkAccusation(person, room, weapon));
 	}
 	
