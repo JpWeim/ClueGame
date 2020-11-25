@@ -687,6 +687,7 @@ public class Board extends JPanel implements MouseListener{
 			if (x.getName() == playerInQuestion) {
 				x.setRow(suggestor.getRow());
 				x.setColumn(suggestor.getColumn());
+				repaint();
 			}
 		}
 		
@@ -701,6 +702,17 @@ public class Board extends JPanel implements MouseListener{
 			}
 			else {
 				if (suggestor.getIsHuman()) {
+					
+					
+					for(Player p : players) {
+						if (p.getName() == person.getCardName()) {
+							p.setRow(suggestor.getRow());
+							p.setColumn(suggestor.getColumn());
+						}
+					}
+					
+					
+					
 					JTextArea msg = new JTextArea(currPlayer.disproveSuggestion(person, room, weapon).getCardName() + " from " + currPlayer.getName());
 					msg.setLineWrap(true);
 					
