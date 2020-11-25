@@ -672,8 +672,8 @@ public class Board extends JPanel implements MouseListener{
 	 * Player methods
 	 * *************************************************************************************************************************************************
 	 */
-	public boolean checkAccusation(Card person, Card room, Card weapon) {
-		if (solution.getPerson().getCardName() == person.getCardName() && solution.getRoom().getCardName() == room.getCardName() && solution.getWeapon().getCardName() == weapon.getCardName()) {
+	public boolean checkAccusation(String string, String string2, String string3) {
+		if (solution.getPerson().getCardName() == string && solution.getRoom().getCardName() == string2 && solution.getWeapon().getCardName() == string3) {
 			return true;
 		}
 		else {
@@ -777,6 +777,7 @@ public class Board extends JPanel implements MouseListener{
 			
 			for (BoardCell x : allCells) {
 				if (x.isTarget() && x.containsClick(e.getX(), e.getY())) {
+					getCurrentPlayer().setIsFinished(false);
 					
 					getCell(getCurrentPlayer().getRow(), getCurrentPlayer().getColumn()).setOccupied(false);			
 					getCurrentPlayer().setRow(x.getRow());
@@ -784,7 +785,8 @@ public class Board extends JPanel implements MouseListener{
 					getCurrentPlayer().setPreviousCell(getCell(getCurrentPlayer().getRow(),getCurrentPlayer().getColumn()));
 					getCell(x.getRow(), x.getCol()).setOccupied(true);
 					removeTargets();
-					
+					getCurrentPlayer().setIsFinished(true);
+
 					if (x.isRoom()) {
 						
 						JFrame suggestionFrame = new JFrame("Make a suggestion");
@@ -840,6 +842,7 @@ public class Board extends JPanel implements MouseListener{
 					break;
 				} else if (!x.isTarget() && x.containsClick(e.getX(), e.getY())){
 					JOptionPane.showMessageDialog(null, "Please select a highlighted target");
+					
 				}
 			}
 		
@@ -1010,19 +1013,16 @@ public class Board extends JPanel implements MouseListener{
 		public void actionPerformed(ActionEvent e) {
 			for (Card x : suggestiblePlayers) {
 				if ((String) person.getSelectedItem() == x.getCardName()) {
-					System.out.println("player found");
 					sPerson = x;
 				}
 			}
 			for (Card x : suggestibleRooms) {
 				if (room == x.getCardName()) {
-					System.out.println("room found");
 					sRoom = x;
 				}
 			}
 			for (Card x : suggestibleWeapons) {
 				if ((String) weapon.getSelectedItem() == x.getCardName()) {
-					System.out.println("weapon found");
 					sWeapon = x;
 				}
 			}
@@ -1041,8 +1041,6 @@ public class Board extends JPanel implements MouseListener{
 			}
 			
 			ClueGame.updateCardPanel();
-			//CardPanel c = new CardPanel(getCurrentPlayer());
-			//c.revalidate();
 			
 			frame.dispose();
 		}

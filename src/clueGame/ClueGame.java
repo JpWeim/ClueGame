@@ -59,7 +59,6 @@ public class ClueGame extends JFrame{
 	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
-		game.setVisible(true);
 		System.out.println(board.getSolution().getPerson().getCardName() + board.getSolution().getRoom().getCardName() + board.getSolution().getWeapon().getCardName());
 	}
 	

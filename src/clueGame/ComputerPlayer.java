@@ -9,7 +9,9 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player{
 	private boolean isHuman = false;
-	private Card finalPerson, finalWeapon, finalRoom;
+	String finalPerson;
+	String finalRoom;
+	String finalWeapon;
 	
 
 	public ComputerPlayer(String name, Color color, int startRow, int startCol) {
@@ -128,9 +130,9 @@ public class ComputerPlayer extends Player{
 					notSeenRooms.remove(x);
 				}
 			}
-			finalPerson = notSeenPlayers.get(0);
-			finalWeapon = notSeenWeapons.get(0);
-			finalRoom = notSeenRooms.get(0);
+			finalPerson = notSeenPlayers.get(0).getCardName();
+			finalWeapon = notSeenWeapons.get(0).getCardName();
+			finalRoom = notSeenRooms.get(0).getCardName();
 			return true;
 		}
 		else {
@@ -138,25 +140,38 @@ public class ComputerPlayer extends Player{
 		}
 	}
 
-	public void setFinalPerson(Card card) {
+	public void setFinalPerson(String card) {
 		finalPerson = card;
 	}
-	public Card getFinalPerson() {
+	public String getFinalPerson() {
 		return finalPerson;
 	}
 
-	public void setFinalWeapon(Card card) {
+	public void setFinalWeapon(String card) {
 		finalWeapon = card;
 	}
-	public Card getFinalWeapon() {
+	public String getFinalWeapon() {
 		return finalWeapon;
 	}
 
-	public void setFinalRoom(Card card) {
+	public void setFinalRoom(String card) {
 		finalRoom = card;
 	}
-	public Card getFinalRoom() {
+	public String getFinalRoom() {
 		return finalRoom;
 	}
+
+	@Override
+	protected boolean getIsFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void setIsFinished(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

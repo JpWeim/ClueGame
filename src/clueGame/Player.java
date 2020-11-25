@@ -187,11 +187,11 @@ public abstract class Player {
 
 	protected abstract boolean checkCards();
 
-	protected abstract Card getFinalPerson();
+	protected abstract String getFinalPerson();
 
-	protected abstract Card getFinalRoom();
+	protected abstract String getFinalRoom();
 
-	protected abstract Card getFinalWeapon();
+	protected abstract String getFinalWeapon();
 
 	public BoardCell getPreviousCell() {
 		return previousCell;
@@ -200,11 +200,11 @@ public abstract class Player {
 		previousCell = cell;
 	}
 
-	protected abstract void setFinalPerson(Card person);
+	protected abstract void setFinalPerson(String aPerson);
 
-	protected abstract void setFinalWeapon(Card weapon);
+	protected abstract void setFinalWeapon(String aWeapon);
 
-	protected abstract void setFinalRoom(Card room);
+	protected abstract void setFinalRoom(String aRoom);
 
 	public boolean getFlag() {
 		return flag;
@@ -212,5 +212,8 @@ public abstract class Player {
 	public void setFlag() {
 		flag = true;
 	}
+
+	protected abstract boolean getIsFinished();
+	protected abstract void setIsFinished(boolean b);
 	
 }
