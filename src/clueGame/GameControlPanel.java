@@ -277,10 +277,6 @@ public class GameControlPanel extends JPanel{
 						}
 					}
 
-					if (board.getPlayers().get(0).getFlag()) {
-
-					}
-
 					//computer chooses to move
 					BoardCell target = currentPlayer.selectTargets();
 					if (target == null) {
@@ -316,6 +312,9 @@ public class GameControlPanel extends JPanel{
 					board.setPlayerDone(false);
 					board.repaint();
 					cPanel.revalidate();
+				}
+				if (board.getTargets().isEmpty()) {
+					board.setPlayerDone(true);
 				}
 
 				playerInfo.revalidate();
