@@ -20,6 +20,7 @@ public class ClueGame extends JFrame{
 				+ " the computer players?");
 		
 		board = Board.getInstance();
+			
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();
 		addMouseListener(board);

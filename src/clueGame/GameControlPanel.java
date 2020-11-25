@@ -106,138 +106,208 @@ public class GameControlPanel extends JPanel{
 		playerGuessResult.setEditable(false);
 
 	}
-	
-	
-	
+
+
+
 	private class AccusationListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFrame frame = new JFrame("Make an Accusation");
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setSize(400,200);
+
+			JPanel panel = new JPanel();
+
+			panel.setLayout(new GridLayout(4,2));
+
+			frame.add(panel);
+
+			JLabel roomLabel = new JLabel("Room");
+			String[] roomChoices = new String[board.getRoomCards().size()];
+			for(int i = 0; i < board.getRoomCards().size(); i++) {
+				roomChoices[i] = board.getRoomCards().get(i).getCardName();
+			}
+			final JComboBox<String> chooseRoom = new JComboBox<String>(roomChoices);
+
+			JLabel personLabel = new JLabel("Person");
+			String[] personChoices = new String[board.getPlayers().size()];
+			for(int i = 0; i < board.getPlayers().size(); i++) {
+				personChoices[i] = board.getPlayers().get(i).getName();
+			}
+			final JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
+
+			JLabel weaponLabel = new JLabel("Weapon");
+			String[] weaponChoices = new String[board.getWeapons().size()];
+			for(int i = 0; i < board.getWeapons().size(); i++) {
+				weaponChoices[i] = board.getWeapons().get(i);
+			}
+			final JComboBox<String> chooseWeapon = new JComboBox<String>(weaponChoices);
+
+			panel.add(roomLabel);
+			panel.add(chooseRoom);
+			panel.add(personLabel);
+			panel.add(choosePerson);
+			panel.add(weaponLabel);
+			panel.add(chooseWeapon);
+
+			JButton accuse = new JButton ("Accuse");
+			JButton cancel = new JButton ("Cancel");
+			
+			panel.add(accuse);
+			panel.add(cancel);
+			
+			AccuseListener accuseButton = new AccuseListener(choosePerson, chooseRoom, chooseWeapon, frame);
+			accuse.addActionListener(accuseButton);
+			CancelListener cancelButton = new CancelListener(frame);
+			cancel.addActionListener(cancelButton);
+
+		}
+
+	}
+	
+	private class AccuseListener implements ActionListener {
+		JComboBox chooseRoom, choosePerson, chooseWeapon;
+		Card aRoom, aPerson, aWeapon;
+		JFrame frame;
+		
+		public AccuseListener(JComboBox person, JComboBox room, JComboBox weapon, JFrame frame) {
+			this.choosePerson = person;
+			this.chooseRoom = room;
+			this.chooseWeapon = weapon;
+			this.frame = frame;
+		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//TODO you can accuse from anywhere
-			if(!board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getColumn()).isRoom()) {
-				JOptionPane.showMessageDialog(null, "Can only accuse while in a room");
-			} else {
-				JFrame frame = new JFrame("Make an Accusation");
-				frame.setVisible(true);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				frame.setSize(400,400);
-				
-				JPanel panel = new JPanel();
-				
-				panel.setLayout(new GridLayout(4,1));
-				
-				frame.add(panel);
-				
-				JLabel currentRoom = new JLabel("Current room " + board.getRoom(board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getColumn())).getName());
-				
-				
-				String[] personChoices = new String[board.getPlayers().size()];
-				for(int i = 0; i < board.getPlayers().size(); i++) {
-					personChoices[i] = board.getPlayers().get(i).getName();
+			
+			
+			for (Card p : board.getPlayerCards()) {
+				if((String)choosePerson.getSelectedItem() == p.getCardName()) {
+					aPerson = p;
 				}
-				final JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
-				
-				String[] weaponChoices = new String[board.getWeapons().size()];
-				for(int i = 0; i < board.getWeapons().size(); i++) {
-					weaponChoices[i] = board.getWeapons().get(i);
+			}
+			for (Card r : board.getPlayerCards()) {
+				if((String)choosePerson.getSelectedItem() == r.getCardName()) {
+					aRoom = r;
 				}
-				final JComboBox<String> chooseWeapon = new JComboBox<String>(personChoices);
-				
-				panel.add(currentRoom);
-				panel.add(choosePerson);
-				panel.add(chooseWeapon);
-
+			}
+			for (Card w : board.getPlayerCards()) {
+				if((String)choosePerson.getSelectedItem() == w.getCardName()) {
+					aWeapon = w;
+				}
 			}
 			
-						
+			Solution answer = board.getSolution();
+			if(aPerson == answer.getPerson() && aRoom == answer.getRoom() && aWeapon == answer.getWeapon()) {
+				board.getCurrentPlayer().setFlag();
+			}
 			
+			frame.dispose();
 		}
+		
 		
 	}
 
+	private class CancelListener implements ActionListener{
+		JFrame frame;
+		
+		public CancelListener(JFrame frame) {
+			this.frame = frame;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			frame.dispose();
+		}
+	}
+	
 	private class NextListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			boolean done = board.getPlayerDone();
 			setGuess("");
 			setGuessResult("");
-			
+
 			if (!done) {
 				JOptionPane.showMessageDialog(null, "Turn not done");
 			}
 			else {
-			board.nextPlayer();
-			int roll = roll();
-			Player currentPlayer = board.getCurrentPlayer();
-			setTurn(currentPlayer, roll);
-			BoardCell currentCell = board.getCell(currentPlayer.getRow(), currentPlayer.getColumn());
-			board.calcTargets(currentCell, roll);
-			
-			
+				board.nextPlayer();
+				int roll = roll();
+				Player currentPlayer = board.getCurrentPlayer();
+				setTurn(currentPlayer, roll);
+				BoardCell currentCell = board.getCell(currentPlayer.getRow(), currentPlayer.getColumn());
+				board.calcTargets(currentCell, roll);
 
-			if (!currentPlayer.getIsHuman()) {
-				boolean accuse = currentPlayer.checkCards();
-				if (accuse) {
-					if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
-						JTextArea msg = new JTextArea(currentPlayer.getName() + " won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
-								+ " in the " + currentPlayer.getFinalWeapon().getCardName() + ", in the " + currentPlayer.getFinalRoom().getCardName());
-						msg.setLineWrap(true);
-						
-						JOptionPane.showMessageDialog(null, msg);
-					}
-				}
-				
-				if (currentPlayer.getFlag()) {
-					if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
-						JTextArea msg = new JTextArea(currentPlayer.getName() + " won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
-								+ " in the " + currentPlayer.getFinalWeapon().getCardName() + ", in the " + currentPlayer.getFinalRoom().getCardName());
-						msg.setLineWrap(true);
-						
-						JOptionPane.showMessageDialog(null, msg);
-					}
-				}
-				
-				//computer chooses to move
-				BoardCell target = currentPlayer.selectTargets();
-				if (target == null) {
-					
-				}
-				else {
-				board.getCell(currentPlayer.getRow(), currentPlayer.getColumn()).setOccupied(false);
-				currentPlayer.setRow(target.getRow());
-				currentPlayer.setColumn(target.getCol());
-				board.getCell(target.getRow(), target.getCol()).setOccupied(true);
-				
-				if(target.isRoom()) {
-					Solution suggestion = currentPlayer.createSuggestion();
 
-					Card disprove = board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
-					if (disprove == null) {
-						currentPlayer.setFinalPerson(suggestion.getPerson());
-						currentPlayer.setFinalWeapon(suggestion.getWeapon());
-						currentPlayer.setFinalRoom(suggestion.getRoom());
-						
-						currentPlayer.setFlag();
+
+				if (!currentPlayer.getIsHuman()) {
+					boolean accuse = currentPlayer.checkCards();
+					if (accuse) {
+						if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
+							JTextArea msg = new JTextArea(currentPlayer.getName() + " won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
+									+ " with the " + currentPlayer.getFinalWeapon().getCardName() + ", in " + currentPlayer.getFinalRoom().getCardName());
+							msg.setLineWrap(true);
+
+							JOptionPane.showMessageDialog(null, msg);
+						}
+					}
+
+					if (currentPlayer.getFlag()) {
+						if(board.checkAccusation(currentPlayer.getFinalPerson(), currentPlayer.getFinalRoom(), currentPlayer.getFinalWeapon())) {
+							JTextArea msg = new JTextArea(currentPlayer.getName() + " won! The correct answer was " + currentPlayer.getFinalPerson().getCardName()
+									+ " with the " + currentPlayer.getFinalWeapon().getCardName() + ", in " + currentPlayer.getFinalRoom().getCardName());
+							msg.setLineWrap(true);
+
+							JOptionPane.showMessageDialog(null, msg);
+						}
+					}
+
+					//computer chooses to move
+					BoardCell target = currentPlayer.selectTargets();
+					if (target == null) {
+
 					}
 					else {
-					currentPlayer.updateSeenCards(disprove);
-					}
-					setGuess(board.getCurrentSuggestion());
-					setGuessResult(board.getSuggestionResult());
-				}
-				}
-				board.repaint();
-			} else {
-				board.flagTargets();
-				board.setPlayerDone(false);
-				board.repaint();
-			}
+						board.getCell(currentPlayer.getRow(), currentPlayer.getColumn()).setOccupied(false);
+						currentPlayer.setRow(target.getRow());
+						currentPlayer.setColumn(target.getCol());
+						board.getCell(target.getRow(), target.getCol()).setOccupied(true);
 
-			playerInfo.revalidate();
+						if(target.isRoom()) {
+							Solution suggestion = currentPlayer.createSuggestion();
+
+							Card disprove = board.handleSuggestion(currentPlayer, suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
+							if (disprove == null) {
+								currentPlayer.setFinalPerson(suggestion.getPerson());
+								currentPlayer.setFinalWeapon(suggestion.getWeapon());
+								currentPlayer.setFinalRoom(suggestion.getRoom());
+
+								currentPlayer.setFlag();
+							}
+							else {
+								currentPlayer.updateSeenCards(disprove);
+							}
+							setGuess(board.getCurrentSuggestion());
+							setGuessResult(board.getSuggestionResult());
+						}
+					}
+					board.repaint();
+				} else {
+					board.flagTargets();
+					board.setPlayerDone(false);
+					board.repaint();
+				}
+
+				playerInfo.revalidate();
 			}
 		}
 
 	}
+
+	
 	public int roll() {
 		Random r = new Random();
 		int roll = r.nextInt(6) + 1;

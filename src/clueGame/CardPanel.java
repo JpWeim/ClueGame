@@ -15,17 +15,16 @@ import javax.swing.border.TitledBorder;
 
 public class CardPanel extends JPanel{
 	private static Board board;
-	private Player currPlayer;
+	private static Player currPlayer;
 	private JPanel seenPanel;
 	private JPanel handPanel;
 	private JPanel cardSection;
+	private JPanel knownCards = new JPanel();
 
-
+	
 	public CardPanel(Player currPlayer) {
-
 		this.currPlayer = currPlayer;
 		setLayout(new GridLayout(1,1));
-		JPanel knownCards = new JPanel();
 		setPreferredSize(new Dimension(150,0));
 		knownCards.setLayout(new BoxLayout(knownCards, BoxLayout.Y_AXIS));
 		knownCards.setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
@@ -45,7 +44,10 @@ public class CardPanel extends JPanel{
 
 		add(knownCards);
 
-
+	}
+	
+	public void update() {
+		repaint();
 	}
 
 	/*
@@ -142,5 +144,9 @@ public class CardPanel extends JPanel{
 
 	public void setCurrPlayer(Player p) {
 		currPlayer = p;
+	}
+	
+	public JPanel getCardPanel() {
+		return knownCards;
 	}
 }

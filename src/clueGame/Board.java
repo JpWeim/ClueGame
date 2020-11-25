@@ -787,7 +787,7 @@ public class Board extends JPanel implements MouseListener{
 					
 					if (x.isRoom()) {
 						
-						JFrame suggestionFrame = new JFrame("Make an suggestion");
+						JFrame suggestionFrame = new JFrame("Make a suggestion");
 						suggestionFrame.setVisible(true);
 						suggestionFrame.setSize(400,200);
 						suggestionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1043,7 +1043,8 @@ public class Board extends JPanel implements MouseListener{
 			
 			
 			getCurrentPlayer().updateSeenCards((handleSuggestion(getCurrentPlayer(), sPerson, sRoom, sWeapon)));
-			
+			CardPanel c = new CardPanel(getCurrentPlayer());
+			c.update();
 			
 			frame.dispose();
 		}
