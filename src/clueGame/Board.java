@@ -45,7 +45,6 @@ public class Board extends JPanel implements MouseListener{
 	private List<Player> players = new ArrayList<>();
 	private List<String> weapons = new ArrayList<>();
 	private List<Card> deck = new ArrayList<>();
-	private List<Card> totalDeck = new ArrayList<>();
 	private List<Card> shuffledDeck;
 	private List<Card> suggestibleWeapons = new ArrayList<>();
 	private List<Card> suggestiblePlayers = new ArrayList<>();
@@ -629,8 +628,6 @@ public class Board extends JPanel implements MouseListener{
 	 */
 	public void deal() {
 		pickSolutionCards();
-		
-		totalDeck = deck;
 
 		shuffledDeck = new ArrayList<>(deck);
 		Collections.shuffle(shuffledDeck);
@@ -698,22 +695,22 @@ public class Board extends JPanel implements MouseListener{
 		int start = players.indexOf(suggestor);
 
 		for (int i = start +1; i < players.size() + start; i++) {
-			Player currentPlayer = players.get(i%players.size());
-			if (currentPlayer.disproveSuggestion(person, room, weapon) == null) {
+			Player currPlayer = players.get(i%players.size());
+			if (currPlayer.disproveSuggestion(person, room, weapon) == null) {
 				suggestionResult = "No disproves";
 			}
 			else {
 				if (suggestor.getIsHuman()) {
-					JTextArea msg = new JTextArea(currentPlayer.disproveSuggestion(person, room, weapon).getCardName() + " from " + currentPlayer.getName());
+					JTextArea msg = new JTextArea(currPlayer.disproveSuggestion(person, room, weapon).getCardName() + " from " + currPlayer.getName());
 					msg.setLineWrap(true);
 					
 					JOptionPane.showMessageDialog(null, msg);
 				}
 				else {
-					suggestionResult = "Suggestion disproved by " + currentPlayer.getName();
+					suggestionResult = "Suggestion disproved by " + currPlayer.getName();
 				}
-
-				return currentPlayer.disproveSuggestion(person, room, weapon);
+				
+				return currPlayer.disproveSuggestion(person, room, weapon);
 			}
 		}
 		return null;
@@ -774,6 +771,7 @@ public class Board extends JPanel implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 
 		if(getCurrentPlayer().getIsHuman()) {
+
 			
 			for (BoardCell x : allCells) {
 				if (x.isTarget() && x.containsClick(e.getX(), e.getY())) {
@@ -808,7 +806,7 @@ public class Board extends JPanel implements MouseListener{
 						for(int i = 0; i < getPlayers().size(); i++) {
 							personChoices[i] = getPlayers().get(i).getName();
 						}
-						final JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
+						JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
 						choosePerson.setBorder(BorderFactory.createLineBorder(Color.black));
 						panel.add(choosePerson);
 						
@@ -818,7 +816,7 @@ public class Board extends JPanel implements MouseListener{
 						for(int i = 0; i < getWeapons().size(); i++) {
 							weaponChoices[i] = getWeapons().get(i);
 						}
-						final JComboBox<String> chooseWeapon = new JComboBox<String>(weaponChoices);
+						JComboBox<String> chooseWeapon = new JComboBox<String>(weaponChoices);
 						chooseWeapon.setBorder(BorderFactory.createLineBorder(Color.black));
 						panel.add(chooseWeapon);
 						
@@ -895,21 +893,8 @@ public class Board extends JPanel implements MouseListener{
 		return suggestibleRooms;
 	}
 
-	public void addSuggestiblePlayer(Card c){
-		suggestiblePlayers.add(c);
-	}
-	public void addSuggestibleRoom(Card c){
-		suggestibleRooms.add(c);
-	}
-	public void addSuggestibleWeapon(Card c){
-		suggestibleWeapons.add(c);
-	}
+	
 
-	public void clearSuggestionsForTesting() {
-		suggestiblePlayers.clear();
-		suggestibleWeapons.clear();
-		suggestibleRooms.clear();
-	}
 	public Solution getSolution() {
 		return solution;
 	}
@@ -1018,36 +1003,45 @@ public class Board extends JPanel implements MouseListener{
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			
-			
-			for (Card x : totalDeck) {
-				System.out.println(totalDeck.size());
+			for (Card x : suggestiblePlayers) {
 				if ((String) person.getSelectedItem() == x.getCardName()) {
-					if (x.getCardType() == CardType.PERSON) {
-						System.out.println("person found");
-						sPerson = x;
-					}
-					else if (x.getCardType() == CardType.ROOM) {
-						System.out.println("room found");
-						sRoom = x;
-					}
-					else if (x.getCardType() == CardType.WEAPON) {
-						System.out.println("weapon found");
-						sWeapon = x;
-					}	
+					System.out.println("player found");
+					sPerson = x;
 				}
+			}
+			for (Card x : suggestibleRooms) {
+				if (room == x.getCardName()) {
+					System.out.println("room found");
+					sRoom = x;
+				}
+			}
+			for (Card x : suggestibleWeapons) {
+				if ((String) weapon.getSelectedItem() == x.getCardName()) {
+					System.out.println("weapon found");
+					sWeapon = x;
+				}
+			}
+				
+			
+			
+			Card returnCard = handleSuggestion(getCurrentPlayer(), sPerson, sRoom, sWeapon);
+			if (returnCard != null) {
+				getCurrentPlayer().updateSeenCards(returnCard);
+			}
+			else {
+				JTextArea msg = new JTextArea("No disproves");
+				msg.setLineWrap(true);
+				
+				JOptionPane.showMessageDialog(null, msg);
 			}
 			
 			
-			
-			
-			getCurrentPlayer().updateSeenCards((handleSuggestion(getCurrentPlayer(), sPerson, sRoom, sWeapon)));
 			CardPanel c = new CardPanel(getCurrentPlayer());
-			c.update();
+			c.revalidate();
 			
 			frame.dispose();
 		}
 	}
-
 }
+
+

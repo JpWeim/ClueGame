@@ -30,8 +30,8 @@ public class ComputerPlayer extends Player{
 	public Solution createSuggestion() {
 		Board board = Board.getInstance();
 		if (board.getCell(row, col).isRoom()) {
-			List<Card> notSeenPlayers = board.getSuggestiblePlayerCards();
-			List<Card> notSeenWeapons = board.getSuggestibleWeaponCards();
+			List<Card> notSeenPlayers = new ArrayList<>(board.getSuggestiblePlayerCards());
+			List<Card> notSeenWeapons = new ArrayList<>(board.getSuggestibleWeaponCards());
 			//List<Card> rooms = board.getRoomCards();
 			
 			for (Card x : seenCards) {
