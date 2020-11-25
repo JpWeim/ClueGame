@@ -45,6 +45,7 @@ public class Board extends JPanel implements MouseListener{
 	private List<Player> players = new ArrayList<>();
 	private List<String> weapons = new ArrayList<>();
 	private List<Card> deck = new ArrayList<>();
+	private List<Card> totalDeck = new ArrayList<>();
 	private List<Card> shuffledDeck;
 	private List<Card> suggestibleWeapons = new ArrayList<>();
 	private List<Card> suggestiblePlayers = new ArrayList<>();
@@ -628,6 +629,8 @@ public class Board extends JPanel implements MouseListener{
 	 */
 	public void deal() {
 		pickSolutionCards();
+		
+		totalDeck = deck;
 
 		shuffledDeck = new ArrayList<>(deck);
 		Collections.shuffle(shuffledDeck);
@@ -1016,22 +1019,26 @@ public class Board extends JPanel implements MouseListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			for (Card x : suggestiblePlayers) {
+			
+			
+			for (Card x : totalDeck) {
+				System.out.println(totalDeck.size());
 				if ((String) person.getSelectedItem() == x.getCardName()) {
-					sPerson = x;
-				}
-			}
-			for (Card y : suggestibleRooms) {
-				if (room == y.getCardName()) {
-					sRoom = y;
+					if (x.getCardType() == CardType.PERSON) {
+						System.out.println("person found");
+						sPerson = x;
+					}
+					else if (x.getCardType() == CardType.ROOM) {
+						System.out.println("room found");
+						sRoom = x;
+					}
+					else if (x.getCardType() == CardType.WEAPON) {
+						System.out.println("weapon found");
+						sWeapon = x;
+					}	
 				}
 			}
 			
-			for (Card z : suggestibleWeapons) {
-				if ((String) weapon.getSelectedItem() == z.getCardName()) {
-					sWeapon = z;
-				}
-			}
 			
 			
 			
