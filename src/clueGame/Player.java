@@ -70,13 +70,30 @@ public abstract class Player {
 		g.fillOval(x + (a/2), y + (b/2), width - a, height - b);
 	}
 	
-	public void drawShifted(int width, int height, Graphics g) {
-		int x = col*width + width/2;
-		int y = row*height;
+	public void drawShifted(int width, int height, int offsetFactor, Graphics g) {
+		
+		int offset = (offsetFactor * width) / 2;
+		int x, y;
+		
+		if(offsetFactor > 4 && offsetFactor % 2 == 0) {
+			offsetFactor -= 2;
+			x = col*width - offset;
+			y = row*height - offset;
+		} else if (offsetFactor > 4 && offsetFactor % 2 != 0) {
+			offsetFactor -= 2;
+			x = col*width - offset;
+			y = row*height + offset;
+		} else if(offsetFactor % 2 == 0) {
+			x = col*width + offset;
+			y = row*height - offset;
+		} else {
+			x = col*width + offset;
+			y = row*height + offset;
+		}
+		
 		
 		int a = width/6;
 		int b = height/6;
-		
 		
 		g.setColor(Color.BLACK);
 		g.fillOval(x, y, width, height);
