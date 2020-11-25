@@ -1040,9 +1040,9 @@ public class Board extends JPanel implements MouseListener{
 				JOptionPane.showMessageDialog(null, msg);
 			}
 			
-			
-			CardPanel c = new CardPanel(getCurrentPlayer());
-			c.revalidate();
+			ClueGame.updateCardPanel();
+			//CardPanel c = new CardPanel(getCurrentPlayer());
+			//c.revalidate();
 			
 			frame.dispose();
 		}

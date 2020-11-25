@@ -121,6 +121,7 @@ public class CardPanel extends JPanel{
 		seen.setLayout(new BoxLayout(seen, BoxLayout.Y_AXIS));
 		seen.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
 
+		
 		boolean foundCard = false;
 		for (Card x : currPlayer.getSeenCards()) {
 			if(x.getCardType() == type && !currPlayer.getHand().contains(x)) {

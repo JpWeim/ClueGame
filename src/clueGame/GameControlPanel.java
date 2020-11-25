@@ -30,9 +30,11 @@ public class GameControlPanel extends JPanel{
 	private JButton nextTurn= new JButton("NEXT!");
 	private JPanel playerInfo = new JPanel();
 	private boolean humanFinished = false;
+	private CardPanel cPanel;
 
-	public GameControlPanel(Board board) {
+	public GameControlPanel(Board board, CardPanel cPanel) {
 		this.board = board;
+		this.cPanel = cPanel;
 		setLayout(new GridLayout(2,0));
 
 		playerInfo.setLayout(new GridLayout(1,4));
@@ -299,6 +301,7 @@ public class GameControlPanel extends JPanel{
 					board.flagTargets();
 					board.setPlayerDone(false);
 					board.repaint();
+					cPanel.revalidate();
 				}
 
 				playerInfo.revalidate();

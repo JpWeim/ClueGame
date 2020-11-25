@@ -11,10 +11,14 @@ import javax.swing.JPanel;
 public class ClueGame extends JFrame{
 
 	private static Board board;
+	private ClueGame game;
+	private static JFrame frame;
 	
 	public ClueGame() {
-		setSize(900,900);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JFrame("Cluedo");
+		frame.setVisible(true);
+		frame.setSize(900,900);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JOptionPane.showMessageDialog(null, "You are Miss Scarlett. Can you find the solution before"
 				+ " the computer players?");
@@ -23,32 +27,40 @@ public class ClueGame extends JFrame{
 			
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();
-		addMouseListener(board);
-		add(board, BorderLayout.CENTER);
+		frame.addMouseListener(board);
+		frame.add(board, BorderLayout.CENTER);
 		
-		GameControlPanel gcp = new GameControlPanel(board);
+		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
+		
+		GameControlPanel gcp = new GameControlPanel(board, cardPanel);
 		
 		int roll = gcp.roll();
 		gcp.setTurn(board.getCurrentPlayer(), roll); //for testing
 		gcp.setGuess("");
 		gcp.setGuessResult("");
-		
-		add(gcp, BorderLayout.SOUTH);
-		
+		frame.add(gcp, BorderLayout.SOUTH);
+				
 		BoardCell currentCell = board.getCell(board.getCurrentPlayer().getRow(), board.getCurrentPlayer().getColumn());
 		board.calcTargets(currentCell, roll);
 		board.flagTargets();
 		
 		board.repaint();
 		
-		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
-		add(cardPanel, BorderLayout.EAST);
 		
+		frame.add(cardPanel, BorderLayout.EAST);
+		
+	}
+	
+	public static void updateCardPanel() {
+		CardPanel cardPanel = new CardPanel(board.getPlayers().get(0));
+		frame.add(cardPanel, BorderLayout.EAST);
+		cardPanel.repaint();
 	}
 	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
 		game.setVisible(true);
+		System.out.println(board.getSolution().getPerson().getCardName() + board.getSolution().getRoom().getCardName() + board.getSolution().getWeapon().getCardName());
 	}
 	
 	//TODO implement player suggestion and accusation
