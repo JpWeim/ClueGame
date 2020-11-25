@@ -44,6 +44,7 @@ public class Board extends JPanel implements MouseListener{
 	private Set<BoardCell> visited;
 	private List<Player> players = new ArrayList<>();
 	private List<String> weapons = new ArrayList<>();
+	private List<String> rooms = new ArrayList<>();
 	private List<Card> deck = new ArrayList<>();
 	private List<Card> shuffledDeck;
 	private List<Card> suggestibleWeapons = new ArrayList<>();
@@ -200,6 +201,7 @@ public class Board extends JPanel implements MouseListener{
 		if (letter != 'W' && letter != 'X') {
 			Card card = new Card(roomInfo[1],CardType.ROOM);
 			roomsInPlay.add(card);
+			rooms.add(card.getCardName());
 			deck.add(card);
 			suggestibleRooms.add(card);
 			roomNameToCardMap.put(room.getName(), card);
@@ -867,6 +869,9 @@ public class Board extends JPanel implements MouseListener{
 		return weapons;
 	}
 
+	public List<String> getRooms() {
+		return rooms;
+	}
 	public List<Card> getDeck() {
 		return deck;
 	}

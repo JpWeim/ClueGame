@@ -125,9 +125,9 @@ public class GameControlPanel extends JPanel{
 			frame.add(panel);
 
 			JLabel roomLabel = new JLabel("Room");
-			String[] roomChoices = new String[board.getRoomCards().size()];
-			for(int i = 0; i < board.getRoomCards().size(); i++) {
-				roomChoices[i] = board.getRoomCards().get(i).getCardName();
+			String[] roomChoices = new String[board.getRooms().size()];
+			for(int i = 0; i < board.getRooms().size(); i++) {
+				roomChoices[i] = board.getRooms().get(i);
 			}
 			final JComboBox<String> chooseRoom = new JComboBox<String>(roomChoices);
 
