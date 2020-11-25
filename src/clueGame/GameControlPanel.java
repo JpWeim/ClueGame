@@ -113,67 +113,67 @@ public class GameControlPanel extends JPanel{
 
 	private class AccusationListener implements ActionListener {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if(board.getCurrentPlayer() == board.getPlayers().get(0) && !board.getCurrentPlayer().getIsFinished()) {
-					
-					JFrame frame = new JFrame("Make an Accusation");
-					frame.setVisible(true);
-					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					frame.setSize(400,200);
+		@Override
+		public void actionPerformed(ActionEvent e) {
 
-					JPanel panel = new JPanel();
+			if(board.getCurrentPlayer() == board.getPlayers().get(0) && !board.getCurrentPlayer().getIsFinished()) {
 
-					panel.setLayout(new GridLayout(4,2));
+				JFrame frame = new JFrame("Make an Accusation");
+				frame.setVisible(true);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setSize(400,200);
 
-					frame.add(panel);
+				JPanel panel = new JPanel();
 
-					JLabel roomLabel = new JLabel("Room");
-					String[] roomChoices = new String[board.getRooms().size()];
-					for(int i = 0; i < board.getRooms().size(); i++) {
-						roomChoices[i] = board.getRooms().get(i);
-					}
-					final JComboBox<String> chooseRoom = new JComboBox<String>(roomChoices);
+				panel.setLayout(new GridLayout(4,2));
 
-					JLabel personLabel = new JLabel("Person");
-					String[] personChoices = new String[board.getPlayers().size()];
-					for(int i = 0; i < board.getPlayers().size(); i++) {
-						personChoices[i] = board.getPlayers().get(i).getName();
-					}
-					final JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
+				frame.add(panel);
 
-					JLabel weaponLabel = new JLabel("Weapon");
-					String[] weaponChoices = new String[board.getWeapons().size()];
-					for(int i = 0; i < board.getWeapons().size(); i++) {
-						weaponChoices[i] = board.getWeapons().get(i);
-					}
-					final JComboBox<String> chooseWeapon = new JComboBox<String>(weaponChoices);
-
-					panel.add(roomLabel);
-					panel.add(chooseRoom);
-					panel.add(personLabel);
-					panel.add(choosePerson);
-					panel.add(weaponLabel);
-					panel.add(chooseWeapon);
-
-					JButton accuse = new JButton ("Accuse");
-					JButton cancel = new JButton ("Cancel");
-
-					panel.add(accuse);
-					panel.add(cancel);
-
-					AccuseListener accuseButton = new AccuseListener(choosePerson, chooseRoom, chooseWeapon, frame);
-					accuse.addActionListener(accuseButton);
-					CancelListener cancelButton = new CancelListener(frame);
-					cancel.addActionListener(cancelButton);
-
-				} else {
-					
-					JOptionPane.showMessageDialog(null, "Can only accuse before you move on your turn");
+				JLabel roomLabel = new JLabel("Room");
+				String[] roomChoices = new String[board.getRooms().size()];
+				for(int i = 0; i < board.getRooms().size(); i++) {
+					roomChoices[i] = board.getRooms().get(i);
 				}
-				
+				final JComboBox<String> chooseRoom = new JComboBox<String>(roomChoices);
+
+				JLabel personLabel = new JLabel("Person");
+				String[] personChoices = new String[board.getPlayers().size()];
+				for(int i = 0; i < board.getPlayers().size(); i++) {
+					personChoices[i] = board.getPlayers().get(i).getName();
+				}
+				final JComboBox<String> choosePerson = new JComboBox<String>(personChoices);
+
+				JLabel weaponLabel = new JLabel("Weapon");
+				String[] weaponChoices = new String[board.getWeapons().size()];
+				for(int i = 0; i < board.getWeapons().size(); i++) {
+					weaponChoices[i] = board.getWeapons().get(i);
+				}
+				final JComboBox<String> chooseWeapon = new JComboBox<String>(weaponChoices);
+
+				panel.add(roomLabel);
+				panel.add(chooseRoom);
+				panel.add(personLabel);
+				panel.add(choosePerson);
+				panel.add(weaponLabel);
+				panel.add(chooseWeapon);
+
+				JButton accuse = new JButton ("Accuse");
+				JButton cancel = new JButton ("Cancel");
+
+				panel.add(accuse);
+				panel.add(cancel);
+
+				AccuseListener accuseButton = new AccuseListener(choosePerson, chooseRoom, chooseWeapon, frame);
+				accuse.addActionListener(accuseButton);
+				CancelListener cancelButton = new CancelListener(frame);
+				cancel.addActionListener(cancelButton);
+
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Can only accuse before you move on your turn");
 			}
+
+		}
 
 
 	}
@@ -194,21 +194,17 @@ public class GameControlPanel extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 
 			if(board.getCurrentPlayer() == board.getPlayers().get(0) && !board.getCurrentPlayer().getIsFinished()) {
-				
+
 				aPerson = (String) choosePerson.getSelectedItem();
 				aRoom = (String) chooseRoom.getSelectedItem();
 				aWeapon = (String) chooseWeapon.getSelectedItem();
 
 
-				Solution answer = board.getSolution();
-				if(aPerson == answer.getPerson().getCardName() && aRoom == answer.getRoom().getCardName() && aWeapon == answer.getWeapon().getCardName()) {
-					Player currentPlayer = board.getCurrentPlayer();
-					currentPlayer.setFinalPerson(aPerson);
-					currentPlayer.setFinalRoom(aRoom);
-					currentPlayer.setFinalWeapon(aWeapon);
-					board.getCurrentPlayer().setFlag();
-					
-				}
+				Player currentPlayer = board.getCurrentPlayer();
+				currentPlayer.setFinalPerson(aPerson);
+				currentPlayer.setFinalRoom(aRoom);
+				currentPlayer.setFinalWeapon(aWeapon);
+				board.getCurrentPlayer().setFlag();
 
 				frame.dispose();
 			}
@@ -248,12 +244,13 @@ public class GameControlPanel extends JPanel{
 					msg.setLineWrap(true);
 
 					JOptionPane.showMessageDialog(null, msg);
-				} else {
-					JOptionPane.showMessageDialog(null, "You got the accusation wrong! It was " + board.getSolution().getPerson() + " with the " + board.getSolution().getWeapon() + " in " + board.getSolution().getRoom());
+					System.exit(0);
+				} else if (!board.checkAccusation(board.getPlayers().get(0).getFinalPerson(), board.getPlayers().get(0).getFinalRoom(), board.getPlayers().get(0).getFinalWeapon())){
+					JOptionPane.showMessageDialog(null, "You got the accusation wrong! The correct answer was " + board.getPlayers().get(0).getFinalPerson() + " with the " + board.getPlayers().get(0).getFinalWeapon() + ", in " + board.getPlayers().get(0).getFinalRoom());
 					System.exit(0);
 				}
 			}
-			
+
 			if (!done) {
 				JOptionPane.showMessageDialog(null, "Turn not done");
 			}
@@ -280,7 +277,7 @@ public class GameControlPanel extends JPanel{
 					}
 
 					if (board.getPlayers().get(0).getFlag()) {
-						
+
 					}
 
 					//computer chooses to move

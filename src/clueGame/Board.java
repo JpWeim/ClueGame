@@ -676,9 +676,7 @@ public class Board extends JPanel implements MouseListener{
 		if (solution.getPerson().getCardName() == string && solution.getRoom().getCardName() == string2 && solution.getWeapon().getCardName() == string3) {
 			return true;
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	public Card handleSuggestion(Player suggestor, Card person, Card room, Card weapon) {
